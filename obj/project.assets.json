@@ -9985,11 +9985,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "M:\\Project\\PMSS\\Demo1\\Demo1\\Demo1.csproj",
+      "projectUniqueName": "M:\\Project\\Github_PMSS\\PMSS\\Demo1.csproj",
       "projectName": "Demo1",
-      "projectPath": "M:\\Project\\PMSS\\Demo1\\Demo1\\Demo1.csproj",
+      "projectPath": "M:\\Project\\Github_PMSS\\PMSS\\Demo1.csproj",
       "packagesPath": "C:\\Users\\2521116455\\.nuget\\packages\\",
-      "outputPath": "M:\\Project\\PMSS\\Demo1\\Demo1\\obj\\",
+      "outputPath": "M:\\Project\\Github_PMSS\\PMSS\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\2521116455\\AppData\\Roaming\\NuGet\\NuGet.Config",
