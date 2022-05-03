@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Home</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Demo1.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="image_Header">
+                <img src="../images/Screenshot1.gif" class="img-fluid" alt="Cloudy Sky" />
+            </div>
+            <div class="m-4">
+                <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+                    <div class="container-fluid">
+                        <a href="#" class="navbar-brand">PMSS</a>
+                        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav">
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">จัดการข้อมูล</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="ManageUser">User</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Privacy">จัดการสาขา/หน่วยงาน</a>
+                                        <a href="#" class="dropdown-item">จัดการชนิดจดหมาย</a>
+                                        <a href="#" class="dropdown-item">สร้างข้อมูลส่งตรวจจ่าย</a>
+                                    </div>
+                                </div>
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">งานประจำวัน</a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Keyงานประจำวัน</a>
+                                        <a href="#" class="dropdown-item">Upload/Reload งานประจำวัน</a>
+                                        <a href="#" class="dropdown-item">ค้นหางานประจำวัน</a>
+                                        <a href="#" class="dropdown-item">พิมพ์ใบนำส่งไปรษณีย์</a>
+                                        <a href="#" class="dropdown-item">รายงานจดหมายประจำวัน</a>
+                                    </div>
+                                </div>
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">จดหมายส่งคืน</a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Keyจดหมายส่งคืน</a>
+                                        <a href="#" class="dropdown-item">ค้นหาและพิมพ์ใบนำส่งคืน</a>
+                                        <a href="#" class="dropdown-item">ค้นหาไปรษณีภัณฑ์ส่งคืน</a>
+                                        <a href="#" class="dropdown-item">รายงานจดหมายส่งคืน</a>
+                                    </div>
+                                </div>
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">ใบนำส่ง</a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Keyใบนำส่งจากหน่วยงาน</a>
+                                        <a href="#" class="dropdown-item">เปรียบเทียบใบนำส่งและงานประจำวัน</a>
+                                    </div>
+                                </div>
+                                <a href="#" class="nav-item nav-link active">Log Out</a>
+                            </div>
+                            <div class="navbar-nav ms-auto">
+                                <a href="#" class="nav-item nav-link">User OA:POST01 Role:Operator</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - Demo1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
