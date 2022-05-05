@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Demo1.con_db;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Demo1.Controllers
 {
