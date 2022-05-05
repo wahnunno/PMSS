@@ -6,6 +6,7 @@ namespace Demo1.con_db
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+            
         }
     }
 }

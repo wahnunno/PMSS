@@ -1,0 +1,160 @@
+﻿@{
+    ViewData["Title"] = "ManageUserForm";
+}
+
+<div>
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <div class="card card-custom">
+                    <div class="card-header card-custom-header">Add New User</div>
+                    <div class="card-body card-custom-body">
+                        <div class="form-group row _MB0px">
+                            <div class="col-md-12 col-sm-12 col-12">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                        OA User
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group _MB0px">
+                                            <div class="input-group">
+                                                <input id="txtOAUser"
+                                                       name="txtOAUser"
+                                                       class="form-control"
+                                                       formControlName="sOAUser"
+                                                       autocomplete="off"
+                                                       maxlength="10"
+                                                       placeholder="OA User"/>
+                                            </div>
+                                        </div>
+                                        <app-field-error-display [displayError]="isFieldValid('sOAUser')"
+                                                                 Field="OA User"
+                                                                 CtrlType="atc">
+                                        </app-field-error-display>
+                                    </div>
+                                </div>&nbsp;
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-md-12 col-sm-12 col-12">
+                                        Name Eng
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group _MB0px">
+                                            <div class="input-group">
+                                                <input id="txtNameEng"
+                                                       name="txtNameEng"
+                                                       class="form-control"
+                                                       formControlName="sNameEng"
+                                                       autocomplete="off"
+                                                       maxlength="50"
+                                                       placeholder="Name Eng"/>
+                                            </div>
+                                        </div>
+                                        <app-field-error-display [displayError]="isFieldValid('sNameEng')"
+                                                                 Field="Name Eng"
+                                                                 CtrlType="atc">
+                                        </app-field-error-display>
+                                    </div>
+                                </div>&nbsp;
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-sm-12 col-12">
+                                        วันที่มีผล&nbsp;<span class="text-red">*</span>
+                                    </label>
+                                    <div class="col-md-5 col-sm-7 col-12">
+                                        <div class="form-group _MB0px" [ngClass]="displayFieldCss('dDue')">
+                                            <div class="input-group">
+                                                <input id="txtDueDate"
+                                                       name="txtDueDate"
+                                                       class="form-control"
+                                                       formControlName="dDue"
+                                                       placeholder="--/--/----"
+                                                       bsDatepicker
+                                                       [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false,containerClass: 'theme-dark-blue'}"
+                                                       [daysDisabled]="[6,0]"
+                                                       [minDate]="Mindate"
+                                                       [datesDisabled]="Holidays"
+                                                       #dpDuedate="bsDatepicker"
+                                                       (onHidden)="handler()"
+                                                       readonly />
+                                                <div class="input-group-append">
+                                                    <button class="input-group-text" (click)="dpDuedate.toggle()" [attr.aria-expanded]="dpDuedate.isOpen"><em class="far fa-calendar-alt"></em></button>
+                                                </div>
+                                            </div>
+                                            <app-field-error-display [displayError]="isFieldValid('dDue')"
+                                                                     Field="Due Date"
+                                                                     CtrlType="atc">
+                                            </app-field-error-display>
+                                        </div>
+                                    </div>
+                                </div>&nbsp;
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-sm-12 col-12">
+                                        วันที่สิ้นสุด&nbsp;<span class="text-red">*</span>
+                                    </label>
+                                    <div class="col-md-5 col-sm-7 col-12">
+                                        <div class="form-group _MB0px" [ngClass]="displayFieldCss('dDue')">
+                                            <div class="input-group">
+                                                <input id="txtDueDate"
+                                                       name="txtDueDate"
+                                                       class="form-control"
+                                                       formControlName="dDue"
+                                                       placeholder="--/--/----"
+                                                       bsDatepicker
+                                                       [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false,containerClass: 'theme-dark-blue'}"
+                                                       [daysDisabled]="[6,0]"
+                                                       [minDate]="Mindate"
+                                                       [datesDisabled]="Holidays"
+                                                       #dpDuedate="bsDatepicker"
+                                                       (onHidden)="handler()"
+                                                       readonly />
+                                                <div class="input-group-append">
+                                                    <button class="input-group-text" (click)="dpDuedate.toggle()" [attr.aria-expanded]="dpDuedate.isOpen"><em class="far fa-calendar-alt"></em></button>
+                                                </div>
+                                            </div>
+                                            <app-field-error-display [displayError]="isFieldValid('dDue')"
+                                                                     Field="Due Date"
+                                                                     CtrlType="atc">
+                                            </app-field-error-display>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="form-group">
+                <div class="table-responsive">
+                    <table id="tb_agl" class="table table-sm table-bordered table-striped bg-white SSCPro table-break">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center">No.</th>
+                                <th style="text-align:center">OA User</th>
+                                <th style="text-align:center">Name</th>
+                                <th style="text-align:center">วันที่มีผล</th>
+                                <th style="text-align:center">วันที่สิ้นสุด</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let _Item of _ArrDataBind; index as _Num">
+                                <tr>
+                                    <td style="text-align:center"></td>
+                                    <td style="text-align:center"></td>
+                                    <td style="text-align:center"></td>
+                                    <td style="text-align:center"></td>
+                                    <td style="text-align:center"></td>
+                                </tr>
+                            </ng-container>
+                            <tr *ngIf="_ArrDataBind.length == 0 || _ArrDataBind == 0">
+                                <td style="text-align:center" class="dataNotFound" colspan="11">
+                                    No Data.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -19,12 +19,12 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[M:/Project/Github_PMSS/PMSS/Views/Home/ManageUser.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxNYW5hZ2VVc2VyLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [M:/Project/Github_PMSS/PMSS/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[M:/Project/Github_PMSS/PMSS/Views/ManageUser/ManageUserForm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlVXNlclxNYW5hZ2VVc2VyRm9ybS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [M:/Project/Github_PMSS/PMSS/Views/Shared/Error.cshtml]
