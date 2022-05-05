@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ManageUserListClass
+@{
     ViewData["Title"] = "ManageUserForm";
 }
 
@@ -24,7 +25,7 @@
                                                        formControlName="sOAUser"
                                                        autocomplete="off"
                                                        maxlength="10"
-                                                       placeholder="OA User"/>
+                                                       placeholder="OA User" />
                                             </div>
                                         </div>
                                         <app-field-error-display [displayError]="isFieldValid('sOAUser')"
@@ -46,7 +47,7 @@
                                                        formControlName="sNameEng"
                                                        autocomplete="off"
                                                        maxlength="50"
-                                                       placeholder="Name Eng"/>
+                                                       placeholder="Name Eng" />
                                             </div>
                                         </div>
                                         <app-field-error-display [displayError]="isFieldValid('sNameEng')"
@@ -137,16 +138,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <ng-container *ngFor="let _Item of _ArrDataBind; index as _Num">
-                                <tr>
-                                    <td style="text-align:center"></td>
-                                    <td style="text-align:center"></td>
-                                    <td style="text-align:center"></td>
-                                    <td style="text-align:center"></td>
-                                    <td style="text-align:center"></td>
-                                </tr>
-                            </ng-container>
-                            <tr *ngIf="_ArrDataBind.length == 0 || _ArrDataBind == 0">
+                            <tr>
                                 <td style="text-align:center" class="dataNotFound" colspan="11">
                                     No Data.
                                 </td>
