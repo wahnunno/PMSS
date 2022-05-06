@@ -797,3 +797,7 @@ M:\Project\Github_PMSS\PMSS\obj\Debug\net6.0\refint\Demo1.dll
 M:\Project\Github_PMSS\PMSS\obj\Debug\net6.0\Demo1.pdb
 M:\Project\Github_PMSS\PMSS\obj\Debug\net6.0\Demo1.genruntimeconfig.cache
 M:\Project\Github_PMSS\PMSS\obj\Debug\net6.0\ref\Demo1.dll
+M:\Project\Github_PMSS\PMSS\bin\Debug\net6.0\ClosedXML.dll
+M:\Project\Github_PMSS\PMSS\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+M:\Project\Github_PMSS\PMSS\bin\Debug\net6.0\ExcelNumberFormat.dll
+M:\Project\Github_PMSS\PMSS\bin\Debug\net6.0\System.IO.Packaging.dll

@@ -2,13 +2,25 @@
 using Demo1.Models;
 using Demo1.Models.PSOrderContext;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace Demo1.Controllers
 {
     public class ManageUserController : Controller
     {
-        private readonly AppDbContext DB;
-        public ManageUserController(AppDbContext db)
+        //private readonly string ConnectionString;
+        //public ManageUserController()
+        //{
+        //    IConfigurationRoot configuration = new ConfigurationBuilder()
+        //    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+        //    .AddJsonFile("appsettings.json")
+        //    .Build();
+        //    ConnectionString = configuration.GetConnectionString("DefaultConnection");
+        //}
+
+        private readonly PSOrderContext DB;
+        public ManageUserController(PSOrderContext db)
         {
             DB = db;
         }
@@ -20,31 +32,35 @@ namespace Demo1.Controllers
 
         public IActionResult ManageUserForm(SaveData Obj)
         {
-            //ManageUserListClass Model = new ManageUserListClass();
-            //List<ManageUserClass> lstData = new List<ManageUserClass>();
-            //var lst = DB.UserMaintains.Where(w => !w.IsDelete).ToList();
-            //if (lst.Count > 0)
-            //{
-            //    foreach (var Item in lst)
-            //    {
-            //        lstData.Add(new ManageUserClass
-            //        {
-            //            nNo = Item.nNo,
-            //            sOAUserID = Item.sOAUserID,
-            //            sRole = Item.sRole,
-            //            sName = Item.sName,
-            //            sDep = Item.sDep,
-            //            sEmail = Item.sEmail,
-            //            sTel = Item.sTel,
-            //            dStartDate = Item.dStartDate,
-            //            dEndDate = Item.dEndDate,
-            //            IsDelete = Item.IsDelete
-            //        });
-            //    }
-            //}
-            //Model.lstData = lstData;
-            //return View(Model);
-            return View();
+            List<ManageUserClass> lstData = GetData();
+
+            ManageUserListClass Model = new ManageUserListClass();
+            Model.lstData = lstData;
+            return View(Model);
+        }
+
+        public List<ManageUserClass> GetData()
+        {
+            List<ManageUserClass> lst = new List<ManageUserClass>();
+            var lstData = DB.UserMaintains.Where(w => !w.IsDelete).ToList();
+            if (lstData.Count > 0)
+            {
+                foreach (var Item in lstData)
+                {
+                    lst.Add(new ManageUserClass
+                    {
+                        nNo = Item.nNo,
+                        sOAUserID = Item.sOAUserID,
+                        sName = Item.sName,
+                        dStartDate = Item.dStartDate,
+                        sStartDate = Item.dStartDate.HasValue ? Item.dStartDate.Value.ToString("dd/MM/yyyy") : "",
+                        sEndDate = Item.dEndDate.HasValue ? Item.dEndDate.Value.ToString("dd/MM/yyyy") : "",
+                        IsDelete = Item.IsDelete
+                    });
+                }
+            }
+
+            return lst;
         }
 
         [HttpPost]

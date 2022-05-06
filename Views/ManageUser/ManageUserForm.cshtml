@@ -138,11 +138,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td style="text-align:center" class="dataNotFound" colspan="11">
-                                    No Data.
-                                </td>
-                            </tr>
+                            @foreach (var item in Model.lstData)
+                            {
+                                <tr>
+                                    <td style="text-align:center">@item.nNo</td>
+                                    <td style="text-align:center">@item.sOAUserID</td>
+                                    <td>@item.sName</td>
+                                    <td style="text-align:center">@item.sStartDate</td>
+                                    <td style="text-align:center">@item.sEndDate</td>
+                                </tr>
+                            }
+                            @if (Model.lstData.Count == 0)
+                            {
+                                <tr>
+                                    <td style="text-align:center" class="dataNotFound" colspan="11">
+                                        No Data.
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
