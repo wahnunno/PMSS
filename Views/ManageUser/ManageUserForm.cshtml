@@ -19,13 +19,8 @@
                                     <div class="col-md-8 col-sm-12 col-12">
                                         <div class="form-group _MB0px">
                                             <div class="input-group">
-                                                <input id="txtOAUser"
-                                                       name="txtOAUser"
-                                                       class="form-control"
-                                                       formControlName="sOAUserID"
-                                                       autocomplete="off"
-                                                       maxlength="10"
-                                                       placeholder="OA User" />
+                                                <input asp-for="sOAUserID" class="form-control" maxlength="10" placeholder="OA User" />
+                                                <span asp-validation-for="sOAUserID" class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -37,13 +32,8 @@
                                     <div class="col-md-8 col-sm-12 col-12">
                                         <div class="form-group _MB0px">
                                             <div class="input-group">
-                                                <input id="txtNameEng"
-                                                       name="txtNameEng"
-                                                       class="form-control"
-                                                       formControlName="sNameEng"
-                                                       autocomplete="off"
-                                                       maxlength="50"
-                                                       placeholder="Name Eng" />
+                                                <input asp-for="sName" class="form-control" maxlength="50" placeholder="Name Eng" />
+                                                <span asp-validation-for="sName" class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -141,7 +131,7 @@
             todayhighlight: true,
             autoclose: true,
         });
-        $('#StartDate').datepicker("setDate", new date());
+        //$('#StartDate').datepicker("setDate", new date());
     });
     $(function(){
         $('#EndDate').datepicker({
@@ -151,6 +141,6 @@
             todayhighlight: true,
             autoclose: true,
         });
-        $('#EndDate').datepicker("setDate", new date());
+        //$('#EndDate').datepicker("setDate", new date());
     });
 </script>
