@@ -22,16 +22,12 @@
                                                 <input id="txtOAUser"
                                                        name="txtOAUser"
                                                        class="form-control"
-                                                       formControlName="sOAUser"
+                                                       formControlName="sOAUserID"
                                                        autocomplete="off"
                                                        maxlength="10"
                                                        placeholder="OA User" />
                                             </div>
                                         </div>
-                                        <app-field-error-display [displayError]="isFieldValid('sOAUser')"
-                                                                 Field="OA User"
-                                                                 CtrlType="atc">
-                                        </app-field-error-display>
                                     </div>
                                 </div>&nbsp;
                                 <div class="form-group row">
@@ -50,74 +46,47 @@
                                                        placeholder="Name Eng" />
                                             </div>
                                         </div>
-                                        <app-field-error-display [displayError]="isFieldValid('sNameEng')"
-                                                                 Field="Name Eng"
-                                                                 CtrlType="atc">
-                                        </app-field-error-display>
                                     </div>
                                 </div>&nbsp;
                                 <div class="form-group row">
                                     <label class="col-md-4 col-sm-12 col-12">
-                                        วันที่มีผล&nbsp;<span class="text-red">*</span>
+                                        วันที่มีผล&nbsp;<span class="text-danger">*</span>
                                     </label>
-                                    <div class="col-md-5 col-sm-7 col-12">
-                                        <div class="form-group _MB0px" [ngClass]="displayFieldCss('dDue')">
-                                            <div class="input-group">
-                                                <input id="txtDueDate"
-                                                       name="txtDueDate"
-                                                       class="form-control"
-                                                       formControlName="dDue"
-                                                       placeholder="--/--/----"
-                                                       bsDatepicker
-                                                       [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false,containerClass: 'theme-dark-blue'}"
-                                                       [daysDisabled]="[6,0]"
-                                                       [minDate]="Mindate"
-                                                       [datesDisabled]="Holidays"
-                                                       #dpDuedate="bsDatepicker"
-                                                       (onHidden)="handler()"
-                                                       readonly />
-                                                <div class="input-group-append">
-                                                    <button class="input-group-text" (click)="dpDuedate.toggle()" [attr.aria-expanded]="dpDuedate.isOpen"><em class="far fa-calendar-alt"></em></button>
-                                                </div>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group date datepicker" id="StartDate">
+                                                <input type="text" class="form-control">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text">
+                                                        <i class="bi bi-calendar3"></i>
+                                                    </span>
+                                                </span>
                                             </div>
-                                            <app-field-error-display [displayError]="isFieldValid('dDue')"
-                                                                     Field="Due Date"
-                                                                     CtrlType="atc">
-                                            </app-field-error-display>
                                         </div>
                                     </div>
                                 </div>&nbsp;
                                 <div class="form-group row">
                                     <label class="col-md-4 col-sm-12 col-12">
-                                        วันที่สิ้นสุด&nbsp;<span class="text-red">*</span>
+                                        วันที่สิ้นสุด&nbsp;<span class="text-danger">*</span>
                                     </label>
-                                    <div class="col-md-5 col-sm-7 col-12">
-                                        <div class="form-group _MB0px" [ngClass]="displayFieldCss('dDue')">
-                                            <div class="input-group">
-                                                <input id="txtDueDate"
-                                                       name="txtDueDate"
-                                                       class="form-control"
-                                                       formControlName="dDue"
-                                                       placeholder="--/--/----"
-                                                       bsDatepicker
-                                                       [bsConfig]="{dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false,containerClass: 'theme-dark-blue'}"
-                                                       [daysDisabled]="[6,0]"
-                                                       [minDate]="Mindate"
-                                                       [datesDisabled]="Holidays"
-                                                       #dpDuedate="bsDatepicker"
-                                                       (onHidden)="handler()"
-                                                       readonly />
-                                                <div class="input-group-append">
-                                                    <button class="input-group-text" (click)="dpDuedate.toggle()" [attr.aria-expanded]="dpDuedate.isOpen"><em class="far fa-calendar-alt"></em></button>
-                                                </div>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group date datepicker" id="EndDate">
+                                                <input type="text" class="form-control">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text">
+                                                        <i class="bi bi-calendar3"></i>
+                                                    </span>
+                                                </span>
                                             </div>
-                                            <app-field-error-display [displayError]="isFieldValid('dDue')"
-                                                                     Field="Due Date"
-                                                                     CtrlType="atc">
-                                            </app-field-error-display>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>&nbsp;
+                        <div class="form-group row">
+                            <div class="col-md-12 col-sm-12 col-12 text-center">
+                                <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>&nbsp;
                             </div>
                         </div>
                     </div>
@@ -127,7 +96,7 @@
         <div class="col-8">
             <div class="form-group">
                 <div class="table-responsive">
-                    <table id="tb_agl" class="table table-sm table-bordered table-striped bg-white SSCPro table-break">
+                    <table id="tb_agl" class="table table-sm table-bordered table-striped bg-white table-break">
                         <thead>
                             <tr>
                                 <th style="text-align:center">No.</th>
@@ -163,3 +132,25 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(function(){
+        $('#StartDate').datepicker({
+            format: "dd/mm/yyyy",
+            todaybtn: "linked",
+            orientation: "bottom auto",
+            todayhighlight: true,
+            autoclose: true,
+        });
+        $('#StartDate').datepicker("setDate", new date());
+    });
+    $(function(){
+        $('#EndDate').datepicker({
+            format: "dd/mm/yyyy",
+            todaybtn: "linked",
+            orientation: "bottom auto",
+            todayhighlight: true,
+            autoclose: true,
+        });
+        $('#EndDate').datepicker("setDate", new date());
+    });
+</script>
