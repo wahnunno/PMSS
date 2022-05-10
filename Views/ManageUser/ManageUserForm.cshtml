@@ -2,145 +2,208 @@
 @{
     ViewData["Title"] = "ManageUserForm";
 }
-
-<div>
-    <div class="row">
-        <div class="col-4">
-            <div class="form-group">
-                <div class="card card-custom">
-                    <div class="card-header card-custom-header">Add New User</div>
-                    <div class="card-body card-custom-body">
-                        <div class="form-group row _MB0px">
-                            <div class="col-md-12 col-sm-12 col-12">
-                                <div class="form-group row">
-                                    <label class="col-lg-4 col-md-6 col-sm-12 col-12">
-                                        OA User
-                                    </label>
-                                    <div class="col-md-8 col-sm-12 col-12">
-                                        <div class="form-group _MB0px">
-                                            <div class="input-group">
-                                                <input asp-for="sOAUserID" class="form-control" maxlength="10" placeholder="OA User" />
-                                                <span asp-validation-for="sOAUserID" class="text-danger"></span>
+<form id="UserForm" method="post">
+    @*<div asp-validation-summary="All" class="text-danger"></div>*@
+    <div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <div class="card card-custom">
+                        <div class="card-header card-custom-header">Add New User</div>
+                        <div class="card-body card-custom-body">
+                            <div class="form-group row">
+                                <div class="col-md-12 col-sm-12 col-12">
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                            OA User&nbsp;<span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-12 col-12">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input asp-for="sOAUserID" id="txtOAUserID" name="txtOAUserID" class="form-control" maxlength="10" placeholder="OA User" />
+                                                    <span asp-validation-for="sOAUserID" class="text-danger"></span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>&nbsp;
-                                <div class="form-group row">
-                                    <label class="col-lg-4 col-md-12 col-sm-12 col-12">
-                                        Name Eng
-                                    </label>
-                                    <div class="col-md-8 col-sm-12 col-12">
-                                        <div class="form-group _MB0px">
-                                            <div class="input-group">
-                                                <input asp-for="sName" class="form-control" maxlength="50" placeholder="Name Eng" />
-                                                <span asp-validation-for="sName" class="text-danger"></span>
+                                    </div>&nbsp;
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-md-12 col-sm-12 col-12">
+                                            Name Eng&nbsp;<span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-12 col-12">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input asp-for="sName" id="txtName" name="txtName" class="form-control" maxlength="50" placeholder="Name Eng" />
+                                                    <span asp-validation-for="sName" class="text-danger"></span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>&nbsp;
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-sm-12 col-12">
-                                        วันที่มีผล&nbsp;<span class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-md-8 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <div class="input-group date datepicker" id="StartDate">
-                                                <input type="text" class="form-control">
-                                                <span class="input-group-append">
-                                                    <span class="input-group-text">
-                                                        <i class="bi bi-calendar3"></i>
+                                    </div>&nbsp;
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-12 col-12">
+                                            วันที่มีผล&nbsp;<span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-12 col-12">
+                                            <div class="form-group">
+                                                <div class="input-group date datepicker">
+                                                    <input type="text" id="txtStartDate" class="form-control">
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <i class="bi bi-calendar3"></i>
+                                                        </span>
                                                     </span>
-                                                </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>&nbsp;
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-sm-12 col-12">
-                                        วันที่สิ้นสุด&nbsp;<span class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-md-8 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <div class="input-group date datepicker" id="EndDate">
-                                                <input type="text" class="form-control">
-                                                <span class="input-group-append">
-                                                    <span class="input-group-text">
-                                                        <i class="bi bi-calendar3"></i>
+                                    </div>&nbsp;
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-12 col-12">
+                                            วันที่สิ้นสุด&nbsp;<span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-12 col-12">
+                                            <div class="form-group">
+                                                <div class="input-group date datepicker">
+                                                    <input type="text" id="txtEndDate" class="form-control">
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <i class="bi bi-calendar3"></i>
+                                                        </span>
                                                     </span>
-                                                </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>&nbsp;
-                        <div class="form-group row">
-                            <div class="col-md-12 col-sm-12 col-12 text-center">
-                                <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>&nbsp;
+                            </div>&nbsp;
+                            <div class="form-group row">
+                                <div class="col-md-12 col-sm-12 col-12 text-center">
+                                    <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>&nbsp;
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-8">
-            <div class="form-group">
-                <div class="table-responsive">
-                    <table id="tb_agl" class="table table-sm table-bordered table-striped bg-white table-break">
-                        <thead>
-                            <tr>
-                                <th style="text-align:center">No.</th>
-                                <th style="text-align:center">OA User</th>
-                                <th style="text-align:center">Name</th>
-                                <th style="text-align:center">วันที่มีผล</th>
-                                <th style="text-align:center">วันที่สิ้นสุด</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.lstData)
-                            {
+            <div class="col-8">
+                <div class="form-group">
+                    <div class="table-responsive">
+                        <table id="tb_agl" class="table table-sm table-bordered table-striped bg-white table-break">
+                            <thead>
                                 <tr>
-                                    <td style="text-align:center">@item.nNo</td>
-                                    <td style="text-align:center">@item.sOAUserID</td>
-                                    <td>@item.sName</td>
-                                    <td style="text-align:center">@item.sStartDate</td>
-                                    <td style="text-align:center">@item.sEndDate</td>
+                                    <th style="text-align:center">No.</th>
+                                    <th style="text-align:center">OA User</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center">วันที่มีผล</th>
+                                    <th style="text-align:center">วันที่สิ้นสุด</th>
                                 </tr>
-                            }
-                            @if (Model.lstData.Count == 0)
-                            {
-                                <tr>
-                                    <td style="text-align:center" class="dataNotFound" colspan="11">
-                                        No Data.
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @if (@Model.lstData != null)
+                                {
+                                    @if (@Model.lstData.Count != 0)
+                                    {
+                                        @foreach (var item in @Model.lstData)
+                                        {
+                                            <tr>
+                                                <td style="text-align:center">@item.nNo</td>
+                                                <td style="text-align:center">@item.sOAUserID</td>
+                                                <td>@item.sName</td>
+                                                <td style="text-align:center">@item.sStartDate</td>
+                                                <td style="text-align:center">@item.sEndDate</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                                @if (@Model.lstData == null || @Model.lstData.Count == 0)
+                                {
+                                    <tr>
+                                        <td style="text-align:center" class="dataNotFound" colspan="5">
+                                            No Data.
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</form>
+
 <script type="text/javascript">
     $(function(){
-        $('#StartDate').datepicker({
+        $('#txtStartDate').datepicker({
             format: "dd/mm/yyyy",
             todaybtn: "linked",
             orientation: "bottom auto",
             todayhighlight: true,
             autoclose: true,
         });
-        //$('#StartDate').datepicker("setDate", new date());
     });
+
     $(function(){
-        $('#EndDate').datepicker({
+        $('#txtEndDate').datepicker({
             format: "dd/mm/yyyy",
             todaybtn: "linked",
             orientation: "bottom auto",
             todayhighlight: true,
             autoclose: true,
         });
-        //$('#EndDate').datepicker("setDate", new date());
     });
+
+    $( "#UserForm" ).submit(function( event ) {
+        let Obj = {
+            nNo : 0,
+            sOAUserID : document.getElementById("txtOAUserID").value,
+            sRole : null,
+            sName : document.getElementById("txtName").value,
+            sDep : null,
+            sEmail : null,
+            sTel : null,
+            dStartDate : null,
+            dEndDate : null,
+            sCreate : null,
+            dCreateDate : null,
+            sUpdate : null,
+            dUpdateDate : null,
+            IsDelete : false,
+            sStartDate : document.getElementById("txtStartDate").value,
+            sEndDate : document.getElementById("txtEndDate").value,
+        }
+        $.post( 'https://localhost:44396/ManageUser/SaveToDB', Obj ).done(
+            function(res) {
+                console.log("res",res);
+                if(res.Status == "Success")
+                {
+
+                }
+                else 
+                {
+
+                }
+            }
+        );
+    });
+
+    function _FormatDate(date) {
+        debugger
+        var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('/');
+    }
+
 </script>
+@section Scripts{
+	@{
+    <partial name="_ValidationScriptsPartial" />
+	}
+}

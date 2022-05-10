@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Ug+r3gfk8TOEpireMlPzCz6rAej/YCOAodzE8gg2NR4=",
+  "Hash": "ULlrfWnrPjNgXPCx5BxLR//xDUz41V0AJamrJTZ6OVo=",
   "Source": "Demo1",
   "BasePath": "_content/Demo1",
   "Mode": "Default",
@@ -31958,6 +31958,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "M:\\Project\\Github_PMSS\\PMSS\\wwwroot\\lib\\sweetalert\\sweetalert.min.js",
+      "SourceId": "Demo1",
+      "SourceType": "Discovered",
+      "ContentRoot": "M:\\Project\\Github_PMSS\\PMSS\\wwwroot\\",
+      "BasePath": "_content/Demo1",
+      "RelativePath": "lib/sweetalert/sweetalert.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\sweetalert\\sweetalert.min.js"
     }
   ]
 }

@@ -1,108 +1,184 @@
-﻿using Demo1.con_db;
-using Demo1.Models;
-using Demo1.Models.PSOrderContext;
+﻿using Demo1.Models.PSOrderContext;
+using Extensions.Common.STExtension;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+using Demo1.Models;
 using System.Data;
+using Extensions.Common.STResultAPI;
 
-namespace Demo1.Controllers
+namespace PMSS.Controllers.ManageUser
 {
     public class ManageUserController : Controller
     {
-        //private readonly string ConnectionString;
-        //public ManageUserController()
-        //{
-        //    IConfigurationRoot configuration = new ConfigurationBuilder()
-        //    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-        //    .AddJsonFile("appsettings.json")
-        //    .Build();
-        //    ConnectionString = configuration.GetConnectionString("DefaultConnection");
-        //}
-
         private readonly PSOrderContext DB;
         public ManageUserController(PSOrderContext db)
         {
             DB = db;
         }
 
-        public IActionResult Index()
+        public IActionResult ManageUserForm()
         {
-            return View();
+            ManageUserListClass Model = new ManageUserListClass();
+            Model.lstData = GetData();
+
+            return View(Model);
         }
 
-        public IActionResult ManageUserForm(SaveData Obj)
+        [HttpPost]
+        public IActionResult ManageUserForm(ManageUserListClass Obj)
         {
-            List<ManageUserClass> lstData = GetData();
-
             ManageUserListClass Model = new ManageUserListClass();
-            Model.lstData = lstData;
+            //ResultAPI Result = SaveDB(Obj);
+            Model.lstData = GetData();
+
             return View(Model);
         }
 
         public List<ManageUserClass> GetData()
         {
-            List<ManageUserClass> lst = new List<ManageUserClass>();
-            var lstData = DB.UserMaintains.Where(w => !w.IsDelete).ToList();
-            if (lstData.Count > 0)
+            List<ManageUserClass> lstData = new List<ManageUserClass>();
+
+            var lstUser = DB.UserMaintains.Where(w => !w.IsDelete).ToList();
+            if (lstUser.Count > 0)
             {
-                foreach (var Item in lstData)
+                foreach (var Item in lstUser)
                 {
-                    lst.Add(new ManageUserClass
+                    lstData.Add(new ManageUserClass
                     {
                         nNo = Item.nNo,
                         sOAUserID = Item.sOAUserID,
                         sName = Item.sName,
                         dStartDate = Item.dStartDate,
-                        sStartDate = Item.dStartDate.HasValue ? Item.dStartDate.Value.ToString("dd/MM/yyyy") : "",
-                        sEndDate = Item.dEndDate.HasValue ? Item.dEndDate.Value.ToString("dd/MM/yyyy") : "",
+                        sStartDate = Item.dStartDate.ToStringFromDate("dd/MM/yyyy", "en-US"),
+                        sEndDate = Item.dEndDate.ToStringFromDate("dd/MM/yyyy", "en-US"),
                         IsDelete = Item.IsDelete
                     });
                 }
             }
 
-            return lst;
+            return lstData;
         }
 
-        [HttpPost]
-        public string SaveDB(SaveData Obj)
+        public ResultAPI SaveToDB(ManageUserClass Obj)
         {
-            string Result = "";
-            //var UPT = DB.UserMaintains.FirstOrDefault(f => f.sOAUserID == Obj.sOAUserID);
-            //if (UPT != null)
-            //{
-            //    UPT.sRole = Obj.sRole;
-            //    UPT.sName = Obj.sName;
-            //    UPT.sDep = Obj.sDep;
-            //    UPT.sEmail = Obj.sEmail;
-            //    UPT.sTel = Obj.sTel;
-            //    UPT.dStartDate = Obj.dStartDate;
-            //    UPT.dEndDate = Obj.dEndDate;
-            //    UPT.dUpdateDate = DateTime.Now;
-            //    UPT.sUpdate = "1";
-            //    UPT.IsDelete = true;
-            //    DB.SaveChanges();
-            //    Result = "Success";
-            //}
-            //else
-            //{
-            //    UserMaintain CRT = new UserMaintain();
-            //    int nID = DB.UserMaintains.Any() ? DB.UserMaintains.Max(m => m.nNo) + 1 : 1;
-            //    CRT.sOAUserID = nID + "";
-            //    CRT.sRole = Obj.sRole;
-            //    CRT.sName = Obj.sName;
-            //    CRT.sDep = Obj.sDep;
-            //    CRT.sEmail = Obj.sEmail;
-            //    CRT.sTel = Obj.sTel;
-            //    CRT.dStartDate = Obj.dStartDate;
-            //    CRT.dEndDate = Obj.dEndDate;
-            //    CRT.dCreateDate = DateTime.Now;
-            //    CRT.sCreate = "1";
-            //    CRT.IsDelete = true;
-            //    DB.SaveChanges();
-            //    Result = "Success";
-            //}
+            ResultAPI Result = new ResultAPI();
+            try
+            {
+                DateTime? dStartDate = Obj.sStartDate.ToDateFromString("dd/MM/yyyy", "en-US");
+                DateTime? dEndDate = Obj.sEndDate.ToDateFromString("dd/MM/yyyy", "en-US");
+                var lstDup = DB.UserMaintains.Where(w => w.sOAUserID == Obj.sOAUserID && !w.IsDelete).ToList();
+                if (lstDup.Count > 0)
+                {
+                    Result.Message = "OA User is Duplicate.";
+                    Result.Status = ResultStatus.Failed;
+                }
+                else
+                {
+                    var UPT = DB.UserMaintains.FirstOrDefault(f => f.sOAUserID == Obj.sOAUserID);
+                    if (UPT != null)
+                    {
+                        UPT.sRole = Obj.sRole;
+                        UPT.sName = Obj.sName;
+                        UPT.sDep = Obj.sDep;
+                        UPT.sEmail = Obj.sEmail;
+                        UPT.sTel = Obj.sTel;
+                        UPT.dStartDate = Obj.dStartDate;
+                        UPT.dEndDate = Obj.dEndDate;
+                        UPT.dStartDate = dStartDate.HasValue ? dStartDate.Value : DateTime.Now;
+                        UPT.dEndDate = dEndDate.HasValue ? dEndDate.Value : DateTime.Now;
+                        UPT.dUpdateDate = DateTime.Now;
+                        UPT.sUpdate = null;
+                        UPT.IsDelete = false;
+                        DB.SaveChanges();
+                    }
+                    else
+                    {
+                        int nID = DB.UserMaintains.Any() ? DB.UserMaintains.Max(m => m.nNo) + 1 : 1;
+
+                        UserMaintain CRT = new UserMaintain();
+                        CRT.nNo = nID;
+                        CRT.sOAUserID = Obj.sOAUserID;
+                        CRT.sRole = Obj.sRole;
+                        CRT.sName = Obj.sName;
+                        CRT.sDep = Obj.sDep;
+                        CRT.sEmail = Obj.sEmail;
+                        CRT.sTel = Obj.sTel;
+                        CRT.dStartDate = Obj.dStartDate;
+                        CRT.dEndDate = Obj.dEndDate;
+                        CRT.dStartDate = dStartDate.HasValue ? dStartDate.Value : DateTime.Now;
+                        CRT.dEndDate = dEndDate.HasValue ? dEndDate.Value : DateTime.Now;
+                        CRT.dCreateDate = DateTime.Now;
+                        CRT.sCreate = null;
+                        CRT.IsDelete = false;
+                        DB.UserMaintains.Add(CRT);
+                        DB.SaveChanges();
+                    }
+                    Result.Status = ResultStatus.Success;
+                }
+            }
+            catch (Exception ex)
+            {
+                Result.Message = ex.Message;
+                Result.Status = ResultStatus.Failed;
+            }
+
             return Result;
         }
+
+        //public ResultAPI SaveDB(ManageUserListClass Obj)
+        //{
+        //    ResultAPI Result = new ResultAPI();
+        //    try
+        //    {
+        //        var UPT = DB.UserMaintains.FirstOrDefault(f => f.sOAUserID == Obj.sOAUserID);
+        //        if (UPT != null)
+        //        {
+        //            UPT.sRole = Obj.sRole;
+        //            UPT.sName = Obj.sName;
+        //            UPT.sDep = Obj.sDep;
+        //            UPT.sEmail = Obj.sEmail;
+        //            UPT.sTel = Obj.sTel;
+        //            UPT.dStartDate = Obj.dStartDate;
+        //            UPT.dEndDate = Obj.dEndDate;
+        //            //UPT.dStartDate = DateTime.Now;
+        //            //UPT.dEndDate = DateTime.Now;
+        //            UPT.dUpdateDate = DateTime.Now;
+        //            UPT.sUpdate = "1";
+        //            UPT.IsDelete = false;
+        //            DB.SaveChanges();
+        //            Result.Status = ResultStatus.Success;
+        //        }
+        //        else
+        //        {
+        //            int nID = DB.UserMaintains.Any() ? DB.UserMaintains.Max(m => m.nNo) + 1 : 1;
+
+        //            UserMaintain CRT = new UserMaintain();
+        //            CRT.nNo = nID;
+        //            CRT.sOAUserID = Obj.sOAUserID;
+        //            CRT.sRole = Obj.sRole;
+        //            CRT.sName = Obj.sName;
+        //            CRT.sDep = Obj.sDep;
+        //            CRT.sEmail = Obj.sEmail;
+        //            CRT.sTel = Obj.sTel;
+        //            CRT.dStartDate = Obj.dStartDate;
+        //            CRT.dEndDate = Obj.dEndDate;
+        //            //CRT.dStartDate = DateTime.Now;
+        //            //CRT.dEndDate = DateTime.Now;
+        //            CRT.dCreateDate = DateTime.Now;
+        //            CRT.sCreate = "1";
+        //            CRT.IsDelete = false;
+        //            DB.UserMaintains.Add(CRT);
+        //            DB.SaveChanges();
+        //            Result.Status = ResultStatus.Success;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Result.Message = ex.Message;
+        //        Result.Status = ResultStatus.Failed;
+        //    }
+
+        //    return Result;
+        //}
 
         public class cResult
         {
@@ -110,10 +186,6 @@ namespace Demo1.Controllers
             public string? sMsg { get; set; }
             public string? sContent { get; set; }
             //public List<UserMaintain>? lstData { get; set; }
-        }
-        public class SaveData
-        {
-
         }
     }
 }

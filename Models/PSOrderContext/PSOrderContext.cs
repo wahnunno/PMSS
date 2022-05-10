@@ -11,7 +11,8 @@ namespace Demo1.Models.PSOrderContext
         {
         }
 
-        public PSOrderContext(DbContextOptions<PSOrderContext> options) : base(options)
+        public PSOrderContext(DbContextOptions<PSOrderContext> options)
+            : base(options)
         {
         }
 
@@ -359,9 +360,11 @@ namespace Demo1.Models.PSOrderContext
 
             modelBuilder.Entity<UserMaintain>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.nNo);
 
                 entity.ToTable("UserMaintain");
+
+                entity.Property(e => e.nNo).ValueGeneratedNever();
 
                 entity.Property(e => e.dCreateDate).HasColumnType("datetime");
 
