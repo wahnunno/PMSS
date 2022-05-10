@@ -6,6 +6,7 @@
     @*<div asp-validation-summary="All" class="text-danger"></div>*@
     <div>
         <div class="row">
+            @*Form*@
             <div class="col-4">
                 <div class="form-group">
                     <div class="card card-custom">
@@ -28,7 +29,7 @@
                                     </div>&nbsp;
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-md-12 col-sm-12 col-12">
-                                            Name Eng&nbsp;<span class="text-danger">*</span>
+                                            Name Eng.&nbsp;<span class="text-danger">*</span>
                                         </label>
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
@@ -46,7 +47,7 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group date datepicker">
-                                                    <input type="text" id="txtStartDate" class="form-control">
+                                                    <input type="text" id="txtStartDate" class="form-control" placeholder="dd/mm/yyyy">
                                                     <span class="input-group-append">
                                                         <span class="input-group-text">
                                                             <i class="bi bi-calendar3"></i>
@@ -63,7 +64,7 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group date datepicker">
-                                                    <input type="text" id="txtEndDate" class="form-control">
+                                                    <input type="text" id="txtEndDate" class="form-control" placeholder="dd/mm/yyyy">
                                                     <span class="input-group-append">
                                                         <span class="input-group-text">
                                                             <i class="bi bi-calendar3"></i>
@@ -84,6 +85,7 @@
                     </div>
                 </div>
             </div>
+            @*Table*@
             <div class="col-8">
                 <div class="form-group">
                     <div class="table-responsive">
@@ -95,6 +97,7 @@
                                     <th style="text-align:center">Name</th>
                                     <th style="text-align:center">วันที่มีผล</th>
                                     <th style="text-align:center">วันที่สิ้นสุด</th>
+                                    <th style="text-align:center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,6 +113,10 @@
                                                 <td>@item.sName</td>
                                                 <td style="text-align:center">@item.sStartDate</td>
                                                 <td style="text-align:center">@item.sEndDate</td>
+                                                <td style="text-align:center">
+                                                    <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>&nbsp;
+                                                    <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i>&nbsp;Delete</button>&nbsp;
+                                                </td>
                                             </tr>
                                         }
                                     }
@@ -117,7 +124,7 @@
                                 @if (@Model.lstData == null || @Model.lstData.Count == 0)
                                 {
                                     <tr>
-                                        <td style="text-align:center" class="dataNotFound" colspan="5">
+                                        <td style="text-align:center" class="dataNotFound" colspan="6">
                                             No Data.
                                         </td>
                                     </tr>
@@ -132,74 +139,60 @@
 </form>
 
 <script type="text/javascript">
-    $(function(){
-        $('#txtStartDate').datepicker({
-            format: "dd/mm/yyyy",
-            todaybtn: "linked",
-            orientation: "bottom auto",
-            todayhighlight: true,
-            autoclose: true,
-        });
-    });
+      $(function(){
+          $('#txtStartDate').datepicker({
+              format: "dd/mm/yyyy",
+              todaybtn: "linked",
+              orientation: "bottom auto",
+              todayhighlight: true,
+              autoclose: true,
+          });
+      });
 
-    $(function(){
-        $('#txtEndDate').datepicker({
-            format: "dd/mm/yyyy",
-            todaybtn: "linked",
-            orientation: "bottom auto",
-            todayhighlight: true,
-            autoclose: true,
-        });
-    });
+      $(function(){
+          $('#txtEndDate').datepicker({
+              format: "dd/mm/yyyy",
+              todaybtn: "linked",
+              orientation: "bottom auto",
+              todayhighlight: true,
+              autoclose: true,
+          });
+      });
 
-    $( "#UserForm" ).submit(function( event ) {
-        let Obj = {
-            nNo : 0,
-            sOAUserID : document.getElementById("txtOAUserID").value,
-            sRole : null,
-            sName : document.getElementById("txtName").value,
-            sDep : null,
-            sEmail : null,
-            sTel : null,
-            dStartDate : null,
-            dEndDate : null,
-            sCreate : null,
-            dCreateDate : null,
-            sUpdate : null,
-            dUpdateDate : null,
-            IsDelete : false,
-            sStartDate : document.getElementById("txtStartDate").value,
-            sEndDate : document.getElementById("txtEndDate").value,
-        }
-        $.post( 'https://localhost:44396/ManageUser/SaveToDB', Obj ).done(
-            function(res) {
-                console.log("res",res);
-                if(res.Status == "Success")
-                {
+      $( "#UserForm" ).submit(function( event ) {
+          let Obj = {
+              nNo : 0,
+              sOAUserID : document.getElementById("txtOAUserID").value,
+              sRole : null,
+              sName : document.getElementById("txtName").value,
+              sDep : null,
+              sEmail : null,
+              sTel : null,
+              dStartDate : null,
+              dEndDate : null,
+              sCreate : null,
+              dCreateDate : null,
+              sUpdate : null,
+              dUpdateDate : null,
+              IsDelete : false,
+              sStartDate : document.getElementById("txtStartDate").value,
+              sEndDate : document.getElementById("txtEndDate").value,
+          }
+          $.post( 'https://localhost:44396/ManageUser/SaveToDB', Obj ).done(
+              function(res) {
+                  console.log("res",res);
+                  debugger
+                  //if(res.Status == "Success")
+                  //{
+                  //    swal("Good job!", "You clicked the button!", "success");
+                  //}
+                  //else
+                  //{
 
-                }
-                else 
-                {
-
-                }
-            }
-        );
-    });
-
-    function _FormatDate(date) {
-        debugger
-        var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-        if (month.length < 2)
-            month = '0' + month;
-        if (day.length < 2)
-            day = '0' + day;
-
-        return [year, month, day].join('/');
-    }
+                  //}
+              }
+          );
+      });
 
 </script>
 @section Scripts{

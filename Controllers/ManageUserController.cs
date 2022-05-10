@@ -37,14 +37,15 @@ namespace PMSS.Controllers.ManageUser
         {
             List<ManageUserClass> lstData = new List<ManageUserClass>();
 
-            var lstUser = DB.UserMaintains.Where(w => !w.IsDelete).ToList();
+            var lstUser = DB.UserMaintains.Where(w => !w.IsDelete).OrderBy(o => o.nNo).ToList();
             if (lstUser.Count > 0)
             {
+                int i = 1;
                 foreach (var Item in lstUser)
                 {
                     lstData.Add(new ManageUserClass
                     {
-                        nNo = Item.nNo,
+                        nNo = i++,
                         sOAUserID = Item.sOAUserID,
                         sName = Item.sName,
                         dStartDate = Item.dStartDate,
