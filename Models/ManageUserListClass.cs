@@ -2,7 +2,7 @@
 {
     public class ManageUserListClass
     {
-        public int nNo { get; set; }
+        public int nID { get; set; }
         public string sOAUserID { get; set; } = null!;
         public string sRole { get; set; } = null!;
         public string sName { get; set; } = "";

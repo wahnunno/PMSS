@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "ManageUserForm";
 }
-<form id="UserForm" method="post">
+<form id="UserForm">
     @*<div asp-validation-summary="All" class="text-danger"></div>*@
     <div>
         <div class="row">
@@ -10,7 +10,7 @@
             <div class="col-4">
                 <div class="form-group">
                     <div class="card card-custom">
-                        <div class="card-header card-custom-header">Add New User</div>
+                        <div class="card-header card-custom-header" style="background-color: #d9edf7;">Add New User</div>
                         <div class="card-body card-custom-body">
                             <div class="form-group row">
                                 <div class="col-md-12 col-sm-12 col-12">
@@ -78,7 +78,7 @@
                             </div>&nbsp;
                             <div class="form-group row">
                                 <div class="col-md-12 col-sm-12 col-12 text-center">
-                                    <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>&nbsp;
+                                    <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="Save()"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>&nbsp;
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                 <div class="form-group">
                     <div class="table-responsive">
                         <table id="tb_agl" class="table table-sm table-bordered table-striped bg-white table-break">
-                            <thead>
+                            <thead style="color: white; background-color: #17679c;">
                                 <tr>
                                     <th style="text-align:center">No.</th>
                                     <th style="text-align:center">OA User</th>
@@ -114,8 +114,9 @@
                                                 <td style="text-align:center">@item.sStartDate</td>
                                                 <td style="text-align:center">@item.sEndDate</td>
                                                 <td style="text-align:center">
-                                                    <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>&nbsp;
-                                                    <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i>&nbsp;Delete</button>&nbsp;
+                                                    @*<button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit(@item.nID,@item.sOAUserID)"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>&nbsp;*@
+                                                    <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit(@item.nID,@item.sOAUserID,@item.sName,@item.sStartDate,@item.sEndDate)"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>&nbsp;
+                                                    <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnDelete(@item.nID)"><i class="bi bi-trash"></i>&nbsp;Delete</button>&nbsp;
                                                 </td>
                                             </tr>
                                         }
@@ -139,61 +140,105 @@
 </form>
 
 <script type="text/javascript">
-      $(function(){
-          $('#txtStartDate').datepicker({
-              format: "dd/mm/yyyy",
-              todaybtn: "linked",
-              orientation: "bottom auto",
-              todayhighlight: true,
-              autoclose: true,
-          });
-      });
+    $(function(){
+        $('#txtStartDate').datepicker({
+            format: "dd/mm/yyyy",
+            todaybtn: "linked",
+            orientation: "bottom auto",
+            todayhighlight: true,
+            autoclose: true,
+        });
+    });
 
-      $(function(){
-          $('#txtEndDate').datepicker({
-              format: "dd/mm/yyyy",
-              todaybtn: "linked",
-              orientation: "bottom auto",
-              todayhighlight: true,
-              autoclose: true,
-          });
-      });
+    $(function(){
+        $('#txtEndDate').datepicker({
+            format: "dd/mm/yyyy",
+            todaybtn: "linked",
+            orientation: "bottom auto",
+            todayhighlight: true,
+            autoclose: true,
+        });
+    });
 
-      $( "#UserForm" ).submit(function( event ) {
-          let Obj = {
-              nNo : 0,
-              sOAUserID : document.getElementById("txtOAUserID").value,
-              sRole : null,
-              sName : document.getElementById("txtName").value,
-              sDep : null,
-              sEmail : null,
-              sTel : null,
-              dStartDate : null,
-              dEndDate : null,
-              sCreate : null,
-              dCreateDate : null,
-              sUpdate : null,
-              dUpdateDate : null,
-              IsDelete : false,
-              sStartDate : document.getElementById("txtStartDate").value,
-              sEndDate : document.getElementById("txtEndDate").value,
-          }
-          $.post( 'https://localhost:44396/ManageUser/SaveToDB', Obj ).done(
-              function(res) {
-                  console.log("res",res);
-                  debugger
-                  //if(res.Status == "Success")
-                  //{
-                  //    swal("Good job!", "You clicked the button!", "success");
-                  //}
-                  //else
-                  //{
+    $("#UserForm").submit(function(event) {
+    //function Save()
+    //{
+        let txtOAUserID = document.getElementById("txtOAUserID").value;
+        let txtName = document.getElementById("txtName").value;
+        let txtStartDate = document.getElementById("txtStartDate").value;
+        let txtEndDate = document.getElementById("txtEndDate").value;
+        debugger
+        if(txtOAUserID && txtName && txtStartDate && txtEndDate)
+        {
+            let IsSave = confirm('Do you want to save data ?');
+            if(IsSave)
+            {
+                let Obj = {
+                    nID : 0,
+                    sOAUserID : document.getElementById("txtOAUserID").value,
+                    sRole : null,
+                    sName : document.getElementById("txtName").value,
+                    sDep : null,
+                    sEmail : null,
+                    sTel : null,
+                    dStartDate : null,
+                    dEndDate : null,
+                    sCreate : null,
+                    dCreateDate : null,
+                    sUpdate : null,
+                    dUpdateDate : null,
+                    IsDelete : false,
+                    sStartDate : document.getElementById("txtStartDate").value,
+                    sEndDate : document.getElementById("txtEndDate").value,
+                }
+                $.post( 'https://localhost:44396/ManageUser/SaveToDB', Obj ).done(
+                    function(res) {
+                        console.log("res",res);
+                        //if(res.Status == "Success")
+                        //{
+                        //    swal("Good job!", "You clicked the button!", "success");
+                        //}
+                        //else
+                        //{
 
-                  //}
-              }
-          );
-      });
+                        //}
+                    }
+                );
+            }
+        }
+    })
 
+    //function OnEdit(nID,sOAUserID){
+    function OnEdit(nID,sOAUserID,sName,sStartDate,sEndDate){
+        document.getElementById("txtOAUserID").value = sOAUserID;
+        document.getElementById("txtName").value = sName;
+        document.getElementById("txtStartDate").value = new Date(sStartDate);
+        document.getElementById("txtEndDate").value = new Date(sEndDate);
+    }
+
+    function OnDelete(nID){
+        let IsDelete = confirm('Do you want to delete data ?');
+        console.log("OnDelete",nID);
+        if(IsDelete)
+        {
+            let Obj = {
+                nID : nID,
+            }
+            $.post( 'https://localhost:44396/ManageUser/Delete', Obj ).done(
+                function(res) {
+                    console.log("res",res);
+                    //if(res.Status == "Success")
+                    //{
+                    //    swal("Good job!", "You clicked the button!", "success");
+                    //}
+                    //else
+                    //{
+
+                    //}
+                }
+            );
+        }
+    }
 </script>
 @section Scripts{
 	@{

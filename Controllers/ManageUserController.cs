@@ -37,7 +37,7 @@ namespace PMSS.Controllers.ManageUser
         {
             List<ManageUserClass> lstData = new List<ManageUserClass>();
 
-            var lstUser = DB.UserMaintains.Where(w => !w.IsDelete).OrderBy(o => o.nNo).ToList();
+            var lstUser = DB.UserMaintains.Where(w => !w.IsDelete).OrderBy(o => o.nID).ToList();
             if (lstUser.Count > 0)
             {
                 int i = 1;
@@ -46,6 +46,7 @@ namespace PMSS.Controllers.ManageUser
                     lstData.Add(new ManageUserClass
                     {
                         nNo = i++,
+                        nID = Item.nID,
                         sOAUserID = Item.sOAUserID,
                         sName = Item.sName,
                         dStartDate = Item.dStartDate,
@@ -59,6 +60,7 @@ namespace PMSS.Controllers.ManageUser
             return lstData;
         }
 
+        [HttpPost]
         public ResultAPI SaveToDB(ManageUserClass Obj)
         {
             ResultAPI Result = new ResultAPI();
@@ -93,10 +95,10 @@ namespace PMSS.Controllers.ManageUser
                     }
                     else
                     {
-                        int nID = DB.UserMaintains.Any() ? DB.UserMaintains.Max(m => m.nNo) + 1 : 1;
+                        int nID = DB.UserMaintains.Any() ? DB.UserMaintains.Max(m => m.nID) + 1 : 1;
 
                         UserMaintain CRT = new UserMaintain();
-                        CRT.nNo = nID;
+                        CRT.nID = nID;
                         CRT.sOAUserID = Obj.sOAUserID;
                         CRT.sRole = Obj.sRole;
                         CRT.sName = Obj.sName;
@@ -125,61 +127,30 @@ namespace PMSS.Controllers.ManageUser
             return Result;
         }
 
-        //public ResultAPI SaveDB(ManageUserListClass Obj)
-        //{
-        //    ResultAPI Result = new ResultAPI();
-        //    try
-        //    {
-        //        var UPT = DB.UserMaintains.FirstOrDefault(f => f.sOAUserID == Obj.sOAUserID);
-        //        if (UPT != null)
-        //        {
-        //            UPT.sRole = Obj.sRole;
-        //            UPT.sName = Obj.sName;
-        //            UPT.sDep = Obj.sDep;
-        //            UPT.sEmail = Obj.sEmail;
-        //            UPT.sTel = Obj.sTel;
-        //            UPT.dStartDate = Obj.dStartDate;
-        //            UPT.dEndDate = Obj.dEndDate;
-        //            //UPT.dStartDate = DateTime.Now;
-        //            //UPT.dEndDate = DateTime.Now;
-        //            UPT.dUpdateDate = DateTime.Now;
-        //            UPT.sUpdate = "1";
-        //            UPT.IsDelete = false;
-        //            DB.SaveChanges();
-        //            Result.Status = ResultStatus.Success;
-        //        }
-        //        else
-        //        {
-        //            int nID = DB.UserMaintains.Any() ? DB.UserMaintains.Max(m => m.nNo) + 1 : 1;
+        [HttpPost]
+        public ResultAPI Delete(int nID = 0)
+        {
+            ResultAPI Result = new ResultAPI();
+            try
+            {
+                var DEL = DB.UserMaintains.FirstOrDefault(f => f.nID == nID);
+                if (DEL != null)
+                {
+                    DEL.dUpdateDate = DateTime.Now;
+                    DEL.sUpdate = null;
+                    DEL.IsDelete = true;
+                    DB.SaveChanges();
+                }
+                Result.Status = ResultStatus.Success;
+            }
+            catch (Exception ex)
+            {
+                Result.Message = ex.Message;
+                Result.Status = ResultStatus.Failed;
+            }
 
-        //            UserMaintain CRT = new UserMaintain();
-        //            CRT.nNo = nID;
-        //            CRT.sOAUserID = Obj.sOAUserID;
-        //            CRT.sRole = Obj.sRole;
-        //            CRT.sName = Obj.sName;
-        //            CRT.sDep = Obj.sDep;
-        //            CRT.sEmail = Obj.sEmail;
-        //            CRT.sTel = Obj.sTel;
-        //            CRT.dStartDate = Obj.dStartDate;
-        //            CRT.dEndDate = Obj.dEndDate;
-        //            //CRT.dStartDate = DateTime.Now;
-        //            //CRT.dEndDate = DateTime.Now;
-        //            CRT.dCreateDate = DateTime.Now;
-        //            CRT.sCreate = "1";
-        //            CRT.IsDelete = false;
-        //            DB.UserMaintains.Add(CRT);
-        //            DB.SaveChanges();
-        //            Result.Status = ResultStatus.Success;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Result.Message = ex.Message;
-        //        Result.Status = ResultStatus.Failed;
-        //    }
-
-        //    return Result;
-        //}
+            return Result;
+        }
 
         public class cResult
         {

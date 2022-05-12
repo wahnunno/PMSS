@@ -30,6 +30,7 @@ namespace Demo1.Models.PSOrderContext
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=NB1911015;User ID=sa; database=PSOrder;Password=Password1234;");
             }
         }
@@ -360,11 +361,11 @@ namespace Demo1.Models.PSOrderContext
 
             modelBuilder.Entity<UserMaintain>(entity =>
             {
-                entity.HasKey(e => e.nNo);
+                entity.HasKey(e => e.nID);
 
                 entity.ToTable("UserMaintain");
 
-                entity.Property(e => e.nNo).ValueGeneratedNever();
+                entity.Property(e => e.nID).ValueGeneratedNever();
 
                 entity.Property(e => e.dCreateDate).HasColumnType("datetime");
 

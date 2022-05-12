@@ -1,8 +1,9 @@
 ﻿namespace Demo1.Models
 {
-    public class ManageUserClass 
+    public class ManageUserClass
     {
         public int nNo { get; set; }
+        public int nID { get; set; }
         public string sOAUserID { get; set; } = null!;
         public string? sRole { get; set; }
         public string sName { get; set; } = null!;
