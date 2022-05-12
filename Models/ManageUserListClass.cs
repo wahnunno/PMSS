@@ -19,5 +19,11 @@
         public DateTime? dUpdateDate { get; set; }
         public bool IsDelete { get; set; }
         public List<ManageUserClass> lstData { get; set; } = new List<ManageUserClass>();
+        public int PagePrevious { get; internal set; }
+        public int PageNext { get; internal set; }
+        public int PageNumber { get; internal set; }
+        public int PageSize { get; internal set; }
+        public int PagerCount { get; internal set; }
+        public int TotalCount { get; internal set; }
     }
 }

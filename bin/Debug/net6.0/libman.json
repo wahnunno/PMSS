@@ -11,10 +11,6 @@
       "destination": "wwwroot/lib/bootstrap-icons/"
     },
     {
-      "library": "sweetalert@2.1.2",
-      "destination": "wwwroot/lib/sweetalert/"
-    },
-    {
       "library": "limonte-sweetalert2@11.4.13",
       "destination": "wwwroot/lib/limonte-sweetalert2/"
     }

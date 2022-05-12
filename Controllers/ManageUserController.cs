@@ -15,20 +15,27 @@ namespace PMSS.Controllers.ManageUser
             DB = db;
         }
 
-        public IActionResult ManageUserForm()
+        public IActionResult ManageUserForm(int? pageNumber)
         {
             ManageUserListClass Model = new ManageUserListClass();
-            Model.lstData = GetData();
+            List<ManageUserClass> lstData = new List<ManageUserClass>();
+            lstData = GetData();
+            Model.lstData = lstData;
+            Model.PageNumber = (pageNumber == null ? 1 : Convert.ToInt32(pageNumber));
+            Model.PageSize = 10;
 
-            return View(Model);
-        }
+            Model.PagePrevious = Model.PageNumber - 1;
+            Model.PageNext = Model.PageNumber + 1;
 
-        [HttpPost]
-        public IActionResult ManageUserForm(ManageUserListClass Obj)
-        {
-            ManageUserListClass Model = new ManageUserListClass();
-            //ResultAPI Result = SaveDB(Obj);
-            Model.lstData = GetData();
+            if (lstData != null)
+            {
+                Model.lstData = lstData.OrderBy(x => x.nNo)
+                                    .Skip(Model.PageSize * (Model.PageNumber - 1))
+                                    .Take(Model.PageSize).ToList();
+                Model.TotalCount = lstData.Count;
+                Model.PagerCount = ((Model.TotalCount / Model.PageSize) -
+                                    (Model.TotalCount % Model.PageSize == 0 ? 1 : 0)) + 1;
+            }
 
             return View(Model);
         }
@@ -36,7 +43,6 @@ namespace PMSS.Controllers.ManageUser
         public List<ManageUserClass> GetData()
         {
             List<ManageUserClass> lstData = new List<ManageUserClass>();
-
             var lstUser = DB.UserMaintains.Where(w => !w.IsDelete).OrderBy(o => o.nID).ToList();
             if (lstUser.Count > 0)
             {
@@ -64,34 +70,36 @@ namespace PMSS.Controllers.ManageUser
         public ResultAPI SaveToDB(ManageUserClass Obj)
         {
             ResultAPI Result = new ResultAPI();
+
             try
             {
                 DateTime? dStartDate = Obj.sStartDate.ToDateFromString("dd/MM/yyyy", "en-US");
                 DateTime? dEndDate = Obj.sEndDate.ToDateFromString("dd/MM/yyyy", "en-US");
-                var lstDup = DB.UserMaintains.Where(w => w.sOAUserID == Obj.sOAUserID && !w.IsDelete).ToList();
-                if (lstDup.Count > 0)
+                var UPT = DB.UserMaintains.FirstOrDefault(f => f.nID == Obj.nID);
+                if (UPT != null)
                 {
-                    Result.Message = "OA User is Duplicate.";
-                    Result.Status = ResultStatus.Failed;
+                    UPT.sOAUserID = Obj.sOAUserID;
+                    UPT.sRole = Obj.sRole;
+                    UPT.sName = Obj.sName;
+                    UPT.sDep = Obj.sDep;
+                    UPT.sEmail = Obj.sEmail;
+                    UPT.sTel = Obj.sTel;
+                    UPT.dStartDate = Obj.dStartDate;
+                    UPT.dEndDate = Obj.dEndDate;
+                    UPT.dStartDate = dStartDate.HasValue ? dStartDate.Value : DateTime.Now;
+                    UPT.dEndDate = dEndDate.HasValue ? dEndDate.Value : DateTime.Now;
+                    UPT.dUpdateDate = DateTime.Now;
+                    UPT.sUpdate = null;
+                    UPT.IsDelete = false;
+                    DB.SaveChanges();
                 }
                 else
                 {
-                    var UPT = DB.UserMaintains.FirstOrDefault(f => f.sOAUserID == Obj.sOAUserID);
-                    if (UPT != null)
+                    var lstDup = DB.UserMaintains.Where(w => w.sOAUserID == Obj.sOAUserID && !w.IsDelete).ToList();
+                    if (lstDup.Count > 0)
                     {
-                        UPT.sRole = Obj.sRole;
-                        UPT.sName = Obj.sName;
-                        UPT.sDep = Obj.sDep;
-                        UPT.sEmail = Obj.sEmail;
-                        UPT.sTel = Obj.sTel;
-                        UPT.dStartDate = Obj.dStartDate;
-                        UPT.dEndDate = Obj.dEndDate;
-                        UPT.dStartDate = dStartDate.HasValue ? dStartDate.Value : DateTime.Now;
-                        UPT.dEndDate = dEndDate.HasValue ? dEndDate.Value : DateTime.Now;
-                        UPT.dUpdateDate = DateTime.Now;
-                        UPT.sUpdate = null;
-                        UPT.IsDelete = false;
-                        DB.SaveChanges();
+                        Result.Message = "OA User is Duplicate.";
+                        Result.Status = ResultStatus.Failed;
                     }
                     else
                     {
@@ -115,8 +123,8 @@ namespace PMSS.Controllers.ManageUser
                         DB.UserMaintains.Add(CRT);
                         DB.SaveChanges();
                     }
-                    Result.Status = ResultStatus.Success;
                 }
+                Result.Status = ResultStatus.Success;
             }
             catch (Exception ex)
             {
@@ -150,14 +158,6 @@ namespace PMSS.Controllers.ManageUser
             }
 
             return Result;
-        }
-
-        public class cResult
-        {
-            public string? sStatus { get; set; }
-            public string? sMsg { get; set; }
-            public string? sContent { get; set; }
-            //public List<UserMaintain>? lstData { get; set; }
         }
     }
 }

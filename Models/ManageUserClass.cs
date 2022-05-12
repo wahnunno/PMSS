@@ -1,4 +1,6 @@
-﻿namespace Demo1.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Demo1.Models
 {
     public class ManageUserClass
     {
