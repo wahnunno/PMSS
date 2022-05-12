@@ -1,0 +1,726 @@
+
+/*--------------------Custom Bootstrap Class--------------------*/
+.radio {
+  cursor: pointer !important;
+  margin-right: 15px !important;
+}
+
+  .radio label {
+    display: inherit !important;
+    padding-top: 2px !important;
+    cursor: pointer !important;
+  }
+
+.form-control {
+  font-size: 14px !important;
+}
+
+.input-group-text {
+  font-size: 14px !important;
+}
+
+.page-item:first-child .page-link, .page-item:last-child .page-link {
+  border-radius: 0px !important;
+}
+/*---------------------------------------------------*/
+/*--------------------Custom Card--------------------*/
+.card-custom {
+  background-color: transparent !important;
+  border: none !important;
+  display:block;
+}
+
+.card-custom-header {
+  padding: .5rem .75rem !important;
+  color: white !important;
+  border-radius: 1rem !important;
+  background-image: linear-gradient(-90deg, #0088cc 30%, #0044cc);
+}
+
+.card-custom-body {
+  border-radius: 1rem !important;
+  background-color: white;
+  border: 1px solid #ccc;
+}
+
+.card-custom-modal {
+  padding: .5rem .75rem !important;
+  color: white !important;
+  background-image: linear-gradient(-90deg, #0088cc 30%, #0044cc);
+}
+/*---------------------------------------------------*/
+
+/*--------------------Custom Text Color --------------------*/
+.text-red {
+  color: red !important;
+}
+
+._text_red_paster {
+  color: #ca2424 !important;
+}
+
+._text_green_paster {
+  color: #036c03 !important;
+}
+
+._text_orange_paster {
+  color: #dd9003 !important;
+}
+/*---------------------------------------------------*/
+
+/*--------------------Custom Margin--------------------*/
+._MB0px {
+  margin-bottom: 0px !important;
+}
+
+._MB15px {
+  margin-bottom: 15px !important;
+}
+
+._MB5px {
+  margin-bottom: 5px !important;
+}
+
+._MB10px {
+  margin-bottom: 10px !important;
+}
+
+._MBLR0px {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+._Margin_L10px {
+  margin-left: 10px;
+}
+
+._MBLR10px {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+._MBLR15px {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+/*---------------------------------------------------*/
+/*--------------------Custom Padding--------------------*/
+._padLeft10px {
+  padding-left: 10px !important;
+}
+
+._padLeft15px {
+  padding-left: 15px !important;
+}
+
+._padLR0px {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+._pad0px {
+  padding: 0px !important;
+}
+/*---------------------------------------------------*/
+
+/*--------------------Custom Float--------------------*/
+._float_right {
+  float: right !important;
+}
+
+._float_left {
+  float: left !important;
+}
+/*---------------------------------------------------*/
+
+/*--------------------Custom Float--------------------*/
+._link {
+  color: #007bff !important;
+  text-decoration: none !important;
+}
+
+._linkBlack {
+  color: #495057 !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
+/*---------------------------------------------------*/
+
+._col-border-bt {
+  border-bottom: 1px solid #0088cc61;
+}
+
+/*._col-border-bt::after {
+        border-bottom: 1px solid #0088cc;
+        content: '';
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 1px;
+        border-width: 0 0 1px;
+        border-style: solid;
+    }*/
+
+._col-border-bt-grey {
+  border-bottom: 1px solid #808080;
+  padding-bottom: 1rem !important;
+}
+
+._btn_ml {
+  margin-left: 10px;
+}
+
+.ui-autocomplete {
+  max-height: 200px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
+  /* add padding to account for vertical scrollbar */
+  padding-right: 20px;
+}
+
+.dataNotFound {
+  background-color: #d1e5fd !important;
+  margin-bottom: 0;
+  border-radius: 0;
+  height: 100px;
+  color: #605ca8 !important;
+  border-color: #605ca8;
+  background-image: -webkit-linear-gradient(top,#e2e1fd 0,#c4c0ff 100%);
+  background-image: -o-linear-gradient(top,#fffcf8e3 0,#f8efc0 100%);
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#fffcf8e3),to(#fff8efc0));
+  background-image: linear-gradient(to bottom,#fffcf8e3 0,#fff8efc0 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffcf8e3', endColorstr='#fff8efc0', GradientType=0);
+  background-repeat: repeat-x;
+  text-align: center !important;
+  vertical-align: middle !important;
+  border-width: 1px !important;
+  border-style: solid;
+  padding: 40px;
+}
+
+._border_radius_top_LR {
+  border-top-left-radius: 1rem !important;
+  border-top-right-radius: 1rem !important;
+}
+
+._Noborder {
+  border: 0px;
+}
+
+._No_border_radius_top_LR {
+  border-top-left-radius: 0rem !important;
+  border-top-right-radius: 0rem !important;
+}
+
+._No_border_radius_bottom_LR {
+  border-bottom-left-radius: 0rem !important;
+  border-bottom-right-radius: 0rem !important;
+}
+
+._no_border_radius {
+  border-top-left-radius: 0rem !important;
+  border-top-right-radius: 0rem !important;
+  border-bottom-left-radius: 0rem !important;
+  border-bottom-right-radius: 0rem !important;
+}
+
+/*--------------------Custom Menu Request Administrator--------------------*/
+.main-menu-res {
+  display: none;
+}
+
+.main-body {
+  font-size: 14px !important;
+  background: #eef1f6;
+  color: #495057;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  /*height: 100%;*/
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  direction: ltr;
+  line-height: 20px;
+  font-size: 13px;
+  /*overflow-x: hidden;
+  overflow-y: hidden;*/
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.theme-panel {
+  margin-top: 5px !important;
+  margin-left: 20px !important;
+  margin-right: 20px !important;
+}
+
+.feature-box .h4, .feature-box .h5, .feature-box .h6, .feature-box h4, .feature-box h5, .feature-box h6 {
+  margin-bottom: 2px;
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.feature-icon i {
+  font-size: 50px;
+}
+
+.inner-content {
+  padding: 20px;
+}
+
+.feature-box:hover {
+  background-color: rgba(0,0,0,0.1) !important;
+  border: 1px solid #e3e3e3;
+  color: rgba(0, 0, 0, 0.5) !important;
+  cursor: pointer;
+}
+
+.feature-box {
+  background-color: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 3px;
+  margin-bottom: 15px;
+  min-height: 20px;
+  padding: 19px;
+  text-align: center;
+}
+
+  .feature-box h4 {
+    padding: 15px;
+  }
+
+.clearfix::after {
+  display: block;
+  clear: both;
+  content: "";
+}
+/*---------------------------------------------------*/
+
+
+/*--------------------Custom Work Flow--------------------*/
+._flowchart {
+  display: flex;
+}
+
+._flow_div {
+  width: 240px;
+  word-wrap: break-word;
+  text-align: center;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+._flow_title {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+._flow_icon {
+  font-size: 50px;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+._flow_code {
+  font-weight: 700;
+  font-size: 13px;
+  display: none;
+}
+
+._flow_name {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+._flow_date {
+  color: #6c757d;
+}
+
+._flow_div_arrow {
+  font-size: 30px;
+  position: absolute;
+  right: 0;
+  top: 30%
+}
+
+._flow_arrow {
+  font-size: 30px;
+}
+
+._flow_arrow_sm {
+  font-size: 30px;
+  margin-top: 15px;
+}
+/*---------------------------------------------------*/
+@media(max-width: 991px) {
+}
+
+.table-scroll {
+  width: 1500px;
+}
+
+/*--------------------Custom Table--------------------*/
+.table-break td, .table-break th {
+  word-break: break-all !important;
+}
+
+._th {
+  text-align: center !important;
+  vertical-align: middle !important;
+  position: relative !important;
+}
+
+._th_ico {
+  position: absolute;
+  right: 5px;
+}
+
+.table_td_PstKy {
+  border-left: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.table_td_Recon {
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+._tb_Resize {
+  max-width: 1140px;
+}
+
+.ico_size {
+  font-size: 20px !important;
+}
+
+/*.table_No_Border td {
+    border: none !important;
+}*/
+
+._PagePanel {
+  display: inline-flex !important;
+  display: -webkit-inline-box;
+  margin-bottom: 0px !important;
+}
+
+._PagePanel_L {
+  width: 30%;
+}
+
+._PagePanel_R {
+  width: 70%;
+}
+
+table.SSCPro th {
+  position: relative;
+  text-align: center;
+}
+
+  table.SSCPro th > i {
+    position: absolute;
+    right: 5px;
+    top: 25%;
+  }
+
+table.SSCPro thead > tr {
+    color: #fff !important;
+    background-color: #17679c !important;
+}
+
+table > td {
+  text-align: left;
+  vertical-align: top;
+  word-wrap: break-word;
+}
+
+._pagination_detail {
+  font-weight: 700;
+}
+
+._pagination_select {
+  /*flex: inherit !important;*/
+  /*width: 8% !important;*/
+  border-top-left-radius: 0rem !important;
+  border-top-right-radius: 0rem !important;
+  border-bottom-left-radius: 0rem !important;
+  border-bottom-right-radius: 0rem !important;
+}
+
+.dataNotFound {
+  background-color: #d1e5fd !important;
+  margin-bottom: 0;
+  border-radius: 0;
+  height: 100px;
+  color: #605ca8 !important;
+  border-color: #605ca8;
+  background-image: -webkit-linear-gradient(top,#e2e1fd 0,#c4c0ff 100%);
+  background-image: -o-linear-gradient(top,#fffcf8e3 0,#f8efc0 100%);
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#fffcf8e3),to(#fff8efc0));
+  background-image: linear-gradient(to bottom,#fffcf8e3 0,#fff8efc0 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffcf8e3', endColorstr='#fff8efc0', GradientType=0);
+  background-repeat: repeat-x;
+  text-align: center;
+  border-width: 1px !important;
+  border-style: solid;
+  padding: 40px;
+}
+
+
+/*---------------------------------------------------*/
+/*--------------------Custom BackGroundColor--------------------*/
+._bg_Home {
+  background-color: #264bc5 !important;
+}
+
+._bg_Request {
+  background-color: #fd5334 !important;
+}
+
+._bg_Search {
+  background-color: #ffb714 !important;
+}
+
+._bg_Admin {
+  background-color: #808080 !important;
+}
+
+._bg_Report {
+  background-color: black !important;
+}
+
+._bg-white {
+  background-color: white !important
+}
+
+._bg-disable {
+  background-color: #e9ecef
+}
+
+.bg-level1 {
+  background-color: #007bff !important;
+}
+
+.bg-level2 {
+  background-color: #f27474 !important;
+}
+
+.bg-level3 {
+  background-color: #6c757d !important;
+}
+/*---------------------------------------------------*/
+
+/*--------------------Custom MultiSelect--------------------*/
+.dropdown-btn {
+  background-color: white !important;
+}
+
+.multiselect-dropdown[_ngcontent-ng-cli-universal-c1] .dropdown-btn[_ngcontent-ng-cli-universal-c1] {
+  padding: 6px 6px !important;
+}
+
+  .multiselect-dropdown[_ngcontent-ng-cli-universal-c1] .dropdown-btn[_ngcontent-ng-cli-universal-c1] .dropdown-down[_ngcontent-ng-cli-universal-c1] {
+    border-top: 7px solid #adadad !important;
+    border-left: 7px solid transparent !important;
+    border-right: 7px solid transparent !important;
+  }
+/*---------------------------------------------------*/
+
+._CursorPoint {
+  cursor: pointer !important;
+}
+
+/*input.ng-invalid.ng-touched {
+  border: solid 1px red;
+  border-width: 1px !important;
+}
+
+textarea.ng-invalid.ng-touched {
+  border: solid 1px red;
+}
+
+select.ng-invalid.ng-touched {
+  border: solid 1px red;
+}*/
+
+._border_red {
+  outline: 2px solid red;
+  outline-offset: 10px;
+}
+
+
+/*--------------------Custom Validate Class--------------------*/
+.error-msg {
+  color: #a94442;
+}
+
+.fix-error-icon {
+  top: 27px;
+}
+
+.control-label.required:after {
+  color: #d00;
+  content: "*";
+  position: absolute;
+  margin-left: 5px;
+  top: 7px;
+}
+
+.form-group.has-error {
+  position: relative !important;
+}
+
+.has-error .form-control {
+  border-color: #a94442;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.has-feedback .form-control {
+  padding-right: 25px;
+}
+
+.has-feedback .form-control-feedback {
+  /*right: 15px;*/
+}
+
+
+
+.has-error .form-control-feedback {
+  color: #a94442;
+}
+
+.form-control-feedback {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.form-control-feedback-autocomplete {
+  right: 35px !important;
+}
+/*---------------------------------------------------*/
+
+/*-------------- แก้ไขกรณี MultiSelct ไม่แสดงตอนอยู่ใน Scroll ----------------*/
+.wrapper {
+  position: relative;
+}
+
+.tt-dropdown-menu {
+  position: static;
+}
+/*---------------------------------------------------*/
+
+/*----------------------uploadfile------------------------*/
+.boxfile {
+  width: 100%;
+  margin: 5px;
+  padding: 5px;
+  list-style: none;
+  /*border: 1px solid lightgray;
+  border-radius: 10px;
+  background-color: #d8ebeb;
+  background-image: linear-gradient(141deg, #6b6dac38 0%, #f2f4f4a8 100%, #f2f4f4a8 10%);*/
+}
+
+.boxfile-del {
+  padding: 5px !important;
+  border: none !important;
+  background-color: red !important;
+  color: white !important;
+  margin: 5px !important;
+}
+
+.boxfile-icon {
+  padding: 5px;
+}
+
+  .boxfile-icon:hover {
+    cursor: pointer;
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+  }
+
+.boxfile-view {
+  padding: 5px !important;
+  border: none !important;
+  background-color: #0f8bb4 !important;
+  color: white !important;
+  margin: 2px !important;
+}
+
+.btn-left-5 {
+  float: right;
+  margin: 5px;
+}
+
+.btn-left-10 {
+  float: right;
+  margin-left: 10px;
+}
+
+.file-field.medium .file-path-wrapper {
+  height: 3rem;
+}
+
+  .file-field.medium .file-path-wrapper .file-path {
+    height: 2.8rem;
+  }
+
+.file-field.big-2 .file-path-wrapper {
+  height: 3.7rem;
+}
+
+  .file-field.big-2 .file-path-wrapper .file-path {
+    height: 3.5rem;
+  }
+/*---------------------------------------------------*/
+
+._Hover_a {
+  color: #007bff !important;
+  cursor: pointer !important;
+}
+
+  ._Hover_a:hover {
+    color: #007bff !important;
+    text-decoration: underline !important;
+    cursor: pointer !important;
+  }
+
+.th_Relative {
+  position: relative !important;
+}
+
+.btn_ItemText {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  padding: .22rem .5rem !important;
+  border-radius: 0px;
+}
+
+/*.table-responsive {
+  overflow-y: visible !important;
+}
+
+@media (max-width: 767px) {
+  .table-responsive .dropdown-menu {
+    position: static !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .table-responsive {
+    overflow: visible;
+  }
+}*/

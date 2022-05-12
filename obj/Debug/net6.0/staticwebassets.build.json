@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "GadlLl9EgNsyPLG/OF0A2mVEgYykbHkQQSWLC/WqHkE=",
+  "Hash": "rAMbE6uGqFJGVYsbNH8bmTpCmPaArRXw98vPQlO3ihs=",
   "Source": "Demo1",
   "BasePath": "_content/Demo1",
   "Mode": "Default",
@@ -814,6 +814,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "M:\\Project\\Github_PMSS\\PMSS\\wwwroot\\css\\System.css",
+      "SourceId": "Demo1",
+      "SourceType": "Discovered",
+      "ContentRoot": "M:\\Project\\Github_PMSS\\PMSS\\wwwroot\\",
+      "BasePath": "_content/Demo1",
+      "RelativePath": "css/System.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\System.css"
     },
     {
       "Identity": "M:\\Project\\Github_PMSS\\PMSS\\wwwroot\\favicon.ico",
