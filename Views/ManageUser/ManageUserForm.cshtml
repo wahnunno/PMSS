@@ -161,12 +161,6 @@
 <script type="text/javascript">
     var nID = 0;
 
-    //function ready() {
-    //    //Swal('Any fool can use a computer');
-    //}
-
-    //document.addEventListener("DOMContentLoaded", ready);
-
     //Set Control DatePicker : StartDate
     $(function(){
         $('#txtStartDate').datepicker({
@@ -209,7 +203,6 @@
                     timerProgressBar: true,
                     preConfirm: function () {
                       return new Promise(function (resolve, reject) {
-                      console.log("popopop")
                         Swal.disableButtons();
                         //if (fnYes != undefined) {
                         //  fnYes();
@@ -219,7 +212,6 @@
                       });
                     },
                   }).then(function (d) {
-                      console.log(d)
                     if (d.dismiss === Swal.DismissReason.cancel) {
                       //if (fnNo != undefined) {
                       //  fnNo();
@@ -299,22 +291,20 @@
         this.nID = nID;
         document.getElementById("txtOAUserID").value = sOAUserID;
         document.getElementById("txtName").value = sName;
-        $('#txtStartDate').datepicker('setDate', new Date(sStartDate));
-        $('#txtEndDate').datepicker('setDate', new Date(sEndDate));
+        //$('#txtStartDate').datepicker('setDate', new Date(sStartDate));
+        //$('#txtEndDate').datepicker('setDate', new Date(sEndDate));
 
-        ////Start Date
-        //let ArrStartDate = sStartDate.split('/');
-        //let strStartDate = ArrStartDate[1] + '/' + ArrStartDate[0] + '/' + ArrStartDate[2];
-        //let dStartDate = new Date(strStartDate);
-        ////document.getElementById("txtStartDate").value = dStartDate;
-        //document.getElementById("txtStartDate").value = formatDate(dStartDate);
+        //Start Date
+        let ArrStartDate = sStartDate.split('/');
+        let strStartDate = ArrStartDate[1] + '/' + ArrStartDate[0] + '/' + ArrStartDate[2];
+        let dStartDate = new Date(strStartDate);
+        $('#txtStartDate').datepicker('setDate', dStartDate);
 
-        ////End Date
-        //let ArrEndDate = sEndDate.split('/');
-        //let strEndDate = ArrEndDate[1] + '/' + ArrEndDate[0] + '/' + ArrEndDate[2];
-        //let dEndDate = new Date(strEndDate);
-        ////document.getElementById("txtEndDate").value = dEndDate;
-        //document.getElementById("txtEndDate").value = formatDate(dEndDate);
+        //End Date
+        let ArrEndDate = sEndDate.split('/');
+        let strEndDate = ArrEndDate[1] + '/' + ArrEndDate[0] + '/' + ArrEndDate[2];
+        let dEndDate = new Date(strEndDate);
+        $('#txtEndDate').datepicker('setDate', dEndDate);
     }
 
     //Function Delete Data
