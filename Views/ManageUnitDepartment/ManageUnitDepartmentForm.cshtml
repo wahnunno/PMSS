@@ -1,6 +1,6 @@
-﻿@model ManageUserListClass
+﻿@model ManageUnitDepartmentListClass
 @{
-    ViewData["Title"] = "ManageUserForm";
+    ViewData["Title"] = "ManageUnitDepartmentForm";
 }
 
 <div class="container p-0">
@@ -8,95 +8,73 @@
         @*Form*@
         <div class="col-4">
             <div class="card card-custom">
-                <div class="card-header card-custom-header" style="background-color: #d9edf7;">เพิ่มผู้ใช้งาน</div>
+                <div class="card-header card-custom-header" style="background-color: #d9edf7;">เพิ่มสาขา/หน่วยงาน</div>
                 <div class="card-body card-custom-body">
                     <form id="UserForm" class="needs-validation" novalidate>
                         <div class="form-group">
                             <div class="form-group row">
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="form-group row pb-3">
-                                        <label class="col-lg-4 col-md-6 col-sm-12 col-12">
-                                            OA User&nbsp;<span class="text-danger">*</span>
+                                        <label class="col-lg-5 col-md-6 col-sm-12 col-12">
+                                            Division Code&nbsp;<span class="text-danger">*</span>
                                         </label>
-                                        <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="col-md-7 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <input asp-for="sOAUserID"
-                                                           id="txtOAUserID"
-                                                           name="txtOAUserID"
+                                                    <input asp-for="SectionCode"
+                                                           id="txtSectionCode"
+                                                           name="txtSectionCode"
                                                            class="form-control"
-                                                           maxlength="10"
-                                                           placeholder="OA User"
+                                                           maxlength="5"
+                                                           placeholder="Division Code"
                                                            required />
                                                     <div class="invalid-feedback">
-                                                        Please require field OA User.
+                                                        Please require field Division Code.
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row pb-3">
-                                        <label class="col-lg-4 col-md-12 col-sm-12 col-12">
-                                            Name Eng.&nbsp;<span class="text-danger">*</span>
+                                        <label class="col-lg-5 col-md-12 col-sm-12 col-12">
+                                            Division Name&nbsp;<span class="text-danger">*</span>
                                         </label>
-                                        <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="col-md-7 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <input asp-for="sName"
-                                                           id="txtName"
-                                                           name="txtName"
+                                                    <input asp-for="SectionName"
+                                                           id="txtSectionName"
+                                                           name="txtSectionName"
                                                            class="form-control"
-                                                           maxlength="50"
-                                                           placeholder="Name Eng"
+                                                           maxlength="100"
+                                                           placeholder="Division Name"
                                                            required />
                                                     <div class="invalid-feedback">
-                                                        Please require field Name Eng.
+                                                        Please require field Division Name.
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row pb-3">
-                                        <label class="col-md-4 col-sm-12 col-12">
-                                            วันที่มีผล&nbsp;<span class="text-danger">*</span>
+                                        <label class="col-md-5 col-sm-12 col-12">
+                                            Group Section&nbsp;<span class="text-danger">*</span>
                                         </label>
-                                        <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="col-md-7 col-sm-12 col-12">
                                             <div class="form-group">
-                                                <div class="input-group has-validation date p-0" id="txtStartDate">
-                                                    <input type="text"
-                                                           class="form-control"
-                                                           placeholder="dd/mm/yyyy"
-                                                           required>
-                                                    <span class="input-group-append">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-calendar3"></i>
-                                                        </span>
-                                                    </span>
+                                                <div class="input-group has-validation">
+                                                    <select class="form-control form-select" id="ddlGroupSection" name="ddlGroupSection">
+                                                        <option selected>- Select -</option>
+                                                        @if (@Model.lstGroupSection.Count > 0)
+                                                        {
+                                                            @foreach (var Item in @Model.lstGroupSection)
+                                                            {
+                                                                <option value=@Item.value>@Item.label</option>
+                                                            }
+                                                        }
+                                                    </select>
                                                     <div class="invalid-feedback">
-                                                        Please require field วันที่มีผล.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row pb-3">
-                                        <label class="col-md-4 col-sm-12 col-12">
-                                            วันที่สิ้นสุด&nbsp;<span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-md-8 col-sm-12 col-12">
-                                            <div class="form-group">
-                                                <div class="input-group has-validation date p-0" id="txtEndDate">
-                                                    <input type="text"
-                                                           class="form-control"
-                                                           placeholder="dd/mm/yyyy"
-                                                           required>
-                                                    <span class="input-group-append">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-calendar3"></i>
-                                                        </span>
-                                                    </span>
-                                                    <div class="invalid-feedback">
-                                                        Please require field วันที่สิ้นสุด.
+                                                        Please require field Group Section.
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,10 +87,12 @@
                             <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
                         </div>
                     </form>
-@*                    <div class="text-center">
+                    @*
+                        <div class="text-center">
                         <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
-                    </div>
-*@                </div>
+                        </div>
+                    *@
+                </div>
             </div>
         </div>
         @*Table*@
@@ -123,10 +103,9 @@
                         <thead style="color: white; background-color: #17679c;">
                             <tr>
                                 <th style="text-align:center">No.</th>
-                                <th style="text-align:center">OA User</th>
-                                <th style="text-align:center">Name</th>
-                                <th style="text-align:center">วันที่มีผล</th>
-                                <th style="text-align:center">วันที่สิ้นสุด</th>
+                                <th style="text-align:center">Divition Code</th>
+                                <th style="text-align:center">Divition Name</th>
+                                <th style="text-align:center">Group Section</th>
                                 <th style="text-align:center">Action</th>
                             </tr>
                         </thead>
@@ -139,13 +118,12 @@
                                     {
                                         <tr>
                                             <td style="text-align:center">@item.nNo</td>
-                                            <td style="text-align:center">@item.sOAUserID</td>
-                                            <td>@item.sName</td>
-                                            <td style="text-align:center">@item.sStartDate</td>
-                                            <td style="text-align:center">@item.sEndDate</td>
+                                            <td style="text-align:center">@item.SectionCode</td>
+                                            <td>@item.SectionName</td>
+                                            <td style="text-align:center">@item.SectionGroupName</td>
                                             <td style="text-align:center">
-                                                <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit(@item.nID,'@item.sOAUserID','@item.sName','@item.sStartDate','@item.sEndDate');"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
-                                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete',@item.nID)"><i class="bi bi-trash"></i>&nbsp;Delete</button>
+                                                <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit('@item.SectionCode','@item.SectionName','@item.SectionGroup');"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
+                                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete','@item.SectionCode')"><i class="bi bi-trash"></i>&nbsp;Delete</button>
                                             </td>
                                         </tr>
                                     }
@@ -167,17 +145,17 @@
                                     <td colspan="6" align="center">
                                         @if (@Model.PageNumber > 1)
                                         {
-                                            <a asp-controller="ManageUser" asp-action="ManageUserForm" asp-route-pageNumber="1">First</a>
-                                            <a asp-controller="ManageUser" asp-action="ManageUserForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
+                                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="1">First</a>
+                                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
                                         }
                                         @for (int pagenum = 1; pagenum <= @Model.PagerCount; pagenum++)
                                         {
-                                            <a asp-controller="ManageUser" asp-action="ManageUserForm" asp-route-pageNumber="@pagenum">@pagenum</a>
+                                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@pagenum">@pagenum</a>
                                         }
                                         @if (@Model.PageNumber != @Model.PagerCount)
                                         {
-                                            <a asp-controller="ManageUser" asp-action="ManageUserForm" asp-route-pageNumber="@Model.PageNext">Next</a>
-                                            <a asp-controller="ManageUser" asp-action="ManageUserForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
+                                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@Model.PageNext">Next</a>
+                                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
                                         }
                                     </td>
                                 </tr>
@@ -190,7 +168,6 @@
     </div>
 </div>
 
-
 <script type="text/javascript">
     var nID = 0;
 
@@ -199,7 +176,7 @@
         let Obj = {
             pageNumber : 0,
         }
-        $.post( 'https://localhost:44396/ManageUser/ManageUserForm', Obj ).done(
+        $.post( 'https://localhost:44396/ManageUnitDepartment/ManageUnitDepartmentForm', Obj ).done(
             function(res) {
                 console.log("GetData",res);
                 //if (res.status == "Success") {
@@ -247,7 +224,7 @@
                 console.log("txtName",txtName);
                 console.log("txtStartDate",txtStartDate);
                 console.log("txtEndDate",txtEndDate);
-                if(txtOAUserID && txtName && txtStartDate && txtEndDate) 
+                if(txtOAUserID && txtName && txtStartDate && txtEndDate)
                 {
                     Swal.fire({
                         title: 'Confirmation',
@@ -328,7 +305,7 @@
             sEndDate : document.getElementById("txtEndDate").value,
         }
         //console.log("OnSave",Obj);
-        $.post('https://localhost:44396/ManageUser/SaveToDB', Obj ).done(
+        $.post('https://localhost:44396/ManageUnitDepartment/SaveToDB', Obj ).done(
             function(res) {
                 if (res.status == "Success") {
                     Swal.fire('Action Completed', 'Data is already saved.', 'success');
@@ -347,24 +324,14 @@
     }
 
     //Function Edit Data
-    function OnEdit(ID,sOAUserID,sName,sStartDate,sEndDate)
+    function OnEdit(SectionCode,SectionName,SectionGroup)
     {
-        nID = ID;
-        $("#txtOAUserID").prop("disabled", true);
-        document.getElementById("txtOAUserID").value = sOAUserID;
-        document.getElementById("txtName").value = sName;
-
-        //Start Date
-        let ArrStartDate = sStartDate.split('/');
-        let strStartDate = ArrStartDate[1] + '/' + ArrStartDate[0] + '/' + ArrStartDate[2];
-        let dStartDate = new Date(strStartDate);
-        $('#txtStartDate').datepicker('setDate', dStartDate);
-
-        //End Date
-        let ArrEndDate = sEndDate.split('/');
-        let strEndDate = ArrEndDate[1] + '/' + ArrEndDate[0] + '/' + ArrEndDate[2];
-        let dEndDate = new Date(strEndDate);
-        $('#txtEndDate').datepicker('setDate', dEndDate);
+        let Value_SectionName = SectionName.trimEnd();
+        let Value_SectionGroup = SectionGroup.trimEnd();
+        $("#txtSectionCode").prop("disabled", true);
+        document.getElementById("txtSectionCode").value = SectionCode;
+        document.getElementById("txtSectionName").value = Value_SectionName;
+        document.getElementById("ddlGroupSection").value = Value_SectionGroup;
     }
 
     //Function Delete Data
@@ -372,7 +339,7 @@
         let Obj = {
             nID : this.nID,
         }
-        $.post( 'https://localhost:44396/ManageUser/Delete', Obj ).done(
+        $.post( 'https://localhost:44396/ManageUnitDepartment/Delete', Obj ).done(
             function(res) {
                 if (res.status == "Success") {
                     Swal.fire('Action Completed', 'Data is already deleteds.', 'success');
@@ -402,3 +369,4 @@
         })
     })()
 </script>
+

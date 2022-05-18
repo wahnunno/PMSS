@@ -8,12 +8,13 @@ namespace PMSS.Extensions.Common
 {
     public class AllClass
     {
-        public class cResult_Autocomplete : ResultAPI
+        public class cDropDownList
         {
-            public List<cAutocomplete> lstAutocomplete { get; set; }
+            public int value { get; set; }
+            public string label { get; set; }
         }
 
-        public class cAutocomplete : ResultAPI
+        public class cDropDown
         {
             public string value { get; set; }
             public string label { get; set; }
@@ -27,8 +28,8 @@ namespace PMSS.Extensions.Common
 
         public class GlobalData
         {
-            public  List<string> MonthSmallName { get; set; } = new List<string> { "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค." };
-            public  List<string> MonthsFullName { get; set; } = new List<string> { "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม" };
+            public List<string> MonthSmallName { get; set; } = new List<string> { "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค." };
+            public List<string> MonthsFullName { get; set; } = new List<string> { "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม" };
         }
     }
 }
