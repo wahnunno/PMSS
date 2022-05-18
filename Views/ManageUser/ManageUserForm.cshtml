@@ -105,14 +105,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center">
+@*                        <div class="text-center">
                             <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
+                            <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
                         </div>
-                    </form>
-@*                    <div class="text-center">
+*@                    </form>
+                    <div class="text-center">
                         <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
+                        <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
                     </div>
-*@                </div>
+                </div>
             </div>
         </div>
         @*Table*@
@@ -233,6 +235,7 @@
         });
     });
 
+    //Function OnClick case
     function OnClick(Mode,nID = 0)
     {
         this.nID = nID;
@@ -247,7 +250,7 @@
                 console.log("txtName",txtName);
                 console.log("txtStartDate",txtStartDate);
                 console.log("txtEndDate",txtEndDate);
-                if(txtOAUserID && txtName && txtStartDate && txtEndDate) 
+                if(txtOAUserID && txtName && txtStartDate && txtEndDate)
                 {
                     Swal.fire({
                         title: 'Confirmation',
@@ -384,6 +387,7 @@
         );
     }
 
+    //Function Validation
     (function () {
       'use strict'
 
@@ -401,4 +405,13 @@
           }, false)
         })
     })()
+
+    //Function Clear Form
+    function Clear(){
+        $("#txtOAUserID").prop("disabled", false);
+        document.getElementById("txtOAUserID").value = null;
+        document.getElementById("txtName").value = null;
+        $('#txtStartDate').datepicker('setDate', null);
+        $('#txtEndDate').datepicker('setDate', null);
+    }
 </script>

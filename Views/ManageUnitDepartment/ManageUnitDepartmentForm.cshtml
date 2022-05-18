@@ -24,10 +24,11 @@
                                                     <input asp-for="SectionCode"
                                                            id="txtSectionCode"
                                                            name="txtSectionCode"
-                                                           class="form-control"
-                                                           maxlength="5"
                                                            placeholder="Division Code"
-                                                           required />
+                                                           type="number"
+                                                           class="form-control"
+                                                           onKeyPress="if(this.value.length == 5) return false;"
+                                                           onChange="if(this.value < 0){console.log(this.value);return false;}" />
                                                     <div class="invalid-feedback">
                                                         Please require field Division Code.
                                                     </div>
@@ -64,7 +65,7 @@
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
                                                     <select class="form-control form-select" id="ddlGroupSection" name="ddlGroupSection">
-                                                        <option selected>- Select -</option>
+                                                        <option value="" selected>- Select -</option>
                                                         @if (@Model.lstGroupSection.Count > 0)
                                                         {
                                                             @foreach (var Item in @Model.lstGroupSection)
@@ -83,15 +84,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center pb-1">
                             <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
+                            <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
                         </div>
                     </form>
-                    @*
-                        <div class="text-center">
+                    <div class="text-center">
                         <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
-                        </div>
-                    *@
+                        <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -170,61 +171,34 @@
 
 <script type="text/javascript">
     var nID = 0;
+    var ArrData = [];
 
     //Function Get Data
     function GetData(){
         let Obj = {
             pageNumber : 0,
         }
-        $.post( 'https://localhost:44396/ManageUnitDepartment/ManageUnitDepartmentForm', Obj ).done(
+        $.post( 'https://localhost:44396/ManageUnitDepartment/GetData', Obj ).done(
             function(res) {
                 console.log("GetData",res);
-                //if (res.status == "Success") {
-                //    Swal.fire('Action Completed', 'Data is already deleteds.', 'success');
-                //} else {
-                //    Swal.fire('Error, Checking Alert', res.massage, 'error');
-                //}
+                this.ArrData = res;
+                //@Model.lstData = res;
+                Clear();
             }
         );
     }
 
-    //Set Control DatePicker : StartDate
-    $(function(){
-        $('#txtStartDate').datepicker({
-            format: "dd/mm/yyyy",
-            todaybtn: "linked",
-            orientation: "bottom auto",
-            todayhighlight: true,
-            autoclose: true,
-        });
-    });
-
-    //Set Control DatePicker : EndDate
-    $(function(){
-        $('#txtEndDate').datepicker({
-            format: "dd/mm/yyyy",
-            todaybtn: "linked",
-            orientation: "bottom auto",
-            todayhighlight: true,
-            autoclose: true,
-        });
-    });
-
-    function OnClick(Mode,nID = 0)
+    //Function OnClick case
+    function OnClick(Mode,sID)
     {
         this.nID = nID;
         switch(Mode)
         {
             case "Submit":
-                var txtOAUserID = document.getElementById("txtOAUserID").value;
-                var txtName = document.getElementById("txtName").value;
-                var txtStartDate = document.getElementById("txtStartDate").value;
-                var txtEndDate = document.getElementById("txtEndDate").value;
-                console.log("txtOAUserID",txtOAUserID);
-                console.log("txtName",txtName);
-                console.log("txtStartDate",txtStartDate);
-                console.log("txtEndDate",txtEndDate);
-                if(txtOAUserID && txtName && txtStartDate && txtEndDate)
+                var txtSectionCode = document.getElementById("txtSectionCode").value;
+                var txtSectionName = document.getElementById("txtSectionName").value;
+                var ddlGroupSection = document.getElementById("ddlGroupSection").value;
+                if(txtSectionCode && txtSectionName && ddlGroupSection)
                 {
                     Swal.fire({
                         title: 'Confirmation',
@@ -268,7 +242,7 @@
                         preConfirm: function () {
                             return new Promise(function (resolve, reject) {
                                 Swal.disableButtons();
-                                OnDelete();
+                                OnDelete(sID);
                                 Swal.close();
                             });
                         },
@@ -284,38 +258,23 @@
     //Function Save Data
     function OnSave()
     {
-        console.log("OnSave",nID)
         let Obj = {
-            nNo : 0,
-            nID : nID,
-            sOAUserID : document.getElementById("txtOAUserID").value,
-            sRole : null,
-            sName : document.getElementById("txtName").value,
-            sDep : null,
-            sEmail : null,
-            sTel : null,
-            dStartDate : null,
-            dEndDate : null,
-            sCreate : null,
-            dCreateDate : null,
-            sUpdate : null,
-            dUpdateDate : null,
-            IsDelete : false,
-            sStartDate : document.getElementById("txtStartDate").value,
-            sEndDate : document.getElementById("txtEndDate").value,
+            SectionCode : document.getElementById("txtSectionCode").value,
+            SectionName : document.getElementById("txtSectionName").value,
+            SectionGroup : document.getElementById("ddlGroupSection").value,
         }
-        //console.log("OnSave",Obj);
+        console.log("OnSave",Obj);
         $.post('https://localhost:44396/ManageUnitDepartment/SaveToDB', Obj ).done(
             function(res) {
+                console.log("SaveToDB",res);
                 if (res.status == "Success") {
                     Swal.fire('Action Completed', 'Data is already saved.', 'success');
                     GetData();
 
                     //Set Value
-                    document.getElementById("txtOAUserID").value = null;
-                    document.getElementById("txtName").value = null;
-                    $('#txtStartDate').datepicker('setDate', null);
-                    $('#txtEndDate').datepicker('setDate', null);
+                    document.getElementById("txtSectionCode").value = null;
+                    document.getElementById("txtSectionName").value = null;
+                    document.getElementById("ddlGroupSection").value = null;
                 } else {
                     Swal.fire('Error, Checking Alert', res.massage, 'error');
                 }
@@ -335,9 +294,9 @@
     }
 
     //Function Delete Data
-    function OnDelete(){
+    function OnDelete(sID){
         let Obj = {
-            nID : this.nID,
+            sID : sID,
         }
         $.post( 'https://localhost:44396/ManageUnitDepartment/Delete', Obj ).done(
             function(res) {
@@ -351,6 +310,7 @@
         );
     }
 
+    //Function Validation
     (function () {
       'use strict'
 
@@ -368,5 +328,13 @@
           }, false)
         })
     })()
+
+    //Function Clear Form
+    function Clear(){
+        $("#txtSectionCode").prop("disabled", false);
+        document.getElementById("txtSectionCode").value = null;
+        document.getElementById("txtSectionName").value = null;
+        document.getElementById("ddlGroupSection").value = "";
+    }
 </script>
 
