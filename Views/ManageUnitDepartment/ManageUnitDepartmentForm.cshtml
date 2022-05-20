@@ -3,6 +3,21 @@
     ViewData["Title"] = "ManageUnitDepartmentForm";
 }
 
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Action Completed', 'Data is already saved.', 'success');
+        @*document.getElementById("ManageUnitDepartmentForm").reset();*@
+</script>
+}
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Error, Checking Alert', '@TempData["Error"]', 'error');
+        @*document.getElementById("ManageUnitDepartmentForm").reset();*@
+    </script>
+}
+
 <div class="container p-0">
     <div class="row">
         @*Form*@
@@ -10,7 +25,7 @@
             <div class="card card-custom">
                 <div class="card-header card-custom-header" style="background-color: #d9edf7;">เพิ่มสาขา/หน่วยงาน</div>
                 <div class="card-body card-custom-body">
-                    <form id="UserForm" class="needs-validation" novalidate>
+                    <form id="ManageUnitDepartmentForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
                         <div class="form-group">
                             <div class="form-group row">
                                 <div class="col-md-12 col-sm-12 col-12">
@@ -23,12 +38,12 @@
                                                 <div class="input-group has-validation">
                                                     <input asp-for="SectionCode"
                                                            id="txtSectionCode"
-                                                           name="txtSectionCode"
                                                            placeholder="Division Code"
                                                            type="number"
                                                            class="form-control"
                                                            onKeyPress="if(this.value.length == 5) return false;"
-                                                           onChange="if(this.value < 0){console.log(this.value);return false;}" />
+                                                           onChange="if(this.value < 0){console.log(this.value);return false;}"
+                                                           required />
                                                     <div class="invalid-feedback">
                                                         Please require field Division Code.
                                                     </div>
@@ -45,7 +60,6 @@
                                                 <div class="input-group has-validation">
                                                     <input asp-for="SectionName"
                                                            id="txtSectionName"
-                                                           name="txtSectionName"
                                                            class="form-control"
                                                            maxlength="100"
                                                            placeholder="Division Name"
@@ -64,7 +78,7 @@
                                         <div class="col-md-7 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <select class="form-control form-select" id="ddlGroupSection" name="ddlGroupSection">
+                                                    <select class="form-control form-select" id="ddlGroupSection" asp-for="SectionGroup" required>
                                                         <option value="" selected>- Select -</option>
                                                         @if (@Model.lstGroupSection.Count > 0)
                                                         {
@@ -85,14 +99,16 @@
                             </div>
                         </div>
                         <div class="text-center pb-1">
-                            <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
+                            <input hidden type="checkbox" id="cbEdit" asp-for="IsEdit">
+                            <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit','',this.form)"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
                             <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
                         </div>
                     </form>
-                    <div class="text-center">
+                    @*  <div class="text-center">
                         <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
                         <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
-                    </div>
+                        </div>
+                    *@
                 </div>
             </div>
         </div>
@@ -100,7 +116,7 @@
         <div class="col-8">
             <div class="form-group">
                 <div class="table-responsive">
-                    <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break SSCPro">
+                    <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break">
                         <thead style="color: white; background-color: #17679c;">
                             <tr>
                                 <th style="text-align:center">No.</th>
@@ -124,7 +140,7 @@
                                             <td style="text-align:center">@item.SectionGroupName</td>
                                             <td style="text-align:center">
                                                 <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit('@item.SectionCode','@item.SectionName','@item.SectionGroup');"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
-                                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete','@item.SectionCode')"><i class="bi bi-trash"></i>&nbsp;Delete</button>
+                                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete','@item.SectionCode',null)"><i class="bi bi-trash"></i>&nbsp;Delete</button>
                                             </td>
                                         </tr>
                                     }
@@ -168,30 +184,82 @@
         </div>
     </div>
 </div>
+<table id="table">
+    <thead>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
 
 <script type="text/javascript">
-    var nID = 0;
-    var ArrData = [];
+    //function CreateTable(data) {
+    //    debugger
+    //    var tbody = document.getElementById('tbData').getElementsByTagName('tbody')[0];
+    //    tbody.innerHTML = "";
+    //    $.each(data, function (i, item) {
+    //        var newRow = tbody.insertRow();
+    //        var newCell = newRow.insertCell();
+    //        var newText = document.createTextNode(item.nNo);
 
-    //Function Get Data
-    function GetData(){
-        let Obj = {
-            pageNumber : 0,
-        }
-        $.post( 'https://localhost:44396/ManageUnitDepartment/GetData', Obj ).done(
-            function(res) {
-                console.log("GetData",res);
-                this.ArrData = res;
-                //@Model.lstData = res;
-                Clear();
-            }
-        );
-    }
+    //        newCell.appendChild(newText);
+    //        newCell.setAttribute("align", "center");
+
+    //        newCell = newRow.insertCell();
+    //        newText = document.createTextNode(item.sectionCode);
+    //        newCell.appendChild(newText);
+    //        newCell.setAttribute("align", "center");
+
+    //        newCell = newRow.insertCell();
+    //        newText = document.createTextNode(item.sectionName);
+    //        newCell.appendChild(newText);
+    //        newCell.setAttribute("align", "left");
+
+    //        newCell = newRow.insertCell();
+    //        newText = document.createTextNode(item.sectionGroupName);
+    //        newCell.appendChild(newText);
+    //        newCell.setAttribute("align", "center");
+
+    //        let btn = document.createElement("button");
+    //        btn.innerHTML = "<i class='bi bi-pencil-square'></i>&nbsp;Edit";
+    //        btn.setAttribute("onClick", "OnEdit('" + item.sectionCode + "','" + item.sectionName + "','" + item.sectionGroup + "')");
+    //        btn.type = "button";
+    //        btn.name = "btnEdit";
+    //        btn.style = "margin-right : 3px;";
+    //        btn.className = "btn btn-sm btn-warning";
+    //        document.body.appendChild(btn);
+
+    //        let btn2 = document.createElement("button");
+    //        btn2.innerHTML = "<i class='bi bi-trash'></i>&nbsp;Delete";
+    //        btn2.setAttribute("onClick", "OnClick('Delete','" + item.sectionCode + "')");
+    //        btn2.type = "button";
+    //        btn2.name = "btnDelete";
+    //        btn2.className = "btn btn-sm btn-danger";
+    //        document.body.appendChild(btn2);
+
+    //        newCell = newRow.insertCell();
+    //        newText = document.createTextNode("");
+    //        newCell.appendChild(btn);
+    //        newCell.appendChild(btn2);
+    //        newCell.setAttribute("align", "center");
+    //    });
+    //}
+
+    ////Function Get Data
+    //function GetData(){
+    //    let Obj = {
+    //        pageNumber : 0,
+    //    }
+    //    $.post( 'https://localhost:44396/ManageUnitDepartment/GetData', Obj ).done(
+    //        function(res) {
+    //            CreateTable(res);
+    //            Clear();
+    //        }
+    //    );
+    //}
 
     //Function OnClick case
-    function OnClick(Mode,sID)
+    function OnClick(Mode,sID,form)
     {
-        this.nID = nID;
         switch(Mode)
         {
             case "Submit":
@@ -215,7 +283,8 @@
                         preConfirm: function () {
                             return new Promise(function (resolve, reject) {
                                 Swal.disableButtons();
-                                OnSave();
+                                //OnSave();
+                                form.submit();
                                 Swal.close();
                             });
                         },
@@ -255,42 +324,44 @@
         }
     }
 
-    //Function Save Data
-    function OnSave()
-    {
-        let Obj = {
-            SectionCode : document.getElementById("txtSectionCode").value,
-            SectionName : document.getElementById("txtSectionName").value,
-            SectionGroup : document.getElementById("ddlGroupSection").value,
-        }
-        console.log("OnSave",Obj);
-        $.post('https://localhost:44396/ManageUnitDepartment/SaveToDB', Obj ).done(
-            function(res) {
-                console.log("SaveToDB",res);
-                if (res.status == "Success") {
-                    Swal.fire('Action Completed', 'Data is already saved.', 'success');
-                    GetData();
+    ////Function Save Data
+    //function OnSave()
+    //{
+    //    let Obj = {
+    //        IsEdit : document.getElementById("cbEdit").value,
+    //        SectionCode : document.getElementById("txtSectionCode").value,
+    //        SectionName : document.getElementById("txtSectionName").value,
+    //        SectionGroup : document.getElementById("ddlGroupSection").value,
+    //    }
+    //    $.post('https://localhost:44396/ManageUnitDepartment/SaveToDB', Obj ).done(
+    //        function(res) {
+    //            if (res.status == "Success") {
+    //                Swal.fire('Action Completed', 'Data is already saved.', 'success');
+    //                GetData();
 
-                    //Set Value
-                    document.getElementById("txtSectionCode").value = null;
-                    document.getElementById("txtSectionName").value = null;
-                    document.getElementById("ddlGroupSection").value = null;
-                } else {
-                    Swal.fire('Error, Checking Alert', res.massage, 'error');
-                }
-            }
-        );
-    }
+    //                //Set Value
+    //                document.getElementById("txtSectionCode").value = null;
+    //                document.getElementById("txtSectionName").value = null;
+    //                document.getElementById("ddlGroupSection").value = null;
+    //            } else {
+    //                Swal.fire('Error, Checking Alert', res.massage, 'error');
+    //            }
+    //        }
+    //    );
+    //}
 
     //Function Edit Data
     function OnEdit(SectionCode,SectionName,SectionGroup)
     {
         let Value_SectionName = SectionName.trimEnd();
         let Value_SectionGroup = SectionGroup.trimEnd();
-        $("#txtSectionCode").prop("disabled", true);
+
         document.getElementById("txtSectionCode").value = SectionCode;
         document.getElementById("txtSectionName").value = Value_SectionName;
         document.getElementById("ddlGroupSection").value = Value_SectionGroup;
+
+        document.getElementById("txtSectionCode").readOnly = true;
+        $("#cbEdit").prop('checked', true);
     }
 
     //Function Delete Data
@@ -302,7 +373,7 @@
             function(res) {
                 if (res.status == "Success") {
                     Swal.fire('Action Completed', 'Data is already deleteds.', 'success');
-                    GetData();
+                    //GetData();
                 } else {
                     Swal.fire('Error, Checking Alert', res.massage, 'error');
                 }
@@ -331,10 +402,11 @@
 
     //Function Clear Form
     function Clear(){
-        $("#txtSectionCode").prop("disabled", false);
         document.getElementById("txtSectionCode").value = null;
         document.getElementById("txtSectionName").value = null;
         document.getElementById("ddlGroupSection").value = "";
+        document.getElementById("txtSectionCode").readOnly = false;
+        $("#cbEdit").prop('checked', false);
     }
 </script>
 

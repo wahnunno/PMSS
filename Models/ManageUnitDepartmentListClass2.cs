@@ -3,7 +3,7 @@ using static PMSS.Extensions.Common.AllClass;
 
 namespace Demo1.Models
 {
-    public class ManageUnitDepartmentListClass
+    public class ManageUnitDepartmentListClass2
     {
         [Required]
         public string SectionCode { get; set; }
@@ -11,7 +11,7 @@ namespace Demo1.Models
         public string SectionName { get; set; }
         [Required]
         public string SectionGroup { get; set; }
-        public bool IsEdit { get; set; }
+
         public List<ManageUnitDepartmentClass> lstData { get; set; } = new List<ManageUnitDepartmentClass>();
         public List<cDropDown> lstGroupSection { get; set; } = new List<cDropDown>();
         public int PagePrevious { get; internal set; } = 0;

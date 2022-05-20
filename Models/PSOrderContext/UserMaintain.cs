@@ -18,6 +18,6 @@ namespace Demo1.Models.PSOrderContext
         public DateTime? dCreateDate { get; set; }
         public string? sUpdate { get; set; }
         public DateTime? dUpdateDate { get; set; }
-        public bool IsDelete { get; set; }
+        public bool? IsDelete { get; set; }
     }
 }

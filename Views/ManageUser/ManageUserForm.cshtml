@@ -3,6 +3,21 @@
     ViewData["Title"] = "ManageUserForm";
 }
 
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Action Completed', 'Data is already saved.', 'success');
+        @*document.getElementById("ManageUnitDepartmentForm").reset();*@
+    </script>
+}
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Error, Checking Alert', '@TempData["Error"]', 'error');
+        @*document.getElementById("ManageUnitDepartmentForm").reset();*@
+    </script>
+}
+
 <div class="container p-0">
     <div class="row">
         @*Form*@
@@ -10,7 +25,7 @@
             <div class="card card-custom">
                 <div class="card-header card-custom-header" style="background-color: #d9edf7;">เพิ่มผู้ใช้งาน</div>
                 <div class="card-body card-custom-body">
-                    <form id="UserForm" class="needs-validation" novalidate>
+                    <form id="ManageUserForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
                         <div class="form-group">
                             <div class="form-group row">
                                 <div class="col-md-12 col-sm-12 col-12">
@@ -21,9 +36,8 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <input asp-for="sOAUserID"
+                                                    <input asp-for="OAUserID"
                                                            id="txtOAUserID"
-                                                           name="txtOAUserID"
                                                            class="form-control"
                                                            maxlength="10"
                                                            placeholder="OA User"
@@ -42,9 +56,8 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <input asp-for="sName"
+                                                    <input asp-for="Name"
                                                            id="txtName"
-                                                           name="txtName"
                                                            class="form-control"
                                                            maxlength="50"
                                                            placeholder="Name Eng"
@@ -66,6 +79,7 @@
                                                     <input type="text"
                                                            class="form-control"
                                                            placeholder="dd/mm/yyyy"
+                                                           onchange="OnChangeDate('StartDate')"
                                                            required>
                                                     <span class="input-group-append">
                                                         <span class="input-group-text">
@@ -76,6 +90,11 @@
                                                         Please require field วันที่มีผล.
                                                     </div>
                                                 </div>
+                                                <input hidden
+                                                       type="text"
+                                                       class="form-control"
+                                                       asp-for="sStartDate"
+                                                       id="sStartDate">
                                             </div>
                                         </div>
                                     </div>
@@ -89,6 +108,7 @@
                                                     <input type="text"
                                                            class="form-control"
                                                            placeholder="dd/mm/yyyy"
+                                                           onchange="OnChangeDate('EndDate')"
                                                            required>
                                                     <span class="input-group-append">
                                                         <span class="input-group-text">
@@ -99,21 +119,23 @@
                                                         Please require field วันที่สิ้นสุด.
                                                     </div>
                                                 </div>
+                                                <input hidden
+                                                       type="text"
+                                                       class="form-control"
+                                                       asp-for="sEndDate"
+                                                       id="sEndDate">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-@*                        <div class="text-center">
-                            <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
+                        <div class="text-center pb-1">
+                            <input hidden type="checkbox" id="cbEdit" asp-for="IsEdit">
+                            <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit',0,this.form)"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
                             <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
                         </div>
-*@                    </form>
-                    <div class="text-center">
-                        <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
-                        <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -141,13 +163,13 @@
                                     {
                                         <tr>
                                             <td style="text-align:center">@item.nNo</td>
-                                            <td style="text-align:center">@item.sOAUserID</td>
-                                            <td>@item.sName</td>
+                                            <td style="text-align:center">@item.OAUserID</td>
+                                            <td>@item.Name</td>
                                             <td style="text-align:center">@item.sStartDate</td>
                                             <td style="text-align:center">@item.sEndDate</td>
                                             <td style="text-align:center">
-                                                <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit(@item.nID,'@item.sOAUserID','@item.sName','@item.sStartDate','@item.sEndDate');"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
-                                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete',@item.nID)"><i class="bi bi-trash"></i>&nbsp;Delete</button>
+                                                <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit(@item.nID,'@item.OAUserID','@item.Name','@item.sStartDate','@item.sEndDate');"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
+                                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete','@item.OAUserID')"><i class="bi bi-trash"></i>&nbsp;Delete</button>
                                             </td>
                                         </tr>
                                     }
@@ -194,24 +216,23 @@
 
 
 <script type="text/javascript">
-    var nID = 0;
 
-    //Function Get Data
-    function GetData(){
-        let Obj = {
-            pageNumber : 0,
-        }
-        $.post( 'https://localhost:44396/ManageUser/ManageUserForm', Obj ).done(
-            function(res) {
-                console.log("GetData",res);
-                //if (res.status == "Success") {
-                //    Swal.fire('Action Completed', 'Data is already deleteds.', 'success');
-                //} else {
-                //    Swal.fire('Error, Checking Alert', res.massage, 'error');
-                //}
-            }
-        );
-    }
+    ////Function Get Data
+    //function GetData(){
+    //    let Obj = {
+    //        pageNumber : 0,
+    //    }
+    //    $.post( 'https://localhost:44396/ManageUser/ManageUserForm', Obj ).done(
+    //        function(res) {
+    //            console.log("GetData",res);
+    //            //if (res.status == "Success") {
+    //            //    Swal.fire('Action Completed', 'Data is already deleteds.', 'success');
+    //            //} else {
+    //            //    Swal.fire('Error, Checking Alert', res.massage, 'error');
+    //            //}
+    //        }
+    //    );
+    //}
 
     //Set Control DatePicker : StartDate
     $(function(){
@@ -236,20 +257,15 @@
     });
 
     //Function OnClick case
-    function OnClick(Mode,nID = 0)
+    function OnClick(Mode,sID,form)
     {
-        this.nID = nID;
         switch(Mode)
         {
             case "Submit":
                 var txtOAUserID = document.getElementById("txtOAUserID").value;
                 var txtName = document.getElementById("txtName").value;
-                var txtStartDate = document.getElementById("txtStartDate").value;
-                var txtEndDate = document.getElementById("txtEndDate").value;
-                console.log("txtOAUserID",txtOAUserID);
-                console.log("txtName",txtName);
-                console.log("txtStartDate",txtStartDate);
-                console.log("txtEndDate",txtEndDate);
+                var txtStartDate = document.getElementById("sStartDate").value;
+                var txtEndDate = document.getElementById("sEndDate").value;
                 if(txtOAUserID && txtName && txtStartDate && txtEndDate)
                 {
                     Swal.fire({
@@ -267,7 +283,8 @@
                         preConfirm: function () {
                             return new Promise(function (resolve, reject) {
                                 Swal.disableButtons();
-                                OnSave();
+                                //OnSave();
+                                form.submit();
                                 Swal.close();
                             });
                         },
@@ -294,7 +311,7 @@
                         preConfirm: function () {
                             return new Promise(function (resolve, reject) {
                                 Swal.disableButtons();
-                                OnDelete();
+                                OnDelete(sID);
                                 Swal.close();
                             });
                         },
@@ -307,53 +324,53 @@
         }
     }
 
-    //Function Save Data
-    function OnSave()
-    {
-        console.log("OnSave",nID)
-        let Obj = {
-            nNo : 0,
-            nID : nID,
-            sOAUserID : document.getElementById("txtOAUserID").value,
-            sRole : null,
-            sName : document.getElementById("txtName").value,
-            sDep : null,
-            sEmail : null,
-            sTel : null,
-            dStartDate : null,
-            dEndDate : null,
-            sCreate : null,
-            dCreateDate : null,
-            sUpdate : null,
-            dUpdateDate : null,
-            IsDelete : false,
-            sStartDate : document.getElementById("txtStartDate").value,
-            sEndDate : document.getElementById("txtEndDate").value,
-        }
-        //console.log("OnSave",Obj);
-        $.post('https://localhost:44396/ManageUser/SaveToDB', Obj ).done(
-            function(res) {
-                if (res.status == "Success") {
-                    Swal.fire('Action Completed', 'Data is already saved.', 'success');
-                    GetData();
+    ////Function Save Data
+    //function OnSave()
+    //{
+    //    console.log("OnSave",nID)
+    //    let Obj = {
+    //        nNo : 0,
+    //        nID : nID,
+    //        sOAUserID : document.getElementById("txtOAUserID").value,
+    //        sRole : null,
+    //        sName : document.getElementById("txtName").value,
+    //        sDep : null,
+    //        sEmail : null,
+    //        sTel : null,
+    //        dStartDate : null,
+    //        dEndDate : null,
+    //        sCreate : null,
+    //        dCreateDate : null,
+    //        sUpdate : null,
+    //        dUpdateDate : null,
+    //        IsDelete : false,
+    //        sStartDate : document.getElementById("txtStartDate").value,
+    //        sEndDate : document.getElementById("txtEndDate").value,
+    //    }
+    //    //console.log("OnSave",Obj);
+    //    $.post('https://localhost:44396/ManageUser/SaveToDB', Obj ).done(
+    //        function(res) {
+    //            if (res.status == "Success") {
+    //                Swal.fire('Action Completed', 'Data is already saved.', 'success');
+    //                //GetData();
+    //                window.location.reload();
 
-                    //Set Value
-                    document.getElementById("txtOAUserID").value = null;
-                    document.getElementById("txtName").value = null;
-                    $('#txtStartDate').datepicker('setDate', null);
-                    $('#txtEndDate').datepicker('setDate', null);
-                } else {
-                    Swal.fire('Error, Checking Alert', res.massage, 'error');
-                }
-            }
-        );
-    }
+    //                //Set Value
+    //                document.getElementById("txtOAUserID").value = null;
+    //                document.getElementById("txtName").value = null;
+    //                $('#txtStartDate').datepicker('setDate', null);
+    //                $('#txtEndDate').datepicker('setDate', null);
+    //            } else {
+    //                Swal.fire('Error, Checking Alert', res.massage, 'error');
+    //            }
+    //        }
+    //    );
+    //}
 
     //Function Edit Data
     function OnEdit(ID,sOAUserID,sName,sStartDate,sEndDate)
     {
-        nID = ID;
-        $("#txtOAUserID").prop("disabled", true);
+        document.getElementById("txtOAUserID").readOnly = true;
         document.getElementById("txtOAUserID").value = sOAUserID;
         document.getElementById("txtName").value = sName;
 
@@ -362,24 +379,28 @@
         let strStartDate = ArrStartDate[1] + '/' + ArrStartDate[0] + '/' + ArrStartDate[2];
         let dStartDate = new Date(strStartDate);
         $('#txtStartDate').datepicker('setDate', dStartDate);
+        OnChangeDate('StartDate');
 
         //End Date
         let ArrEndDate = sEndDate.split('/');
         let strEndDate = ArrEndDate[1] + '/' + ArrEndDate[0] + '/' + ArrEndDate[2];
         let dEndDate = new Date(strEndDate);
         $('#txtEndDate').datepicker('setDate', dEndDate);
+        OnChangeDate('EndDate');
+
+        $("#cbEdit").prop('checked', true);
     }
 
     //Function Delete Data
-    function OnDelete(){
+    function OnDelete(sID)
+    {
         let Obj = {
-            nID : this.nID,
+            sID : sID,
         }
         $.post( 'https://localhost:44396/ManageUser/Delete', Obj ).done(
             function(res) {
                 if (res.status == "Success") {
                     Swal.fire('Action Completed', 'Data is already deleteds.', 'success');
-                    GetData();
                 } else {
                     Swal.fire('Error, Checking Alert', res.massage, 'error');
                 }
@@ -407,11 +428,52 @@
     })()
 
     //Function Clear Form
-    function Clear(){
+    function Clear()
+    {
         $("#txtOAUserID").prop("disabled", false);
         document.getElementById("txtOAUserID").value = null;
         document.getElementById("txtName").value = null;
         $('#txtStartDate').datepicker('setDate', null);
         $('#txtEndDate').datepicker('setDate', null);
+        $("#cbEdit").prop('checked', false);
+        document.getElementById("sStartDate").value = null;
+        document.getElementById("sStartDate").value = null;
+    }
+
+    function OnChangeDate(Mode)
+    {
+        if(Mode == "StartDate"){
+            var txtStartDate = $('#txtStartDate').datepicker('getDate');
+            if(txtStartDate){
+                const yyyy = txtStartDate.getFullYear();
+                let mm = txtStartDate.getMonth() + 1; // Months start at 0!
+                let dd = txtStartDate.getDate();
+
+                if (dd < 10) dd = '0' + dd;
+                if (mm < 10) mm = '0' + mm;
+
+                var strStartDate = dd + '/' + mm + '/' + yyyy;
+                if(strStartDate){
+                    document.getElementById("sStartDate").value = strStartDate;
+                }
+        }
+        }
+
+        if(Mode == "EndDate"){
+            var txtEndDate = $('#txtEndDate').datepicker('getDate');
+            if(txtEndDate){
+                let yyyy = txtEndDate.getFullYear();
+                let mm = txtEndDate.getMonth() + 1; // Months start at 0!
+                let dd = txtEndDate.getDate();
+
+                if (dd < 10) dd = '0' + dd;
+                if (mm < 10) mm = '0' + mm;
+
+                var strEndDate = dd + '/' + mm + '/' + yyyy;
+                if(strEndDate){
+                    document.getElementById("sEndDate").value = strEndDate;
+                }
+            }
+        }
     }
 </script>

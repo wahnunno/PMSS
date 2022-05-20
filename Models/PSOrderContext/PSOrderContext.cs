@@ -19,12 +19,13 @@ namespace Demo1.Models.PSOrderContext
         public virtual DbSet<DeliveryNote> DeliveryNotes { get; set; } = null!;
         public virtual DbSet<KeyDoc> KeyDocs { get; set; } = null!;
         public virtual DbSet<MT_GroupSection> MT_GroupSections { get; set; } = null!;
+        public virtual DbSet<MT_TypeInOut> MT_TypeInOuts { get; set; } = null!;
+        public virtual DbSet<MT_TypeMail> MT_TypeMails { get; set; } = null!;
         public virtual DbSet<Normal> Normals { get; set; } = null!;
         public virtual DbSet<Return_Table> Return_Tables { get; set; } = null!;
         public virtual DbSet<Round> Rounds { get; set; } = null!;
         public virtual DbSet<Section> Sections { get; set; } = null!;
         public virtual DbSet<Type_Mail> Type_Mails { get; set; } = null!;
-        public virtual DbSet<UserMaintain> UserMaintains { get; set; } = null!;
         public virtual DbSet<Usermain> Usermains { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -129,6 +130,66 @@ namespace Demo1.Models.PSOrderContext
 
                 entity.Property(e => e.sGroupSectionName)
                     .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<MT_TypeInOut>(entity =>
+            {
+                entity.HasKey(e => e.nID);
+
+                entity.ToTable("MT_TypeInOut");
+
+                entity.Property(e => e.nID).ValueGeneratedNever();
+
+                entity.Property(e => e.cActive)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength();
+
+                entity.Property(e => e.dCreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.dUpdateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.sCreate)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.sTypeInOutName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.sUpdate)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<MT_TypeMail>(entity =>
+            {
+                entity.HasKey(e => e.nID);
+
+                entity.ToTable("MT_TypeMail");
+
+                entity.Property(e => e.nID).ValueGeneratedNever();
+
+                entity.Property(e => e.cActive)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength();
+
+                entity.Property(e => e.dCreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.dUpdateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.sCreate)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.sTypeMailName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.sUpdate)
+                    .HasMaxLength(30)
                     .IsUnicode(false);
             });
 
@@ -375,13 +436,15 @@ namespace Demo1.Models.PSOrderContext
                 entity.Property(e => e.Type_InOut)
                     .HasMaxLength(80)
                     .IsUnicode(false)
-                    .IsFixedLength();
+                    .IsFixedLength()
+                    .HasComment("MT_TypeInOut => 1 : ไปรษณียภัณฑ์ในประเทศ,2 : ไปรษณียภัณฑ์ต่างประเทศ");
 
                 entity.Property(e => e.Type_Mail1)
                     .HasMaxLength(1)
                     .IsUnicode(false)
                     .HasColumnName("Type_Mail")
-                    .IsFixedLength();
+                    .IsFixedLength()
+                    .HasComment("MT_TypeMail => 0 : จดหมายธรรมดา,1 : จดหมายลงทะเบียน");
 
                 entity.Property(e => e.Type_Name)
                     .HasMaxLength(80)
@@ -389,50 +452,13 @@ namespace Demo1.Models.PSOrderContext
                     .IsFixedLength();
 
                 entity.Property(e => e.Type_Pay).HasColumnType("decimal(10, 2)");
-            });
-
-            modelBuilder.Entity<UserMaintain>(entity =>
-            {
-                entity.HasKey(e => e.nID);
-
-                entity.ToTable("UserMaintain");
-
-                entity.Property(e => e.nID).ValueGeneratedNever();
 
                 entity.Property(e => e.dCreateDate).HasColumnType("datetime");
-
-                entity.Property(e => e.dEndDate).HasColumnType("datetime");
-
-                entity.Property(e => e.dStartDate).HasColumnType("datetime");
 
                 entity.Property(e => e.dUpdateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.sCreate)
                     .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.sDep)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.sEmail)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.sName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.sOAUserID)
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.sRole)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.sTel)
-                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.sUpdate)
@@ -442,9 +468,13 @@ namespace Demo1.Models.PSOrderContext
 
             modelBuilder.Entity<Usermain>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.OAUserID);
 
                 entity.ToTable("Usermain");
+
+                entity.Property(e => e.OAUserID)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Dep)
                     .HasMaxLength(50)
@@ -462,16 +492,28 @@ namespace Demo1.Models.PSOrderContext
                     .HasColumnType("numeric(18, 0)")
                     .ValueGeneratedOnAdd();
 
-                entity.Property(e => e.OAUserID)
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Role)
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Tel)
                     .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.dCreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.dEndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.dStartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.dUpdateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.sCreate)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.sUpdate)
+                    .HasMaxLength(30)
                     .IsUnicode(false);
             });
 

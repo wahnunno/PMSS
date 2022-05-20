@@ -1,0 +1,183 @@
+﻿@model ManageUnitDepartmentListClass2
+@{
+    ViewData["Title"] = "ManageUnitDepartmentForm";
+}
+
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Action Completed', 'Data is already saved.', 'success');
+    </script>
+}
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire(@TempData["Error"], 'error');
+    </script>
+}
+<div class="container p-0">
+    <form id="ManageUnitDepartmentForm" method="post" class="needs-validation" novalidate>
+        <div class="form-group">
+            <div class="form-group row">
+                <div class="col-md-12 col-sm-12 col-12">
+                    <div class="form-group row pb-3">
+                        <label class="col-lg-5 col-md-6 col-sm-12 col-12">
+                            Division Code&nbsp;<span class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-7 col-sm-12 col-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input asp-for="SectionCode"
+                                           id="txtSectionCode"
+                                           placeholder="Division Code"
+                                           type="number"
+                                           class="form-control"
+                                           onKeyPress="if(this.value.length == 5) return false;"
+                                           onChange="if(this.value < 0){console.log(this.value);return false;}"
+                                           required />
+                                    <div class="invalid-feedback">
+                                        Please require field Division Code.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row pb-3">
+                        <label class="col-lg-5 col-md-12 col-sm-12 col-12">
+                            Division Name&nbsp;<span class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-7 col-sm-12 col-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input asp-for="SectionName"
+                                           id="txtSectionName"
+                                           class="form-control"
+                                           maxlength="100"
+                                           placeholder="Division Name"
+                                           required />
+                                    <div class="invalid-feedback">
+                                        Please require field Division Name.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row pb-3">
+                        <label class="col-md-5 col-sm-12 col-12">
+                            Group Section&nbsp;<span class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-7 col-sm-12 col-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <select class="form-control form-select" id="ddlGroupSection" asp-for="SectionGroup">
+                                        <option value="" selected>- Select -</option>
+                                        @if (@Model.lstGroupSection.Count > 0)
+                                        {
+                                            @foreach (var Item in @Model.lstGroupSection)
+                                            {
+                                                <option value=@Item.value>@Item.label</option>
+                                            }
+                                        }
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Please require field Group Section.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center pb-1">
+            <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
+            <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
+        </div>
+    </form>
+
+
+
+    <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break SSCPro">
+        <thead style="color: white; background-color: #17679c;">
+            <tr>
+                <th style="text-align:center">No.</th>
+                <th style="text-align:center">Divition Code</th>
+                <th style="text-align:center">Divition Name</th>
+                <th style="text-align:center">Group Section</th>
+                <th style="text-align:center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (@Model.lstData != null)
+            {
+                @if (@Model.lstData.Count != 0)
+                {
+                    @foreach (var item in @Model.lstData)
+                    {
+                        <tr>
+                            <td style="text-align:center">@item.nNo</td>
+                            <td style="text-align:center">@item.SectionCode</td>
+                            <td>@item.SectionName</td>
+                            <td style="text-align:center">@item.SectionGroupName</td>
+                            <td style="text-align:center">
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+            @if (@Model.lstData == null || @Model.lstData.Count == 0)
+            {
+                <tr>
+                    <td style="text-align:center" class="dataNotFound" colspan="6">
+                        No Data.
+                    </td>
+                </tr>
+            }
+        </tbody>
+        @if (@Model.PagerCount > 1)
+        {
+            <tfoot>
+                <tr>
+                    <td colspan="6" align="center">
+                        @if (@Model.PageNumber > 1)
+                        {
+                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="1">First</a>
+                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
+                        }
+                        @for (int pagenum = 1; pagenum <= @Model.PagerCount; pagenum++)
+                        {
+                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@pagenum">@pagenum</a>
+                        }
+                        @if (@Model.PageNumber != @Model.PagerCount)
+                        {
+                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@Model.PageNext">Next</a>
+                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
+                        }
+                    </td>
+                </tr>
+            </tfoot>
+        }
+    </table>
+</div>
+<script type="text/javascript">
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+      'use strict'
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.querySelectorAll('.needs-validation')
+
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+</script>

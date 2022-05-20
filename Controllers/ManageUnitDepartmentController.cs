@@ -22,6 +22,9 @@ namespace Demo1.Controllers
             List<cDropDown> lstGroupSection = new List<cDropDown>();
             lstData = GetData();
             lstGroupSection = GetDropDownGroupSection();
+            Model.SectionCode = null;
+            Model.SectionName = null;
+            Model.SectionGroup = null;
             Model.lstData = lstData;
             Model.lstGroupSection = lstGroupSection;
             Model.PageNumber = (pageNumber == null ? 1 : Convert.ToInt32(pageNumber));
@@ -46,7 +49,7 @@ namespace Demo1.Controllers
         public List<ManageUnitDepartmentClass> GetData()
         {
             List<ManageUnitDepartmentClass> lstData = new List<ManageUnitDepartmentClass>();
-            var lstUser = DB.Sections.Where(w => !w.IsDelete).OrderByDescending(o => o.dUpdateDate).ToList();
+            var lstUser = DB.Sections.Where(w => !w.IsDelete.Value).OrderByDescending(o => o.dUpdateDate).ToList();
             if (lstUser.Count > 0)
             {
                 int i = 1;
@@ -56,7 +59,7 @@ namespace Demo1.Controllers
                     var lstGroup = DB.MT_GroupSections.FirstOrDefault(f => f.nGroupSectionID == Item.SectionGroup.ToInt());
                     if (lstGroup != null)
                     {
-                        sSectionGroupName = lstGroup.sGroupSectionName;
+                        sSectionGroupName = lstGroup.sGroupSectionName + "";
                     }
                     lstData.Add(new ManageUnitDepartmentClass
                     {
@@ -85,34 +88,73 @@ namespace Demo1.Controllers
         }
 
         [HttpPost]
-        public ResultAPI SaveToDB(ManageUnitDepartmentClass Obj)
+        [ValidateAntiForgeryToken]
+        public IActionResult ManageUnitDepartmentForm(ManageUnitDepartmentListClass Obj)
         {
-            ResultAPI Result = new ResultAPI();
-
-            try
+            //if (Obj == null)
+            //{
+            //    ModelState.AddModelError("SectionCode", "SectionCode");
+            //}
+            string sSectionCode = "";
+            if (ModelState.IsValid)
             {
-                var UPT = DB.Sections.FirstOrDefault(f => f.SectionCode == Obj.SectionCode);
-                if (UPT != null)
+                try
                 {
-                    UPT.SectionName = Obj.SectionName;
-                    UPT.SectionGroup = Obj.SectionGroup;
-                    UPT.dUpdateDate = DateTime.Now;
-                    UPT.sUpdate = null;
-                    UPT.IsDelete = false;
-                    DB.SaveChanges();
-                }
-                else
-                {
-                    var lstDup = DB.Sections.Where(w => w.SectionCode == Obj.SectionCode && !w.IsDelete).ToList();
-                    if (lstDup.Count > 0)
+                    if (Obj.SectionCode.Length < 5)
                     {
-                        Result.Message = "Division Code is Duplicate.";
-                        Result.Status = ResultStatus.Failed;
+                        string Str = "0";
+                        for (int i = Obj.SectionCode.Length; i < 5; i++)
+                        {
+                            sSectionCode += Str;
+                        }
+                        sSectionCode += Obj.SectionCode;
+                    }
+                    else if (Obj.SectionCode.Length == 5)
+                    {
+                        sSectionCode = Obj.SectionCode;
+                    }
+
+                    var UPT = DB.Sections.FirstOrDefault(f => f.SectionCode == sSectionCode);
+                    if (UPT != null)
+                    {
+                        if (Obj.IsEdit)
+                        {
+                            UPT.SectionName = Obj.SectionName;
+                            UPT.SectionGroup = Obj.SectionGroup;
+                            UPT.dUpdateDate = DateTime.Now;
+                            UPT.sUpdate = null;
+                            UPT.IsDelete = false;
+                            DB.SaveChanges();
+
+                            TempData["Success"] = "Action Completed', 'Data is already saved.";
+                            Redirect("ManageUnitDepartmentForm");
+                        }
+                        else
+                        {
+                            var lstDup = DB.Sections.Where(w => w.SectionCode == sSectionCode && !w.IsDelete.Value).ToList();
+                            if (lstDup.Count > 0)
+                            {
+                                TempData["Error"] = "Division Code is Duplicate.";
+                                Redirect("ManageUnitDepartmentForm");
+                            }
+                            else
+                            {
+                                UPT.SectionName = Obj.SectionName;
+                                UPT.SectionGroup = Obj.SectionGroup;
+                                UPT.dUpdateDate = DateTime.Now;
+                                UPT.sUpdate = null;
+                                UPT.IsDelete = false;
+                                DB.SaveChanges();
+
+                                TempData["Success"] = "Action Completed', 'Data is already saved.";
+                                Redirect("ManageUnitDepartmentForm");
+                            }
+                        }
                     }
                     else
                     {
                         Section CRT = new Section();
-                        CRT.SectionCode = Obj.SectionCode;
+                        CRT.SectionCode = sSectionCode;
                         CRT.SectionName = Obj.SectionName;
                         CRT.SectionGroup = Obj.SectionGroup;
                         CRT.dCreateDate = DateTime.Now;
@@ -122,24 +164,33 @@ namespace Demo1.Controllers
                         CRT.IsDelete = false;
                         DB.Sections.Add(CRT);
                         DB.SaveChanges();
+
+                        TempData["Success"] = "Action Completed', 'Data is already saved.";
+                        Redirect("ManageUnitDepartmentForm");
                     }
                 }
-                Result.Status = ResultStatus.Success;
+                catch (Exception ex)
+                {
+                    TempData["Error"] = ex.Message;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Result.Message = ex.Message;
-                Result.Status = ResultStatus.Failed;
+                TempData["Error"] = "Please require field data.";
             }
+            //Obj.SectionCode = "";
+            //Obj.SectionName = "";
+            //Obj.SectionGroup = "";
+            //Obj.lstData = GetData();
+            //Obj.lstGroupSection = GetDropDownGroupSection();
 
-            return Result;
+            return ManageUnitDepartmentForm(0);
+            //return View(Obj);
         }
 
         [HttpPost]
-        public ResultAPI Delete(string sID)
+        public IActionResult Delete(string sID)
         {
-            ResultAPI Result = new ResultAPI();
-
             try
             {
                 var DEL = DB.Sections.FirstOrDefault(f => f.SectionCode == sID);
@@ -149,16 +200,160 @@ namespace Demo1.Controllers
                     DEL.sUpdate = null;
                     DEL.IsDelete = true;
                     DB.SaveChanges();
-                    Result.Status = ResultStatus.Success;
                 }
+                TempData["Success"] = "Action Completed', 'Data is already saved.";
+                Redirect("ManageUnitDepartmentForm");
             }
             catch (Exception ex)
             {
-                Result.Message = ex.Message;
-                Result.Status = ResultStatus.Failed;
+                TempData["Error"] = ex.Message;
             }
 
-            return Result;
+            return ManageUnitDepartmentForm(0);
         }
+
+        //[HttpPost]
+        //public ResultAPI SaveToDB(ManageUnitDepartmentClass Obj)
+        //{
+        //    ResultAPI Result = new ResultAPI();
+
+        //    try
+        //    {
+        //        var UPT = DB.Sections.FirstOrDefault(f => f.SectionCode == Obj.SectionCode);
+        //        if (UPT != null)
+        //        {
+        //            UPT.SectionName = Obj.SectionName;
+        //            UPT.SectionGroup = Obj.SectionGroup;
+        //            UPT.dUpdateDate = DateTime.Now;
+        //            UPT.sUpdate = null;
+        //            UPT.IsDelete = false;
+        //            DB.SaveChanges();
+        //        }
+        //        else
+        //        {
+        //            var lstDup = DB.Sections.Where(w => w.SectionCode == Obj.SectionCode && !w.IsDelete).ToList();
+        //            if (lstDup.Count > 0)
+        //            {
+        //                Result.Message = "Division Code is Duplicate.";
+        //                Result.Status = ResultStatus.Failed;
+        //            }
+        //            else
+        //            {
+        //                Section CRT = new Section();
+        //                CRT.SectionCode = Obj.SectionCode;
+        //                CRT.SectionName = Obj.SectionName;
+        //                CRT.SectionGroup = Obj.SectionGroup;
+        //                CRT.dCreateDate = DateTime.Now;
+        //                CRT.sCreate = null;
+        //                CRT.dUpdateDate = DateTime.Now;
+        //                CRT.sUpdate = null;
+        //                CRT.IsDelete = false;
+        //                DB.Sections.Add(CRT);
+        //                DB.SaveChanges();
+        //            }
+        //        }
+        //        Result.Status = ResultStatus.Success;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Result.Message = ex.Message;
+        //        Result.Status = ResultStatus.Failed;
+        //    }
+
+        //    return Result;
+        //}
+
+        //public IActionResult ManageUnitDepartmentForm2(int? pageNumber)
+        //{
+        //    ManageUnitDepartmentListClass2 Model = new ManageUnitDepartmentListClass2();
+        //    List<ManageUnitDepartmentClass> lstData = new List<ManageUnitDepartmentClass>();
+        //    List<cDropDown> lstGroupSection = new List<cDropDown>();
+        //    lstData = GetData();
+        //    lstGroupSection = GetDropDownGroupSection();
+        //    Model.lstData = lstData;
+        //    Model.lstGroupSection = lstGroupSection;
+        //    Model.PageNumber = (pageNumber == null ? 1 : Convert.ToInt32(pageNumber));
+        //    Model.PageSize = 10;
+
+        //    Model.PagePrevious = Model.PageNumber - 1;
+        //    Model.PageNext = Model.PageNumber + 1;
+
+        //    if (lstData != null)
+        //    {
+        //        Model.lstData = lstData.OrderBy(x => x.nNo)
+        //                            .Skip(Model.PageSize * (Model.PageNumber - 1))
+        //                            .Take(Model.PageSize).ToList();
+        //        Model.TotalCount = lstData.Count;
+        //        Model.PagerCount = ((Model.TotalCount / Model.PageSize) -
+        //                            (Model.TotalCount % Model.PageSize == 0 ? 1 : 0)) + 1;
+        //    }
+
+        //    return View(Model);
+        //}
+
+        //[HttpPost]
+        //public IActionResult ManageUnitDepartmentForm2(ManageUnitDepartmentListClass2 Obj)
+        //{
+        //    if (Obj == null)
+        //    {
+        //        ModelState.AddModelError("SectionCode", "SectionCode");
+        //    }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            var UPT = DB.Sections.FirstOrDefault(f => f.SectionCode == Obj.SectionCode);
+        //            if (UPT != null)
+        //            {
+        //                UPT.SectionName = Obj.SectionName;
+        //                UPT.SectionGroup = Obj.SectionGroup;
+        //                UPT.dUpdateDate = DateTime.Now;
+        //                UPT.sUpdate = null;
+        //                UPT.IsDelete = false;
+        //                DB.SaveChanges();
+
+        //                TempData["Success"] = "Action Completed', 'Data is already saved.";
+        //                return Redirect("ManageUnitDepartmentForm2");
+        //            }
+        //            else
+        //            {
+        //                var lstDup = DB.Sections.Where(w => w.SectionCode == Obj.SectionCode && !w.IsDelete).ToList();
+        //                if (lstDup.Count > 0)
+        //                {
+        //                    //Result.Message = "Division Code is Duplicate.";
+        //                    //Result.Status = ResultStatus.Failed;
+        //                }
+        //                else
+        //                {
+        //                    Section CRT = new Section();
+        //                    CRT.SectionCode = Obj.SectionCode;
+        //                    CRT.SectionName = Obj.SectionName;
+        //                    CRT.SectionGroup = Obj.SectionGroup;
+        //                    CRT.dCreateDate = DateTime.Now;
+        //                    CRT.sCreate = null;
+        //                    CRT.dUpdateDate = DateTime.Now;
+        //                    CRT.sUpdate = null;
+        //                    CRT.IsDelete = false;
+        //                    DB.Sections.Add(CRT);
+        //                    DB.SaveChanges();
+
+        //                    return Redirect("ManageUnitDepartmentForm2");
+        //                }
+
+        //            }
+        //            //Result.Status = ResultStatus.Success;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            //Result.Message = ex.Message;
+        //            //Result.Status = ResultStatus.Failed;
+
+        //            TempData["Error"] = "Error, Checking Alert " + ex.Message;
+        //        }
+        //    }
+        //    Obj.lstGroupSection = GetDropDownGroupSection();
+
+        //    return View(Obj);
+        //}
     }
 }
