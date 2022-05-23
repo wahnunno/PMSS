@@ -35,6 +35,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlVXNlclxNYW5hZ2VVc2VyRm9ybS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[M:/Project/Github_PMSS/PMSS/Views/PayrollData/PayrollData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5cm9sbERhdGFcUGF5cm9sbERhdGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [M:/Project/Github_PMSS/PMSS/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
