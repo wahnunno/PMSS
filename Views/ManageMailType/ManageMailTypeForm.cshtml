@@ -3,6 +3,21 @@
     ViewData["Title"] = "ManageMailTypeForm";
 }
 
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Action Completed', 'Data is already saved.', 'success');
+        @*document.getElementById("ManageMailTypeForm").reset();*@
+    </script>
+}
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Error, Checking Alert', '@TempData["Error"]', 'error');
+        @*document.getElementById("ManageMailTypeForm").reset();*@
+    </script>
+}
+
 <div class="container p-0">
     <div class="row">
         @*Form*@
@@ -10,7 +25,7 @@
             <div class="card card-custom">
                 <div class="card-header card-custom-header" style="background-color: #d9edf7;">เพิ่มสาขา/หน่วยงาน</div>
                 <div class="card-body card-custom-body">
-                    <form id="ManageMailTypeForm" class="needs-validation" novalidate>
+                    <form id="ManageMailTypeForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
                         <div class="form-group">
                             <div class="form-group row">
                                 <div class="col-md-12 col-sm-12 col-12">
@@ -22,12 +37,13 @@
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
                                                     <input asp-for="Type_Name"
-                                                           id="txtTypeName"
-                                                           name="txtTypeName"
+                                                           id="txtMail"
                                                            placeholder="Mail"
-                                                           class="form-control" />
+                                                           type="text"
+                                                           class="form-control"
+                                                           required />
                                                     <div class="invalid-feedback">
-                                                        Please require field Division Code.
+                                                        Please require field Mail.
                                                     </div>
                                                 </div>
                                             </div>
@@ -42,14 +58,12 @@
                                                 <div class="input-group has-validation">
                                                     <input asp-for="Type_Pay"
                                                            id="txtPrice"
-                                                           name="txtPrice"
-                                                           placeholder="Price"
+                                                           placeholder="Mail"
                                                            type="number"
                                                            class="form-control"
-                                                           onKeyPress="if(this.value.length == 5) return false;"
-                                                           onChange="if(this.value < 0){console.log(this.value);return false;}" />
+                                                           required />
                                                     <div class="invalid-feedback">
-                                                        Please require field Division Name.
+                                                        Please require field Price.
                                                     </div>
                                                 </div>
                                             </div>
@@ -62,16 +76,15 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <select class="form-control form-select" id="ddlGroupSection" name="ddlGroupSection">
+                                                    <select class="form-control form-select" id="ddlTypeMail" asp-for="Type_Mail" required>
                                                         <option value="" selected>- Select -</option>
-                                                        @*                                                        @if (@Model.lstGroupSection.Count > 0)
+                                                        @if (@Model.lstTypeMail.Count > 0)
+                                                        {
+                                                            @foreach (var Item in @Model.lstTypeMail)
                                                             {
-                                                            @foreach (var Item in @Model.lstGroupSection)
-                                                            {
-                                                            <option value=@Item.value>@Item.label</option>
+                                                                <option value=@Item.value>@Item.label</option>
                                                             }
-                                                            }
-                                                        *@
+                                                        }
                                                     </select>
                                                     <div class="invalid-feedback">
                                                         Please require field Group Section.
@@ -87,16 +100,16 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <select class="form-control form-select" id="ddlGroupSection" name="ddlGroupSection">
+                                                    <select class="form-control form-select" id="ddlGroupMail" asp-for="Type_InOut" required>
                                                         <option value="" selected>- Select -</option>
-@*                                                        @if (@Model.lstGroupSection.Count > 0)
+                                                        @if (@Model.lstGroupMail.Count > 0)
                                                         {
-                                                            @foreach (var Item in @Model.lstGroupSection)
+                                                            @foreach (var Item in @Model.lstGroupMail)
                                                             {
                                                                 <option value=@Item.value>@Item.label</option>
                                                             }
                                                         }
-*@                                                    </select>
+                                                    </select>
                                                     <div class="invalid-feedback">
                                                         Please require field Group Section.
                                                     </div>
@@ -108,14 +121,12 @@
                             </div>
                         </div>
                         <div class="text-center pb-1">
-                            <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
+                            <input hidden id="txtID" type="number" asp-for="ID">
+                            <input hidden type="checkbox" id="cbEdit" asp-for="IsEdit">
+                            <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit','',this.form)"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
                             <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
                         </div>
                     </form>
-                    <div class="text-center">
-                        <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit')"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
-                        <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -123,7 +134,7 @@
         <div class="col-8">
             <div class="form-group">
                 <div class="table-responsive">
-                    <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break SSCPro">
+                    <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break">
                         <thead style="color: white; background-color: #17679c;">
                             <tr>
                                 <th style="text-align:center">No.</th>
@@ -135,26 +146,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @*                            @if (@Model.lstData != null)
-                                {
+                            @if (@Model.lstData != null)
+                            {
                                 @if (@Model.lstData.Count != 0)
                                 {
-                                @foreach (var item in @Model.lstData)
-                                {
-                                <tr>
-                                <td style="text-align:center">@item.nNo</td>
-                                <td style="text-align:center">@item.SectionCode</td>
-                                <td>@item.SectionName</td>
-                                <td style="text-align:center">@item.SectionGroupName</td>
-                                <td style="text-align:center">
-                                <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit('@item.SectionCode','@item.SectionName','@item.SectionGroup');"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
-                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete','@item.SectionCode')"><i class="bi bi-trash"></i>&nbsp;Delete</button>
-                                </td>
-                                </tr>
+                                    @foreach (var item in @Model.lstData)
+                                    {
+                                        <tr>
+                                            <td style="text-align:center">@item.nNo</td>
+                                            <td>@item.Type_Name</td>
+                                            <td style="text-align:right">@item.Type_Pay</td>
+                                            <td>@item.Type_Mail</td>
+                                            <td>@item.Type_InOut</td>
+                                            <td style="text-align:center">
+                                                <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit(@item.ID,'@item.Type_Name',@item.Type_Pay,@item.nTypeMailID,@item.nTypeInOutID);"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
+                                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete','@item.ID',null)"><i class="bi bi-trash"></i>&nbsp;Delete</button>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
-                                }
-                                }
-                            *@                            @if (@Model.lstData == null || @Model.lstData.Count == 0)
+                            }
+                            @if (@Model.lstData == null || @Model.lstData.Count == 0)
                             {
                                 <tr>
                                     <td style="text-align:center" class="dataNotFound" colspan="6">
@@ -170,17 +182,17 @@
                                     <td colspan="6" align="center">
                                         @if (@Model.PageNumber > 1)
                                         {
-                                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="1">First</a>
-                                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
+                                            <a asp-controller="ManageMailType" asp-action="ManageMailTypeForm" asp-route-pageNumber="1">First</a>
+                                            <a asp-controller="ManageMailType" asp-action="ManageMailTypeForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
                                         }
                                         @for (int pagenum = 1; pagenum <= @Model.PagerCount; pagenum++)
                                         {
-                                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@pagenum">@pagenum</a>
+                                            <a asp-controller="ManageMailType" asp-action="ManageMailTypeForm" asp-route-pageNumber="@pagenum">@pagenum</a>
                                         }
                                         @if (@Model.PageNumber != @Model.PagerCount)
                                         {
-                                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@Model.PageNext">Next</a>
-                                            <a asp-controller="ManageUnitDepartment" asp-action="ManageUnitDepartmentForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
+                                            <a asp-controller="ManageMailType" asp-action="ManageMailTypeForm" asp-route-pageNumber="@Model.PageNext">Next</a>
+                                            <a asp-controller="ManageMailType" asp-action="ManageMailTypeForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
                                         }
                                     </td>
                                 </tr>
@@ -192,3 +204,135 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    //Function OnClick case
+    function OnClick(Mode,sID,form)
+    {
+        switch(Mode)
+        {
+            case "Submit":
+                var txtMail = document.getElementById("txtMail").value;
+                var txtPrice = document.getElementById("txtPrice").value;
+                var ddlTypeMail = document.getElementById("ddlTypeMail").value;
+                var ddlGroupMail = document.getElementById("ddlGroupMail").value;
+                if(txtMail && txtPrice && ddlTypeMail && ddlGroupMail)
+                {
+                    Swal.fire({
+                        title: 'Confirmation',
+                        text: 'Do you want to submit data?',
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '<i class="bi bi-check"></i> Yes',
+                        cancelButtonText: '<i class="bi bi-x"></i> No',
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: false,
+                        timerProgressBar: true,
+                        preConfirm: function () {
+                            return new Promise(function (resolve, reject) {
+                                Swal.disableButtons();
+                                //OnSave();
+                                form.submit();
+                                Swal.close();
+                            });
+                        },
+                    }).then(function (d) {
+                        if (d.dismiss === Swal.DismissReason.cancel) {
+                            Swal.close();
+                        }
+                    });
+                }
+                break;
+            case "Delete":
+                    Swal.fire({
+                        title: 'Confirmation',
+                        text: 'Do you want to delete data?',
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '<i class="bi bi-check"></i> Yes',
+                        cancelButtonText: '<i class="bi bi-x"></i> No',
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: false,
+                        timerProgressBar: true,
+                        preConfirm: function () {
+                            return new Promise(function (resolve, reject) {
+                                Swal.disableButtons();
+                                OnDelete(sID);
+                                Swal.close();
+                            });
+                        },
+                    }).then(function (d) {
+                        if (d.dismiss === Swal.DismissReason.cancel) {
+                            Swal.close();
+                        }
+                    });
+                break;
+        }
+    }
+
+    //Function Edit Data
+    function OnEdit(ID,Type_Name,Type_Pay,nTypeMailID,nTypeInOutID)
+    {
+        document.getElementById("txtID").value = ID;
+        document.getElementById("txtMail").value = Type_Name;
+        document.getElementById("txtPrice").value = Type_Pay;
+        document.getElementById("ddlTypeMail").value = nTypeMailID;
+        document.getElementById("ddlGroupMail").value = nTypeInOutID;
+
+        $("#cbEdit").prop('checked', true);
+    }
+
+    //Function Delete Data
+    function OnDelete(sID)
+    {
+        let Obj = {
+            sID : sID,
+        }
+        $.post('https://localhost:44396/ManageMailType/Delete', Obj ).done(
+            function(res) {
+                if (res.status == "Success") {
+                    Swal.fire('Action Completed', 'Data is already deleted.', 'success',function (){Swal.close();location.reload();});
+                } else {
+                    Swal.fire('Error, Checking Alert', res.massage, 'error');
+                }
+            }
+        );
+    }
+
+    //Function Validation
+    (function () 
+    {
+      'use strict'
+
+      var forms = document.querySelectorAll('.needs-validation')
+
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+
+    //Function Clear Form
+    function Clear()
+    {
+        document.getElementById("txtID").value = null;
+        document.getElementById("txtMail").value = null;
+        document.getElementById("txtPrice").value = null;
+        document.getElementById("ddlTypeMail").value = "";
+        document.getElementById("ddlGroupMail").value = "";
+        $("#cbEdit").prop('checked', false);
+    }
+</script>
+

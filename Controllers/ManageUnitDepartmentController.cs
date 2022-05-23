@@ -22,9 +22,6 @@ namespace Demo1.Controllers
             List<cDropDown> lstGroupSection = new List<cDropDown>();
             lstData = GetData();
             lstGroupSection = GetDropDownGroupSection();
-            Model.SectionCode = null;
-            Model.SectionName = null;
-            Model.SectionGroup = null;
             Model.lstData = lstData;
             Model.lstGroupSection = lstGroupSection;
             Model.PageNumber = (pageNumber == null ? 1 : Convert.ToInt32(pageNumber));

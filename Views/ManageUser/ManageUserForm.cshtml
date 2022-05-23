@@ -324,49 +324,6 @@
         }
     }
 
-    ////Function Save Data
-    //function OnSave()
-    //{
-    //    console.log("OnSave",nID)
-    //    let Obj = {
-    //        nNo : 0,
-    //        nID : nID,
-    //        sOAUserID : document.getElementById("txtOAUserID").value,
-    //        sRole : null,
-    //        sName : document.getElementById("txtName").value,
-    //        sDep : null,
-    //        sEmail : null,
-    //        sTel : null,
-    //        dStartDate : null,
-    //        dEndDate : null,
-    //        sCreate : null,
-    //        dCreateDate : null,
-    //        sUpdate : null,
-    //        dUpdateDate : null,
-    //        IsDelete : false,
-    //        sStartDate : document.getElementById("txtStartDate").value,
-    //        sEndDate : document.getElementById("txtEndDate").value,
-    //    }
-    //    //console.log("OnSave",Obj);
-    //    $.post('https://localhost:44396/ManageUser/SaveToDB', Obj ).done(
-    //        function(res) {
-    //            if (res.status == "Success") {
-    //                Swal.fire('Action Completed', 'Data is already saved.', 'success');
-    //                //GetData();
-    //                window.location.reload();
-
-    //                //Set Value
-    //                document.getElementById("txtOAUserID").value = null;
-    //                document.getElementById("txtName").value = null;
-    //                $('#txtStartDate').datepicker('setDate', null);
-    //                $('#txtEndDate').datepicker('setDate', null);
-    //            } else {
-    //                Swal.fire('Error, Checking Alert', res.massage, 'error');
-    //            }
-    //        }
-    //    );
-    //}
-
     //Function Edit Data
     function OnEdit(ID,sOAUserID,sName,sStartDate,sEndDate)
     {
@@ -400,7 +357,7 @@
         $.post( 'https://localhost:44396/ManageUser/Delete', Obj ).done(
             function(res) {
                 if (res.status == "Success") {
-                    Swal.fire('Action Completed', 'Data is already deleteds.', 'success');
+                    Swal.fire('Action Completed', 'Data is already deleted.', 'success');
                 } else {
                     Swal.fire('Error, Checking Alert', res.massage, 'error');
                 }

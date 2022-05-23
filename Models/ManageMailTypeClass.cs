@@ -4,9 +4,11 @@
     {
         public int nNo { get; set; }
         public decimal ID { get; set; }
-        public string Type_Name { get; set; } = null!;
+        public string Type_Name { get; set; }
         public decimal Type_Pay { get; set; }
-        public string Type_Mail1 { get; set; } = null!;
-        public string Type_InOut { get; set; } = null!;
+        public int? nTypeMailID { get; set; }
+        public string Type_Mail { get; set; }
+        public int? nTypeInOutID { get; set; }
+        public string Type_InOut { get; set; }
     }
 }

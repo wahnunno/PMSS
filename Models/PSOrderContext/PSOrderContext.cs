@@ -425,8 +425,6 @@ namespace Demo1.Models.PSOrderContext
 
             modelBuilder.Entity<Type_Mail>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Type_Mail");
 
                 entity.Property(e => e.ID)

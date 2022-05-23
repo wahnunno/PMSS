@@ -156,6 +156,7 @@ namespace PMSS.Controllers.ManageUser
             }
             catch (Exception ex)
             {
+                TempData["Error"] = ex.Message;
             }
 
             return ManageUserForm(0);
