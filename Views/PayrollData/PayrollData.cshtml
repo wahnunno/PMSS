@@ -1,4 +1,4 @@
-﻿@model PayrollDataClass
+﻿@model PayrollDataListClass
 @{
     ViewData["Title"] = "PayrollData";
 }
@@ -33,6 +33,78 @@
         </div>
     </form>
     <hr>
+    <div class="table-responsive">
+        <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break">
+            <thead style="color: white; background-color: #17679c;">
+                <tr>
+                    <th style="text-align:center">No.</th>
+                    <th style="text-align:center">ACC</th>
+                    <th style="text-align:center">REG</th>
+                    <th style="text-align:center">SEQ</th>
+                    <th style="text-align:center">DIV</th>
+                    <th style="text-align:center">AMT</th>
+                    <th style="text-align:center">SIGN</th>
+                    <th style="text-align:center">VENDOR</th>
+                    <th style="text-align:center">DETAIL</th>
+                    <th style="text-align:center">DEPT</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (@Model.lstData != null)
+                {
+                    @if (@Model.lstData.Count != 0)
+                    {
+                        @foreach (var item in @Model.lstData)
+                        {
+                            <tr>
+                                <td style="text-align:center">@item.nNo</td>
+                                <td style="text-align:center">@item.ACC</td>
+                                <td style="text-align:center">@item.REG</td>
+                                <td style="text-align:center">@item.SEQ</td>
+                                <td style="text-align:center">@item.DIV</td>
+                                <td style="text-align:center">@item.AMT</td>
+                                <td style="text-align:center">@item.SIGN</td>
+                                <td style="text-align:center">@item.VENDOR</td>
+                                <td style="text-align:center">@item.DETAIL</td>
+                                <td style="text-align:center">@item.DEPT</td>
+                            </tr>
+                        }
+                    }
+                }
+                @if (@Model.lstData == null || @Model.lstData.Count == 0)
+                {
+                    <tr>
+                        <td style="text-align:center" class="dataNotFound" colspan="10">
+                            No Data.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            @if (@Model.PagerCount > 1)
+            {
+                <tfoot>
+                    <tr>
+                        <td colspan="10" align="center">
+                            @if (@Model.PageNumber > 1)
+                            {
+                                <a asp-controller="PayrollData" asp-action="PayrollData" asp-route-pageNumber="1">First</a>
+                                <a asp-controller="PayrollData" asp-action="PayrollData" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
+                            }
+                            @for (int pagenum = 1; pagenum <= @Model.PagerCount; pagenum++)
+                            {
+                                <a asp-controller="PayrollData" asp-action="PayrollData" asp-route-pageNumber="@pagenum">@pagenum</a>
+                            }
+                            @if (@Model.PageNumber != @Model.PagerCount)
+                            {
+                                <a asp-controller="PayrollData" asp-action="PayrollData" asp-route-pageNumber="@Model.PageNext">Next</a>
+                                <a asp-controller="PayrollData" asp-action="PayrollData" asp-route-pageNumber="@Model.PagerCount">Last</a>
+                            }
+                        </td>
+                    </tr>
+                </tfoot>
+            }
+        </table>
+    </div>
 </div>
 
 <script type="text/javascript">

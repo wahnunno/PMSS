@@ -19,6 +19,7 @@ namespace Demo1.Models.PSOrderContext
         public string? TypeLetter { get; set; }
         public string? TypeOfLetter { get; set; }
         public string? Datetime { get; set; }
+        public DateTime? dDate { get; set; }
         public string? Period { get; set; }
         public string? Product { get; set; }
         public int? rload { get; set; }

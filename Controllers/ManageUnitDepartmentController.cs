@@ -46,11 +46,11 @@ namespace Demo1.Controllers
         public List<ManageUnitDepartmentClass> GetData()
         {
             List<ManageUnitDepartmentClass> lstData = new List<ManageUnitDepartmentClass>();
-            var lstUser = DB.Sections.Where(w => !w.IsDelete.Value).OrderByDescending(o => o.dUpdateDate).ToList();
-            if (lstUser.Count > 0)
+            var lst = DB.Sections.Where(w => !w.IsDelete.Value).OrderByDescending(o => o.dUpdateDate).ToList();
+            if (lst.Count > 0)
             {
                 int i = 1;
-                foreach (var Item in lstUser)
+                foreach (var Item in lst)
                 {
                     string sSectionGroupName = "";
                     var lstGroup = DB.MT_GroupSections.FirstOrDefault(f => f.nGroupSectionID == Item.SectionGroup.ToInt());
