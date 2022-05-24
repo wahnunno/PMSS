@@ -1,4 +1,109 @@
-﻿@{
+﻿@model PayrollDataClass
+@{
     ViewData["Title"] = "PayrollData";
 }
- <h1>XXX</h1>
+
+<div class="container p-0">
+    <div class="text-center"><mark style="background-color: #fbc99d">ACC REG SEQ DIV AMT SIGN VENDER DETAIL DEPT<br>ระบบจัดเตรียมข้อมูลเรียบร้อยแล้วที่...T:\Postal\Export Data\POST.txt</mark></div>
+    <hr>
+    <form id="PayrollData">
+        <div class="row form-group">
+            <div class="col-2">เดือนที่ต้องการส่งข้อมูล</div>
+            <div class="col-2 p-0">
+                <div class="form-group row">
+                    <div class="input-group">
+                        <select class="form-control form-select" id="ddlMonth" asp-for="nMonth">
+                            <option value="" selected>- Select -</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 p-0">
+                <div class="form-group row">
+                    <div class="input-group">
+                        <select class="form-control form-select" id="ddlYear" asp-for="nYear">
+                            <option value="" selected>- Select -</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 pl-1">
+                <button type="submit" id="btnDownload" class="btn btn-primary" onclick="OnDownload()"><i class="bi bi-download"></i>&nbsp;Download</button>
+            </div>
+        </div>
+    </form>
+    <hr>
+</div>
+
+<script type="text/javascript">
+    //Bind DropDownList => Month
+    var ArrMonth = [
+        {
+            "value": "1",
+            "label": "มกราคม"
+        },
+        {
+            "value": "2",
+            "label": "กุมภาพันธ์"
+        },
+        {
+            "value": "3",
+            "label": "มีนาคม"
+        },
+        {
+            "value": "4",
+            "label": "เมษายน"
+        },
+        {
+            "value": "5",
+            "label": "พฤษภาคม"
+        },
+        {
+            "value": "6",
+            "label": "มิถุนายน"
+        },
+        {
+            "value": "7",
+            "label": "กรกฎาคม"
+        },
+        {
+            "value": "8",
+            "label": "สิงหาคม"
+        },
+        {
+            "value": "9",
+            "label": "กันยายน"
+        },
+        {
+            "value": "10",
+            "label": "ตุลาคม"
+        },
+        {
+            "value": "11",
+            "label": "พฤศจิกายน"
+        },
+        {
+            "value": "12",
+            "label": "ธันวาคม"
+        },
+    ]
+    for (i = 0; i < ArrMonth.length; i++) {
+        var data = '<option value="' + ArrMonth[i].value + '">' + ArrMonth[i].label + '</option>';
+        $('#ddlMonth').append(data);
+    }
+
+    //Bind DropDownList => Year
+    var nYear = new Date().getFullYear() + 1;
+    for (i = 1; i < 100; i++) {
+        var data = '<option value="' + (nYear - i) + '">' + (nYear - i) + '</option>';
+        $('#ddlYear').append(data);
+    }
+
+    function OnDownload()
+    {
+        var ddlMonth = document.getElementById("ddlMonth").value;
+        var ddlYear = document.getElementById("ddlYear").value;
+        console.log("ddlMonth",ddlMonth);
+        console.log("ddlYear",ddlYear);
+    }
+</script>

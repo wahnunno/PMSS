@@ -2,5 +2,7 @@
 {
     public class PayrollDataClass
     {
+        public int nMonth { get; set; }
+        public int nYear { get; set; }
     }
 }
