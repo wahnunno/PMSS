@@ -3,6 +3,19 @@
     ViewData["Title"] = "PayrollData";
 }
 
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Action Completed', 'Download file already.', 'success');
+</script>
+}
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Error, Checking Alert', '@TempData["Error"]', 'error');
+    </script>
+}
+
 <div class="container p-0">
     <div class="text-center"><mark style="background-color: #fbc99d">ACC REG SEQ DIV AMT SIGN VENDER DETAIL DEPT<br>ระบบจัดเตรียมข้อมูลเรียบร้อยแล้วที่...T:\Postal\Export Data\POST.txt</mark></div>
     <hr>
@@ -28,7 +41,7 @@
                 </div>
             </div>
             <div class="col-2 pl-1">
-                <button type="submit" id="btnDownload" class="btn btn-primary" onclick="OnDownload()"><i class="bi bi-download"></i>&nbsp;Download</button>
+                <button type="submit" id="btnDownload" class="btn btn-primary"><i class="bi bi-download"></i>&nbsp;Download</button>
             </div>
         </div>
     </form>
@@ -169,13 +182,5 @@
     for (i = 1; i < 100; i++) {
         var data = '<option value="' + (nYear - i) + '">' + (nYear - i) + '</option>';
         $('#ddlYear').append(data);
-    }
-
-    function OnDownload()
-    {
-        var ddlMonth = document.getElementById("ddlMonth").value;
-        var ddlYear = document.getElementById("ddlYear").value;
-        console.log("ddlMonth",ddlMonth);
-        console.log("ddlYear",ddlYear);
     }
 </script>

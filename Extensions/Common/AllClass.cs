@@ -31,5 +31,10 @@ namespace PMSS.Extensions.Common
             public List<string> MonthSmallName { get; set; } = new List<string> { "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค." };
             public List<string> MonthsFullName { get; set; } = new List<string> { "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม" };
         }
+
+        public class cDropDownTypeMail : cDropDown
+        {
+            public string sTypeMailID { get; set; }
+        }
     }
 }

@@ -1,0 +1,545 @@
+﻿@model KeyDailyTaskListClass
+@{
+    ViewData["Title"] = "KeyDailyTaskForm";
+}
+
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Action Completed', 'Data is already saved.', 'success');
+    </script>
+}
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Error, Checking Alert', '@TempData["Error"]', 'error');
+    </script>
+}
+
+<div class="container p-0">
+    <div class="row">
+        @*Form*@
+        <div class="col-4">
+            <div class="card card-custom">
+                <div class="card-header card-custom-header" style="background-color: #d9edf7;">Key งานประจำวัน</div>
+                <div class="card-body card-custom-body">
+                    <form id="KeyDailyTaskForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
+                        <div class="form-group">
+                            <div class="form-group row">
+                                <div class="col-md-12 col-sm-12 col-12">
+                                    <div class="form-group row pb-3">
+                                        <label class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                            วันที่&nbsp;<span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-12 col-12">
+                                            <div class="form-group">
+                                                <div class="input-group has-validation date p-0" id="txtDate">
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           placeholder="dd/mm/yyyy"
+                                                           onchange="OnChangeDate()"
+                                                           required>
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <i class="bi bi-calendar3"></i>
+                                                        </span>
+                                                    </span>
+                                                    <div class="invalid-feedback">
+                                                        Please require field วันที่.
+                                                    </div>
+                                                </div>
+                                                <input hidden
+                                                       type="text"
+                                                       class="form-control"
+                                                       asp-for="sDate"
+                                                       id="sDate">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row pb-3">
+                                        <label class="col-lg-4 col-md-12 col-sm-12 col-12">
+                                            เวลา&nbsp;<span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-12 col-12">
+                                            <div class="form-group">
+                                                <div class="input-group has-validation">
+                                                    <select class="form-control form-select" id="ddlTime" onchange="OnChangeFilter()" required>
+                                                        <option value="" selected>- Select -</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Please require field เวลา.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row pb-3">
+                                        <label class="col-md-4 col-sm-12 col-12">
+                                            Group Mail&nbsp;<span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-12 col-12">
+                                            <div class="form-group">
+                                                <div class="input-group has-validation">
+                                                    <select class="form-control form-select" id="ddlGroupMail" onchange="OnChangeFilter()" required>
+                                                        <option value="" selected>- Select -</option>
+                                                        @if (@Model.lstGroupMail.Count > 0)
+                                                        {
+                                                            @foreach (var Item in @Model.lstGroupMail)
+                                                            {
+                                                                <option value=@Item.value>@Item.label</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Please require field Group Mail.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row pb-3">
+                                        <label class="col-md-4 col-sm-12 col-12">
+                                            Type&nbsp;<span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-12 col-12">
+                                            <div class="form-group">
+                                                <div class="input-group has-validation">
+                                                    <select class="form-control form-select" id="ddlTypeMail" onchange="OnChangeFilter()" required>
+                                                        <option value="" selected>- Select -</option>
+                                                        @if (@Model.lstTypeMail.Count > 0)
+                                                        {
+                                                            @foreach (var Item in @Model.lstTypeMail)
+                                                            {
+                                                                <option value=@Item.value>@Item.label</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Please require field Type.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @*Form*@
+        <div class="col-8">
+            <div class="card card-custom" id="dvNolmalForm" style="display:none">
+                <div class="card-header card-custom-header" style="background-color: #d9edf7;">จดหมายธรรมดา</div>
+                <div class="card-body card-custom-body">
+                    <form id="NolmalForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-sm-12 col-12">
+                                <div class="form-group row pb-3">
+                                    <label class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                        ส่วนผู้ส่ง&nbsp;<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group has-validation">
+                                                <input asp-for="sSender"
+                                                       id="txtSender"
+                                                       class="form-control"
+                                                       maxlength="10"
+                                                       placeholder="ส่วนผู้ส่ง"
+                                                       required />
+                                                <div class="invalid-feedback">
+                                                    Please require field ส่วนผู้ส่ง.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row pb-3">
+                                    <label class="col-lg-4 col-md-12 col-sm-12 col-12">
+                                        Reference&nbsp;<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group has-validation">
+                                                <input asp-for="sRef"
+                                                       id="txtRef"
+                                                       class="form-control"
+                                                       maxlength="10"
+                                                       placeholder="Reference"
+                                                       required />
+                                                <div class="invalid-feedback">
+                                                    Please require field Reference.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-12">
+                                <div class="form-group row pb-3">
+                                    <label class="col-md-4 col-sm-12 col-12">
+                                        จำนวนฉบับ&nbsp;<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group has-validation">
+                                                <input asp-for="nQuantity"
+                                                       id="txtQuantity"
+                                                       type="number"
+                                                       class="form-control"
+                                                       maxlength="10"
+                                                       placeholder="จำนวนฉบับ"
+                                                       required />
+                                                <div class="invalid-feedback">
+                                                    Please require field Reference.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row pb-3">
+                                    <label class="col-md-4 col-sm-12 col-12">
+                                        จำนวนเงิน&nbsp;<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group has-validation">
+                                                <input asp-for="nAmount"
+                                                       id="txtAmount"
+                                                       class="form-control"
+                                                       maxlength="10"
+                                                       placeholder="จำนวนเงิน"
+                                                       required />
+                                                <div class="invalid-feedback">
+                                                    Please require field Reference.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card card-custom" id="dvRegisterForm" style="display:none">
+                <div class="card-header card-custom-header" style="background-color: #d9edf7;">จดหมายลงทะเบียน</div>
+                <div class="card-body card-custom-body">
+                    <form id="RegisterForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-sm-12 col-12">
+                                <div class="form-group row pb-3">
+                                    <label class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                        ส่วนผู้ส่ง&nbsp;<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group has-validation">
+                                                <input asp-for="sSender"
+                                                       id="txtSender"
+                                                       class="form-control"
+                                                       maxlength="10"
+                                                       placeholder="ส่วนผู้ส่ง"
+                                                       required />
+                                                <div class="invalid-feedback">
+                                                    Please require field ส่วนผู้ส่ง.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row pb-3">
+                                    <label class="col-lg-4 col-md-12 col-sm-12 col-12">
+                                        Reference&nbsp;<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group has-validation">
+                                                <input asp-for="sRef"
+                                                       id="txtRef"
+                                                       class="form-control"
+                                                       maxlength="10"
+                                                       placeholder="Reference"
+                                                       required />
+                                                <div class="invalid-feedback">
+                                                    Please require field Reference.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row pb-3">
+                                    <label class="col-lg-4 col-md-12 col-sm-12 col-12">
+                                        ชื่อผู้รับ&nbsp;<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group has-validation">
+                                                <input asp-for="sReceiver"
+                                                       id="txtReceiver"
+                                                       class="form-control"
+                                                       maxlength="10"
+                                                       placeholder="ชื่อผู้รับ"
+                                                       required />
+                                                <div class="invalid-feedback">
+                                                    Please require field ชื่อผู้รับ.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-12">
+                                <div class="form-group row pb-3">
+                                    <label class="col-md-4 col-sm-12 col-12">
+                                        ปลายทาง&nbsp;<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group has-validation">
+                                                <input asp-for="nPostal"
+                                                       id="txtPostal"
+                                                       type="number"
+                                                       class="form-control"
+                                                       maxlength="10"
+                                                       placeholder="ปลายทาง"
+                                                       required />
+                                                <div class="invalid-feedback">
+                                                    Please require field ปลายทาง.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row pb-3">
+                                    <label class="col-md-4 col-sm-12 col-12">
+                                        จำนวนเงิน&nbsp;<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group has-validation">
+                                                <input asp-for="nAmount"
+                                                       id="txtAmount"
+                                                       class="form-control"
+                                                       maxlength="10"
+                                                       placeholder="จำนวนเงิน"
+                                                       required />
+                                                <div class="invalid-feedback">
+                                                    Please require field Reference.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row pb-3">
+                                    <label class="col-md-4 col-sm-12 col-12">
+                                        เลขที่ R/C&nbsp;<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <div class="input-group has-validation">
+                                                <input asp-for="sRCNumber"
+                                                       id="txtRCNumber"
+                                                       class="form-control"
+                                                       maxlength="10"
+                                                       placeholder="เลขที่ R/C"
+                                                       required />
+                                                <div class="invalid-feedback">
+                                                    Please require field เลขที่ R/C.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @*Table*@
+        <div class="col-12 pt-2">
+            <div class="form-group">
+                <div class="table-responsive">
+                    <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break SSCPro">
+                        <thead style="color: white; background-color: #17679c;">
+                            <tr>
+                                <th style="text-align:center">No.</th>
+                                <th style="text-align:center">รหัสส่วน</th>
+                                <th style="text-align:center">รายละเอียด</th>
+                                <th style="text-align:center">จำนวนฉบับ</th>
+                                <th style="text-align:center">ค่าไปรษณียากร</th>
+                                <th style="text-align:center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (@Model.lstData != null)
+                            {
+                                @if (@Model.lstData.Count != 0)
+                                {
+                                    @foreach (var item in @Model.lstData)
+                                    {
+                                        <tr>
+                                            <td style="text-align:center">@item.nNo</td>
+                                            <td style="text-align:center">@item.sDivCode</td>
+                                            <td>@item.sDetail</td>
+                                            <td style="text-align:center">@item.nQuantity</td>
+                                            <td style="text-align:center">@item.nAmount</td>
+                                            <td style="text-align:center">
+                                                <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit();"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
+                                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete')"><i class="bi bi-trash"></i>&nbsp;Delete</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            @if (@Model.lstData == null || @Model.lstData.Count == 0)
+                            {
+                                <tr>
+                                    <td style="text-align:center" class="dataNotFound" colspan="6">
+                                        No Data.
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                        @if (@Model.PagerCount > 1)
+                        {
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6" align="center">
+                                        @if (@Model.PageNumber > 1)
+                                        {
+                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="1">First</a>
+                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
+                                        }
+                                        @for (int pagenum = 1; pagenum <= @Model.PagerCount; pagenum++)
+                                        {
+                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@pagenum">@pagenum</a>
+                                        }
+                                        @if (@Model.PageNumber != @Model.PagerCount)
+                                        {
+                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PageNext">Next</a>
+                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
+                                        }
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //Set Control DatePicker : Date
+    $(function(){
+        $('#txtDate').datepicker({
+            format: "dd/mm/yyyy",
+            todaybtn: "linked",
+            orientation: "bottom auto",
+            todayhighlight: true,
+            autoclose: true,
+        });
+    });
+
+        //Bind DropDownList => Month
+    var ArrTime = [
+        {
+            "value": "8.30",
+            "label": "8.30"
+        },
+        {
+            "value": "9.30",
+            "label": "9.30"
+        },
+        {
+            "value": "11.30",
+            "label": "11.30"
+        },
+        {
+            "value": "17.00",
+            "label": "17.00"
+        },
+    ]
+    for (i = 0; i < ArrTime.length; i++) {
+        var data = '<option value="' + ArrTime[i].value + '">' + ArrTime[i].label + '</option>';
+        $('#ddlTime').append(data);
+    }
+
+    function OnChangeDate()
+    {
+        var txtDate = $('#txtDate').datepicker('getDate');
+        if(txtDate){
+            const yyyy = txtDate.getFullYear();
+            let mm = txtDate.getMonth() + 1; // Months start at 0!
+            let dd = txtDate.getDate();
+
+            if (dd < 10) dd = '0' + dd;
+            if (mm < 10) mm = '0' + mm;
+
+            var strDate = dd + '/' + mm + '/' + yyyy;
+            if(strDate){
+                document.getElementById("sDate").value = strDate;
+            }
+            OnChangeFilter();
+        }
+    }
+
+    function OnChangeFilter()
+    {
+        var txtDate = document.getElementById("sDate").value;
+        var ddlTime = document.getElementById("ddlTime").value;
+        var ddlGroupMail = document.getElementById("ddlGroupMail").value;
+        var ddlTypeMail = document.getElementById("ddlTypeMail").value;
+        if(txtDate && ddlTime && ddlGroupMail && ddlTypeMail)
+        {
+            if(ddlTypeMail)
+            {
+                $.get('https://localhost:44396/KeyDailyTask/GetDropDownTypeMail').done(
+                    function(res) {
+                        if(res)
+                        {
+                            let ArrData = res.filter(f => f.value == ddlTypeMail);
+                            if(ArrData)
+                            {
+                                OnHideForm(ArrData[0].sTypeMailID);
+                            }
+                        }
+                    }
+                );
+            }
+        }
+    }
+
+    function OnHideForm(TypeMail)
+    {
+        var dvNolmalForm = document.getElementById("dvNolmalForm");
+        var dvRegisterForm = document.getElementById("dvRegisterForm");
+        if(TypeMail)
+        {
+            switch(TypeMail)
+            {
+                case "0":
+                    dvNolmalForm.style.display = "block";
+                    dvRegisterForm.style.display = "none"
+                    break;
+                case "1":
+                    dvRegisterForm.style.display = "block";
+                    dvNolmalForm.style.display = "none";
+                    break;
+            }
+        }
+    }
+
+    function OnChangeTypeMail(ArrData)
+    {
+        console.log("ArrData",ArrData);
+    }
+</script>

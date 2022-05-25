@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using Demo1.Models.PSOrderContext;
 using Extensions.Common.STExtension;
+using Extensions.Common.STResultAPI;
 
 namespace Demo1.Controllers
 {
@@ -19,8 +20,10 @@ namespace Demo1.Controllers
         public IActionResult PayrollData(PayrollDataListClass Obj, int? pageNumber)
         {
             PayrollDataListClass Model = new PayrollDataListClass();
-            List<PayrollDataClass> lstData = GetData(Obj);
-            Model.lstData= lstData;
+            List<PayrollDataClass> lstData = new List<PayrollDataClass>();
+            lstData = GetData(Obj);
+            DownloadTextFile(lstData);
+            Model.lstData = lstData;
 
             Model.PageNumber = (pageNumber == null ? 1 : Convert.ToInt32(pageNumber));
             Model.PageSize = 10;
@@ -67,6 +70,7 @@ namespace Demo1.Controllers
                         string sACC = "";
                         string sDIV = "";
                         decimal nAMT = 0;
+                        string sAMT = "";
                         foreach (var Item in Group)
                         {
                             sDIV = Item.Sender.Trim();
@@ -90,6 +94,13 @@ namespace Demo1.Controllers
                             }
                             nAMT += Item.Pay;
                         }
+                        string[] ArrStr = (nAMT + "").Split('.');
+                        if (ArrStr.Length > 0)
+                        {
+                            sAMT += ArrStr[0] + ArrStr[1];
+                        }
+                        string StrAMT = sAMT.PadLeft(13, '0');
+                        sAMT = StrAMT;
 
                         lstData.Add(new PayrollDataClass
                         {
@@ -98,7 +109,7 @@ namespace Demo1.Controllers
                             REG = "8002",
                             SEQ = sSEQ,
                             DIV = sDIV,
-                            AMT = nAMT.ToString("#.##"),
+                            AMT = sAMT,
                             SIGN = " ",
                             VENDOR = "0000005068",
                             DETAIL = "                                  ",
@@ -109,57 +120,50 @@ namespace Demo1.Controllers
                         sDIV = "";
                         nAMT = 0;
                     }
-                    //foreach (var Item in lstData)
-                    //{
-                    //    string StrPost = Item.ACC + Item.REG + Item.SEQ + Item.DIV + Item.AMT + Item.SIGN + Item.VENDOR + Item.DETAIL + Item.DEPT;
-                    //}
                 }
             }
             return lstData;
         }
-        public string DownloadTextFile(PayrollDataListClass Obj)
+
+        public void DownloadTextFile(List<PayrollDataClass> lstData)
         {
-            //// Get the current directory.
-            //string path = Directory.GetCurrentDirectory();
-            //string target = @"C:\temp";
-            //Console.WriteLine("The current directory is {0}", path);
-            //if (!Directory.Exists(target))
-            //{
-            //    Directory.CreateDirectory(target);
-            //}
-
-            //// Change the current directory.
-            //Environment.CurrentDirectory = (target);
-            //if (path.Equals(Directory.GetCurrentDirectory()))
-            //{
-            //    Console.WriteLine("You are in the temp directory.");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("You are not in the temp directory.");
-            //}
-
-            string path = @"C:\Users\2521116455\Downloads\MyTest.txt";
-            if (!System.IO.File.Exists(path))
+            try
             {
-                using (StreamWriter sw = System.IO.File.CreateText(path))
+                string path = @"C:\Users\2521116455\Downloads\POST_" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".txt";
+                if (!System.IO.File.Exists(path))
                 {
-                    sw.WriteLine("Hello");
-                    sw.WriteLine("And");
-                    sw.WriteLine("Welcome");
+                    if (lstData.Count > 0)
+                    {
+                        using (StreamWriter sw = System.IO.File.CreateText(path))
+                        {
+                            foreach (var Item in lstData)
+                            {
+                                sw.WriteLine(Item.ACC + Item.REG + Item.SEQ + Item.DIV + Item.AMT + Item.SIGN + Item.VENDOR + Item.DETAIL + Item.DEPT);
+                            }
+                            TempData["Success"] = "Action Completed', 'Data is already saved.";
+                            Redirect("PayrollData");
+                        }
+                    }
+                }
+
+                if (lstData.Count > 0)
+                {
+                    using (StreamReader sr = System.IO.File.OpenText(path))
+                    {
+                        string s;
+                        while ((s = sr.ReadLine()) != null)
+                        {
+                            Console.WriteLine(s);
+                            TempData["Success"] = "Action Completed', 'Data is already saved.";
+                            Redirect("PayrollData");
+                        }
+                    }
                 }
             }
-
-            using (StreamReader sr = System.IO.File.OpenText(path))
+            catch (Exception ex)
             {
-                string s;
-                while ((s = sr.ReadLine()) != null)
-                {
-                    Console.WriteLine(s);
-                }
+                TempData["Error"] = ex.Message;
             }
-
-            return "";
         }
     }
 }
