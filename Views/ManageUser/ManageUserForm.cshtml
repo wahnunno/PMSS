@@ -3,21 +3,6 @@
     ViewData["Title"] = "ManageUserForm";
 }
 
-@if (TempData["Success"] != null)
-{
-    <script type="text/javascript">
-        Swal.fire('Action Completed', 'Data is already saved.', 'success');
-        @*document.getElementById("ManageUnitDepartmentForm").reset();*@
-    </script>
-}
-@if (TempData["Error"] != null)
-{
-    <script type="text/javascript">
-        Swal.fire('Error, Checking Alert', '@TempData["Error"]', 'error');
-        @*document.getElementById("ManageUnitDepartmentForm").reset();*@
-    </script>
-}
-
 <div class="container p-0">
     <div class="row">
         @*Form*@
@@ -133,7 +118,7 @@
                         <div class="text-center pb-1">
                             <input hidden type="checkbox" id="cbEdit" asp-for="IsEdit">
                             <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit',0,this.form)"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
-                            <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
+                            <button type="button" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
                         </div>
                     </form>
                 </div>
@@ -244,11 +229,8 @@
         switch(Mode)
         {
             case "Submit":
-                var txtOAUserID = document.getElementById("txtOAUserID").value;
-                var txtName = document.getElementById("txtName").value;
-                var txtStartDate = document.getElementById("sStartDate").value;
-                var txtEndDate = document.getElementById("sEndDate").value;
-                if(txtOAUserID && txtName && txtStartDate && txtEndDate)
+                var forms = document.getElementsByClassName('needs-validation');
+                if (form.checkValidity() === true) 
                 {
                     Swal.fire({
                         title: 'Confirmation',
@@ -265,7 +247,6 @@
                         preConfirm: function () {
                             return new Promise(function (resolve, reject) {
                                 Swal.disableButtons();
-                                //OnSave();
                                 form.submit();
                                 Swal.close();
                             });
@@ -281,7 +262,7 @@
                     Swal.fire({
                         title: 'Confirmation',
                         text: 'Do you want to delete data?',
-                        icon: 'info',
+                        icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
@@ -337,7 +318,8 @@
             sID : sID,
         }
         $.post( 'https://localhost:44396/ManageUser/Delete', Obj ).done(
-            function(res) {
+            function(res)
+            {
                 if (res.status == "Success") {
                     Swal.fire('Action Completed', 'Data is already deleted.', 'success');
                 } else {
@@ -369,14 +351,15 @@
     //Function Clear Form
     function Clear()
     {
-        $("#txtOAUserID").prop("disabled", false);
+        document.getElementById("txtOAUserID").readOnly = false;
         document.getElementById("txtOAUserID").value = null;
         document.getElementById("txtName").value = null;
         $('#txtStartDate').datepicker('setDate', null);
         $('#txtEndDate').datepicker('setDate', null);
         $("#cbEdit").prop('checked', false);
         document.getElementById("sStartDate").value = null;
-        document.getElementById("sStartDate").value = null;
+        document.getElementById("sEndDate").value = null;
+        document.getElementsByClassName('needs-validation')[0].classList.remove("was-validated");
     }
 
     function OnChangeDate(Mode)
@@ -416,3 +399,18 @@
         }
     }
 </script>
+
+
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Action Completed', 'Data is already saved.', 'success');
+        Clear();
+    </script>
+}
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Error, Checking Alert', '@TempData["Error"]', 'error');
+    </script>
+}

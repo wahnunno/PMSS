@@ -51,12 +51,11 @@ namespace Demo1.Controllers
             return lstData;
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult KeyDailyTaskForm()
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public IActionResult KeyDailyTaskForm(KeyDailyTaskListClass Obj)
+        {
+            return KeyDailyTaskForm();
+        }
 
     }
 }

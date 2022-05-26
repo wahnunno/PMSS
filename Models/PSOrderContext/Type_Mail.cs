@@ -12,6 +12,7 @@ namespace Demo1.Models.PSOrderContext
         /// MT_TypeMail =&gt; 0 : จดหมายธรรมดา,1 : จดหมายลงทะเบียน
         /// </summary>
         public string Type_Mail1 { get; set; } = null!;
+        public int? nTypeInOutID { get; set; }
         /// <summary>
         /// MT_TypeInOut =&gt; 1 : ไปรษณียภัณฑ์ในประเทศ,2 : ไปรษณียภัณฑ์ต่างประเทศ
         /// </summary>

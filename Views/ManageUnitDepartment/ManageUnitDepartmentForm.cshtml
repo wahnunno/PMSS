@@ -3,21 +3,6 @@
     ViewData["Title"] = "ManageUnitDepartmentForm";
 }
 
-@if (TempData["Success"] != null)
-{
-    <script type="text/javascript">
-        Swal.fire('Action Completed', 'Data is already saved.', 'success');
-        @*document.getElementById("ManageUnitDepartmentForm").reset();*@
-</script>
-}
-@if (TempData["Error"] != null)
-{
-    <script type="text/javascript">
-        Swal.fire('Error, Checking Alert', '@TempData["Error"]', 'error');
-        @*document.getElementById("ManageUnitDepartmentForm").reset();*@
-    </script>
-}
-
 <div class="container p-0">
     <div class="row">
         @*Form*@
@@ -101,7 +86,7 @@
                         <div class="text-center pb-1">
                             <input hidden type="checkbox" id="cbEdit" asp-for="IsEdit">
                             <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit','',this.form)"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
-                            <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
+                            <button type="button" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
                         </div>
                     </form>
                 </div>
@@ -181,69 +166,6 @@
 </div>
 
 <script type="text/javascript">
-    //function CreateTable(data) {
-    //    var tbody = document.getElementById('tbData').getElementsByTagName('tbody')[0];
-    //    tbody.innerHTML = "";
-    //    $.each(data, function (i, item) {
-    //        var newRow = tbody.insertRow();
-    //        var newCell = newRow.insertCell();
-    //        var newText = document.createTextNode(item.nNo);
-
-    //        newCell.appendChild(newText);
-    //        newCell.setAttribute("align", "center");
-
-    //        newCell = newRow.insertCell();
-    //        newText = document.createTextNode(item.sectionCode);
-    //        newCell.appendChild(newText);
-    //        newCell.setAttribute("align", "center");
-
-    //        newCell = newRow.insertCell();
-    //        newText = document.createTextNode(item.sectionName);
-    //        newCell.appendChild(newText);
-    //        newCell.setAttribute("align", "left");
-
-    //        newCell = newRow.insertCell();
-    //        newText = document.createTextNode(item.sectionGroupName);
-    //        newCell.appendChild(newText);
-    //        newCell.setAttribute("align", "center");
-
-    //        let btn = document.createElement("button");
-    //        btn.innerHTML = "<i class='bi bi-pencil-square'></i>&nbsp;Edit";
-    //        btn.setAttribute("onClick", "OnEdit('" + item.sectionCode + "','" + item.sectionName + "','" + item.sectionGroup + "')");
-    //        btn.type = "button";
-    //        btn.name = "btnEdit";
-    //        btn.style = "margin-right : 3px;";
-    //        btn.className = "btn btn-sm btn-warning";
-    //        document.body.appendChild(btn);
-
-    //        let btn2 = document.createElement("button");
-    //        btn2.innerHTML = "<i class='bi bi-trash'></i>&nbsp;Delete";
-    //        btn2.setAttribute("onClick", "OnClick('Delete','" + item.sectionCode + "')");
-    //        btn2.type = "button";
-    //        btn2.name = "btnDelete";
-    //        btn2.className = "btn btn-sm btn-danger";
-    //        document.body.appendChild(btn2);
-
-    //        newCell = newRow.insertCell();
-    //        newText = document.createTextNode("");
-    //        newCell.appendChild(btn);
-    //        newCell.appendChild(btn2);
-    //        newCell.setAttribute("align", "center");
-    //    });
-    //}
-
-    ////Function Get Data
-    //function GetData(){
-    //    let Obj = {
-    //        pageNumber : 0,
-    //    }
-    //    $.post( 'https://localhost:44396/ManageUnitDepartment/GetData', Obj ).done(
-    //        function(res) {
-    //            CreateTable(res);
-    //            Clear();
-    //        }
-    //    );
-    //}
 
     //Function OnClick case
     function OnClick(Mode,sID,form)
@@ -251,10 +173,8 @@
         switch(Mode)
         {
             case "Submit":
-                var txtSectionCode = document.getElementById("txtSectionCode").value;
-                var txtSectionName = document.getElementById("txtSectionName").value;
-                var ddlGroupSection = document.getElementById("ddlGroupSection").value;
-                if(txtSectionCode && txtSectionName && ddlGroupSection)
+                var forms = document.getElementsByClassName('needs-validation');
+                if (form.checkValidity() === true) 
                 {
                     Swal.fire({
                         title: 'Confirmation',
@@ -271,7 +191,6 @@
                         preConfirm: function () {
                             return new Promise(function (resolve, reject) {
                                 Swal.disableButtons();
-                                //OnSave();
                                 form.submit();
                                 Swal.close();
                             });
@@ -287,7 +206,7 @@
                     Swal.fire({
                         title: 'Confirmation',
                         text: 'Do you want to delete data?',
-                        icon: 'info',
+                        icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
@@ -311,32 +230,6 @@
                 break;
         }
     }
-
-    ////Function Save Data
-    //function OnSave()
-    //{
-    //    let Obj = {
-    //        IsEdit : document.getElementById("cbEdit").value,
-    //        SectionCode : document.getElementById("txtSectionCode").value,
-    //        SectionName : document.getElementById("txtSectionName").value,
-    //        SectionGroup : document.getElementById("ddlGroupSection").value,
-    //    }
-    //    $.post('https://localhost:44396/ManageUnitDepartment/SaveToDB', Obj ).done(
-    //        function(res) {
-    //            if (res.status == "Success") {
-    //                Swal.fire('Action Completed', 'Data is already saved.', 'success');
-    //                GetData();
-
-    //                //Set Value
-    //                document.getElementById("txtSectionCode").value = null;
-    //                document.getElementById("txtSectionName").value = null;
-    //                document.getElementById("ddlGroupSection").value = null;
-    //            } else {
-    //                Swal.fire('Error, Checking Alert', res.massage, 'error');
-    //            }
-    //        }
-    //    );
-    //}
 
     //Function Edit Data
     function OnEdit(SectionCode,SectionName,SectionGroup)
@@ -389,12 +282,28 @@
     })()
 
     //Function Clear Form
-    function Clear(){
+    function Clear()
+    {
+        debugger
         document.getElementById("txtSectionCode").value = null;
         document.getElementById("txtSectionName").value = null;
         document.getElementById("ddlGroupSection").value = "";
         document.getElementById("txtSectionCode").readOnly = false;
         $("#cbEdit").prop('checked', false);
+        document.getElementsByClassName('needs-validation')[0].classList.remove("was-validated");
     }
 </script>
 
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Action Completed', 'Data is already saved.', 'success');
+        Clear();
+    </script>
+}
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Error, Checking Alert', '@TempData["Error"]', 'error');
+    </script>
+}

@@ -63,7 +63,7 @@ namespace Demo1.Controllers
                     }
 
                     string sType_InOut = "";
-                    var lstType_InOut = DB.MT_TypeInOuts.FirstOrDefault(f => f.nID == Item.Type_InOut.ToInt());
+                    var lstType_InOut = DB.MT_TypeInOuts.FirstOrDefault(f => f.nID == Item.nTypeInOutID.ToInt());
                     if (lstType_InOut != null)
                     {
                         sType_InOut = lstType_InOut.sTypeInOutName + "";
@@ -77,7 +77,7 @@ namespace Demo1.Controllers
                         Type_Pay = Item.Type_Pay,
                         nTypeMailID = Item.Type_Mail1.ToInt(),
                         Type_Mail = sType_Mail,
-                        nTypeInOutID = Item.Type_InOut.ToInt(),
+                        nTypeInOutID = Item.nTypeInOutID,
                         Type_InOut = sType_InOut
                     });
                 }

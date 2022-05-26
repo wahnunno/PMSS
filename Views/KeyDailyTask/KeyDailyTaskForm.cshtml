@@ -3,19 +3,6 @@
     ViewData["Title"] = "KeyDailyTaskForm";
 }
 
-@if (TempData["Success"] != null)
-{
-    <script type="text/javascript">
-        Swal.fire('Action Completed', 'Data is already saved.', 'success');
-    </script>
-}
-@if (TempData["Error"] != null)
-{
-    <script type="text/javascript">
-        Swal.fire('Error, Checking Alert', '@TempData["Error"]', 'error');
-    </script>
-}
-
 <div class="container p-0">
     <div class="row">
         @*Form*@
@@ -58,7 +45,7 @@
                                     </div>
                                     <div class="form-group row pb-3">
                                         <label class="col-lg-4 col-md-12 col-sm-12 col-12">
-                                            เวลา&nbsp;<span class="text-danger">*</span>
+                                            รอบเวลา&nbsp;<span class="text-danger">*</span>
                                         </label>
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
@@ -131,7 +118,7 @@
         @*Form*@
         <div class="col-8">
             <div class="card card-custom" id="dvNolmalForm" style="display:none">
-                <div class="card-header card-custom-header" style="background-color: #d9edf7;">จดหมายธรรมดา</div>
+                <div class="card-header card-custom-header" style="background-color: #8CC0DE;">จดหมายธรรมดา</div>
                 <div class="card-body card-custom-body">
                     <form id="NolmalForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
                         <div class="form-group row">
@@ -221,11 +208,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="text-center pb-1">
+                            @*<input hidden type="checkbox" id="cbEdit" asp-for="IsEdit">*@
+                            <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit',0,this.form)"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
+                            <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
+                        </div>
                     </form>
                 </div>
             </div>
             <div class="card card-custom" id="dvRegisterForm" style="display:none">
-                <div class="card-header card-custom-header" style="background-color: #d9edf7;">จดหมายลงทะเบียน</div>
+                <div class="card-header card-custom-header" style="background-color: #8CC0DE;">จดหมายลงทะเบียน</div>
                 <div class="card-body card-custom-body">
                     <form id="RegisterForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
                         <div class="form-group row">
@@ -355,6 +347,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="text-center pb-1">
+                            @*<input hidden type="checkbox" id="cbEdit" asp-for="IsEdit">*@
+                            <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary" onclick="OnClick('Submit',0,this.form)"><i class="bi bi-plus-lg"></i>&nbsp;Add</button>
+                            <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -453,19 +450,19 @@
     var ArrTime = [
         {
             "value": "8.30",
-            "label": "8.30"
+            "label": "8.30 น."
         },
         {
             "value": "9.30",
-            "label": "9.30"
+            "label": "9.30 น."
         },
         {
             "value": "11.30",
-            "label": "11.30"
+            "label": "11.30 น."
         },
         {
             "value": "17.00",
-            "label": "17.00"
+            "label": "17.00 น."
         },
     ]
     for (i = 0; i < ArrTime.length; i++) {
@@ -542,4 +539,119 @@
     {
         console.log("ArrData",ArrData);
     }
+
+    //Function Validation
+    (function () {
+      'use strict'
+
+      var forms = document.querySelectorAll('.needs-validation')
+
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+
+        //Function OnClick case
+    function OnClick(Mode,sID,form)
+    {
+        switch(Mode)
+        {
+            case "Submit":
+            var forms = document.getElementsByClassName('needs-validation');
+            if (form.checkValidity() === false) {
+            //    //event.preventDefault();
+            //    //event.stopPropagation();
+            }
+            else{
+                form.submit();
+
+            }
+                //var ss = document.getElementsByClassName('needs-validation')[0].className ;
+                var sxx = forms.classList;
+                //debugger
+                //console.log(ss);
+                console.log("xx",sxx);
+                                            //form.submit();
+                //var txtOAUserID = document.getElementById("txtOAUserID").value;
+                //var txtName = document.getElementById("txtName").value;
+                //var txtStartDate = document.getElementById("sStartDate").value;
+                //var txtEndDate = document.getElementById("sEndDate").value;
+                //if(txtOAUserID && txtName && txtStartDate && txtEndDate)
+                //{
+                    //Swal.fire({
+                    //    title: 'Confirmation',
+                    //    text: 'Do you want to submit data?',
+                    //    icon: 'info',
+                    //    showCancelButton: true,
+                    //    confirmButtonColor: '#3085d6',
+                    //    cancelButtonColor: '#d33',
+                    //    confirmButtonText: '<i class="bi bi-check"></i> Yes',
+                    //    cancelButtonText: '<i class="bi bi-x"></i> No',
+                    //    showLoaderOnConfirm: true,
+                    //    allowOutsideClick: false,
+                    //    timerProgressBar: true,
+                    //    preConfirm: function () {
+                    //        return new Promise(function (resolve, reject) {
+                    //            Swal.disableButtons();
+                    //            //OnSave();
+                    //            form.submit();
+                    //            Swal.close();
+                    //        });
+                    //    },
+                    //}).then(function (d) {
+                    //    if (d.dismiss === Swal.DismissReason.cancel) {
+                    //        Swal.close();
+                    //    }
+                    //});
+                //}
+                break;
+            case "Delete":
+                    Swal.fire({
+                        title: 'Confirmation',
+                        text: 'Do you want to delete data?',
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '<i class="bi bi-check"></i> Yes',
+                        cancelButtonText: '<i class="bi bi-x"></i> No',
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: false,
+                        timerProgressBar: true,
+                        preConfirm: function () {
+                            return new Promise(function (resolve, reject) {
+                                Swal.disableButtons();
+                                OnDelete(sID);
+                                Swal.close();
+                            });
+                        },
+                    }).then(function (d) {
+                        if (d.dismiss === Swal.DismissReason.cancel) {
+                            Swal.close();
+                        }
+                    });
+                break;
+        }
+    }
 </script>
+
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Action Completed', 'Data is already saved.', 'success');
+    </script>
+}
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire('Error, Checking Alert', '@TempData["Error"]', 'error');
+    </script>
+}

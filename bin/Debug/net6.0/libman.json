@@ -13,14 +13,6 @@
     {
       "library": "limonte-sweetalert2@11.4.13",
       "destination": "wwwroot/lib/limonte-sweetalert2/"
-    },
-    {
-      "library": "bootstrap-datetimepicker@4.17.47",
-      "destination": "wwwroot/lib/bootstrap-datetimepicker/"
-    },
-    {
-      "library": "moment.js@2.29.3",
-      "destination": "wwwroot/lib/moment.js/"
     }
   ]
 }
