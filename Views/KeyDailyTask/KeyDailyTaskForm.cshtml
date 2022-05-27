@@ -108,6 +108,21 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group row pb-3">
+                                        <label class="col-md-4 col-sm-12 col-12">
+                                            ส่งเป็น Lot
+                                        </label>
+                                        <div class="col-md-8 col-sm-12 col-12">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="form-check">
+                                                        @*<input class="form-check-input" type="checkbox" id="cbLot">*@
+                                                        <input class="form-check-input" type="checkbox" id="cbLot" onchange="OnChangeFilter()">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -446,7 +461,7 @@
         });
     });
 
-        //Bind DropDownList => Month
+    //Bind DropDownList => Month
     var ArrTime = [
         {
             "value": "8.30",
@@ -465,7 +480,8 @@
             "label": "17.00 น."
         },
     ]
-    for (i = 0; i < ArrTime.length; i++) {
+    for (i = 0; i < ArrTime.length; i++)
+    {
         var data = '<option value="' + ArrTime[i].value + '">' + ArrTime[i].label + '</option>';
         $('#ddlTime').append(data);
     }
@@ -495,12 +511,18 @@
         var ddlTime = document.getElementById("ddlTime").value;
         var ddlGroupMail = document.getElementById("ddlGroupMail").value;
         var ddlTypeMail = document.getElementById("ddlTypeMail").value;
+        var cbLot = $("#cbLot").is(":checked");
         if(txtDate && ddlTime && ddlGroupMail && ddlTypeMail)
         {
-            if(ddlTypeMail)
+            if(cbLot)
+            {
+                OnHideForm('0');
+            }
+            else if(ddlTypeMail)
             {
                 $.get('https://localhost:44396/KeyDailyTask/GetDropDownTypeMail').done(
-                    function(res) {
+                    function(res)
+                    {
                         if(res)
                         {
                             let ArrData = res.filter(f => f.value == ddlTypeMail);
@@ -560,64 +582,47 @@
     })()
 
         //Function OnClick case
+
+    //Function OnClick case
     function OnClick(Mode,sID,form)
     {
         switch(Mode)
         {
             case "Submit":
-            var forms = document.getElementsByClassName('needs-validation');
-            if (form.checkValidity() === false) {
-            //    //event.preventDefault();
-            //    //event.stopPropagation();
-            }
-            else{
-                form.submit();
-
-            }
-                //var ss = document.getElementsByClassName('needs-validation')[0].className ;
-                var sxx = forms.classList;
-                //debugger
-                //console.log(ss);
-                console.log("xx",sxx);
-                                            //form.submit();
-                //var txtOAUserID = document.getElementById("txtOAUserID").value;
-                //var txtName = document.getElementById("txtName").value;
-                //var txtStartDate = document.getElementById("sStartDate").value;
-                //var txtEndDate = document.getElementById("sEndDate").value;
-                //if(txtOAUserID && txtName && txtStartDate && txtEndDate)
-                //{
-                    //Swal.fire({
-                    //    title: 'Confirmation',
-                    //    text: 'Do you want to submit data?',
-                    //    icon: 'info',
-                    //    showCancelButton: true,
-                    //    confirmButtonColor: '#3085d6',
-                    //    cancelButtonColor: '#d33',
-                    //    confirmButtonText: '<i class="bi bi-check"></i> Yes',
-                    //    cancelButtonText: '<i class="bi bi-x"></i> No',
-                    //    showLoaderOnConfirm: true,
-                    //    allowOutsideClick: false,
-                    //    timerProgressBar: true,
-                    //    preConfirm: function () {
-                    //        return new Promise(function (resolve, reject) {
-                    //            Swal.disableButtons();
-                    //            //OnSave();
-                    //            form.submit();
-                    //            Swal.close();
-                    //        });
-                    //    },
-                    //}).then(function (d) {
-                    //    if (d.dismiss === Swal.DismissReason.cancel) {
-                    //        Swal.close();
-                    //    }
-                    //});
-                //}
+                var forms = document.getElementsByClassName('needs-validation');
+                if (form.checkValidity() === true)
+                {
+                    Swal.fire({
+                        title: 'Confirmation',
+                        text: 'Do you want to submit data?',
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '<i class="bi bi-check"></i> Yes',
+                        cancelButtonText: '<i class="bi bi-x"></i> No',
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: false,
+                        timerProgressBar: true,
+                        preConfirm: function () {
+                            return new Promise(function (resolve, reject) {
+                                Swal.disableButtons();
+                                form.submit();
+                                Swal.close();
+                            });
+                        },
+                    }).then(function (d) {
+                        if (d.dismiss === Swal.DismissReason.cancel) {
+                            Swal.close();
+                        }
+                    });
+                }
                 break;
             case "Delete":
                     Swal.fire({
                         title: 'Confirmation',
                         text: 'Do you want to delete data?',
-                        icon: 'info',
+                        icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
