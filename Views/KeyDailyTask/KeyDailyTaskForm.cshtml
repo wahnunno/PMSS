@@ -375,9 +375,9 @@
     <div class="row">
         @*Table*@
         <div class="col-12 pt-2">
-            <div class="form-group">
+            <div class="form-group" id="tbNolmal" style="display:none">
                 <div class="table-responsive">
-                    <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break SSCPro">
+                    <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break">
                         <thead style="color: white; background-color: #17679c;">
                             <tr>
                                 <th style="text-align:center">No.</th>
@@ -417,7 +417,77 @@
                                     </td>
                                 </tr>
                             }
-
+                        </tbody>
+                        @if (@Model.PagerCount > 1)
+                        {
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6" align="center">
+                                        @if (@Model.PageNumber > 1)
+                                        {
+                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="1">First</a>
+                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
+                                        }
+                                        @for (int pagenum = 1; pagenum <= @Model.PagerCount; pagenum++)
+                                        {
+                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@pagenum">@pagenum</a>
+                                        }
+                                        @if (@Model.PageNumber != @Model.PagerCount)
+                                        {
+                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PageNext">Next</a>
+                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
+                                        }
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        }
+                    </table>
+                </div>
+            </div>
+            <div class="form-group" id="tbRegister" style="display:none">
+                <div class="table-responsive">
+                    <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break">
+                        <thead style="color: white; background-color: #17679c;">
+                            <tr>
+                                <th style="text-align:center">No.</th>
+                                <th style="text-align:center">นามผู้รับ</th>
+                                <th style="text-align:center">ปลายทาง</th>
+                                <th style="text-align:center">เลขที่ R/C</th>
+                                <th style="text-align:center">ค่าไปรษณียากร</th>
+                                <th style="text-align:center">รหัสส่วน</th>
+                                <th style="text-align:center">เลขที่อ้างอิง</th>
+                                <th style="text-align:center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (@Model.lstData != null)
+                            {
+                                @if (@Model.lstData.Count != 0)
+                                {
+                                    @foreach (var item in @Model.lstData)
+                                    {
+                                        <tr>
+                                            <td style="text-align:center">@item.nNo</td>
+                                            <td style="text-align:center">@item.sDivCode</td>
+                                            <td>@item.sDetail</td>
+                                            <td style="text-align:center">@item.nQuantity</td>
+                                            <td style="text-align:center">@item.nAmount</td>
+                                            <td style="text-align:center">
+                                                <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit();"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
+                                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete')"><i class="bi bi-trash"></i>&nbsp;Delete</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            @if (@Model.lstData == null || @Model.lstData.Count == 0)
+                            {
+                                <tr>
+                                    <td style="text-align:center" class="dataNotFound" colspan="8">
+                                        No Data.
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                         @if (@Model.PagerCount > 1)
                         {
@@ -541,17 +611,23 @@
     {
         var dvNolmalForm = document.getElementById("dvNolmalForm");
         var dvRegisterForm = document.getElementById("dvRegisterForm");
+        var tbNolmal = document.getElementById("tbNolmal");
+        var tbRegister = document.getElementById("tbRegister");
         if(TypeMail)
         {
             switch(TypeMail)
             {
                 case "0":
                     dvNolmalForm.style.display = "block";
+                    tbNolmal.style.display = "block";
                     dvRegisterForm.style.display = "none"
+                    tbRegister.style.display = "none"
                     break;
                 case "1":
                     dvRegisterForm.style.display = "block";
+                    tbRegister.style.display = "block";
                     dvNolmalForm.style.display = "none";
+                    tbNolmal.style.display = "none";
                     break;
             }
         }

@@ -23,5 +23,10 @@ namespace Demo1.Models.PSOrderContext
         public string? Period { get; set; }
         public string? Product { get; set; }
         public int? rload { get; set; }
+        public string? sCreate { get; set; }
+        public DateTime? dCreateDate { get; set; }
+        public string? sUpdate { get; set; }
+        public DateTime? dUpdateDate { get; set; }
+        public bool? IsDelete { get; set; }
     }
 }

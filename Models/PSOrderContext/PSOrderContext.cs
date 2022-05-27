@@ -273,7 +273,19 @@ namespace Demo1.Models.PSOrderContext
                     .IsUnicode(false)
                     .IsFixedLength();
 
+                entity.Property(e => e.dCreateDate).HasColumnType("datetime");
+
                 entity.Property(e => e.dDate).HasColumnType("datetime");
+
+                entity.Property(e => e.dUpdateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.sCreate)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.sUpdate)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Return_Table>(entity =>

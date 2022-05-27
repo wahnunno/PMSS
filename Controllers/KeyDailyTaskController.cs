@@ -51,6 +51,27 @@ namespace Demo1.Controllers
             return lstData;
         }
 
+        public List<KeyDailyTaskClass> GetData()
+        {
+            List<KeyDailyTaskClass> lstData = new List<KeyDailyTaskClass>();
+            var lst = DB.Normals.Where(w => w.IsDelete.Value == false).ToList();
+            if (lst.Count > 0)
+            {
+                int i = 1;
+                foreach (var Item in lst)
+                {
+                    lstData.Add(new KeyDailyTaskClass
+                    {
+                        nNo = i++,
+                        //sDivCode = Item.Sender,
+                        //sDetail = Item.
+                    });
+                }
+            }
+
+            return lstData;
+        }
+
         [HttpPost]
         public IActionResult KeyDailyTaskForm(KeyDailyTaskListClass Obj)
         {
