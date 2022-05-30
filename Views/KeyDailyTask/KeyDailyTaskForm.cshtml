@@ -10,7 +10,7 @@
             <div class="card card-custom">
                 <div class="card-header card-custom-header" style="background-color: #d9edf7;">Key งานประจำวัน</div>
                 <div class="card-body card-custom-body">
-                    <form id="KeyDailyTaskForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
+                    <form id="KeyDailyTaskForm" onsubmit="return GetData()" class="needs-validation" novalidate>
                         <div class="form-group">
                             <div class="form-group row">
                                 <div class="col-md-12 col-sm-12 col-12">
@@ -24,7 +24,7 @@
                                                     <input type="text"
                                                            class="form-control"
                                                            placeholder="dd/mm/yyyy"
-                                                           onchange="OnChangeDate()"
+                                                           onchange="OnChangeDate(this.form)"
                                                            required>
                                                     <span class="input-group-append">
                                                         <span class="input-group-text">
@@ -50,7 +50,7 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <select class="form-control form-select" id="ddlTime" onchange="OnChangeFilter()" required>
+                                                    <select class="form-control form-select" id="ddlTime" onchange="OnChangeFilter(this.form)" required>
                                                         <option value="" selected>- Select -</option>
                                                     </select>
                                                     <div class="invalid-feedback">
@@ -67,7 +67,7 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <select class="form-control form-select" id="ddlGroupMail" onchange="OnChangeFilter()" required>
+                                                    <select class="form-control form-select" id="ddlGroupMail" onchange="OnChangeFilter(this.form)" required>
                                                         <option value="" selected>- Select -</option>
                                                         @if (@Model.lstGroupMail.Count > 0)
                                                         {
@@ -91,7 +91,7 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <select class="form-control form-select" id="ddlTypeMail" onchange="OnChangeFilter()" required>
+                                                    <select class="form-control form-select" id="ddlTypeMail" onchange="OnChangeFilter(this.form)" required>
                                                         <option value="" selected>- Select -</option>
                                                         @if (@Model.lstTypeMail.Count > 0)
                                                         {
@@ -117,7 +117,7 @@
                                                 <div class="input-group">
                                                     <div class="form-check">
                                                         @*<input class="form-check-input" type="checkbox" id="cbLot">*@
-                                                        <input class="form-check-input" type="checkbox" id="cbLot" onchange="OnChangeFilter()">
+                                                        <input class="form-check-input" type="checkbox" id="cbLot" onchange="OnChangeFilter(this.form)">
                                                     </div>
                                                 </div>
                                             </div>
@@ -389,11 +389,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (@Model.lstData != null)
+                            @if (@Model.lstNormal != null)
                             {
-                                @if (@Model.lstData.Count != 0)
+                                @if (@Model.lstNormal.Count != 0)
                                 {
-                                    @foreach (var item in @Model.lstData)
+                                    @foreach (var item in @Model.lstNormal)
                                     {
                                         <tr>
                                             <td style="text-align:center">@item.nNo</td>
@@ -409,7 +409,7 @@
                                     }
                                 }
                             }
-                            @if (@Model.lstData == null || @Model.lstData.Count == 0)
+                            @if (@Model.lstNormal == null || @Model.lstNormal.Count == 0)
                             {
                                 <tr>
                                     <td style="text-align:center" class="dataNotFound" colspan="6">
@@ -460,18 +460,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (@Model.lstData != null)
+                            @if (@Model.lstRegister != null)
                             {
-                                @if (@Model.lstData.Count != 0)
+                                @if (@Model.lstRegister.Count != 0)
                                 {
-                                    @foreach (var item in @Model.lstData)
+                                    @foreach (var item in @Model.lstRegister)
                                     {
                                         <tr>
                                             <td style="text-align:center">@item.nNo</td>
+                                            <td>@item.sReceiverName</td>
+                                            <td style="text-align:center">@item.sDestination</td>
+                                            <td>@item.sRCNumber</td>
+                                            <td style="text-align:right">@item.nAmount</td>
                                             <td style="text-align:center">@item.sDivCode</td>
-                                            <td>@item.sDetail</td>
-                                            <td style="text-align:center">@item.nQuantity</td>
-                                            <td style="text-align:center">@item.nAmount</td>
+                                            <td style="text-align:right">@item.sRef</td>
                                             <td style="text-align:center">
                                                 <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit();"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
                                                 <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete')"><i class="bi bi-trash"></i>&nbsp;Delete</button>
@@ -480,7 +482,7 @@
                                     }
                                 }
                             }
-                            @if (@Model.lstData == null || @Model.lstData.Count == 0)
+                            @if (@Model.lstRegister == null || @Model.lstRegister.Count == 0)
                             {
                                 <tr>
                                     <td style="text-align:center" class="dataNotFound" colspan="8">
@@ -556,7 +558,7 @@
         $('#ddlTime').append(data);
     }
 
-    function OnChangeDate()
+    function OnChangeDate(form)
     {
         var txtDate = $('#txtDate').datepicker('getDate');
         if(txtDate){
@@ -571,11 +573,11 @@
             if(strDate){
                 document.getElementById("sDate").value = strDate;
             }
-            OnChangeFilter();
+            OnChangeFilter(form);
         }
     }
 
-    function OnChangeFilter()
+    function OnChangeFilter(form)
     {
         var txtDate = document.getElementById("sDate").value;
         var ddlTime = document.getElementById("ddlTime").value;
@@ -586,7 +588,7 @@
         {
             if(cbLot)
             {
-                OnHideForm('0');
+                OnHideForm('0',form);
             }
             else if(ddlTypeMail)
             {
@@ -598,16 +600,23 @@
                             let ArrData = res.filter(f => f.value == ddlTypeMail);
                             if(ArrData)
                             {
-                                OnHideForm(ArrData[0].sTypeMailID);
+                                OnHideForm(ArrData[0].sTypeMailID,form);
                             }
                         }
                     }
                 );
             }
         }
+        else
+        {
+            dvNolmalForm.style.display = "none";
+            tbNolmal.style.display = "none";
+            dvRegisterForm.style.display = "none"
+            tbRegister.style.display = "none"
+        }
     }
 
-    function OnHideForm(TypeMail)
+    function OnHideForm(TypeMail,form)
     {
         var dvNolmalForm = document.getElementById("dvNolmalForm");
         var dvRegisterForm = document.getElementById("dvRegisterForm");
@@ -622,6 +631,7 @@
                     tbNolmal.style.display = "block";
                     dvRegisterForm.style.display = "none"
                     tbRegister.style.display = "none"
+                    //form.get();
                     break;
                 case "1":
                     dvRegisterForm.style.display = "block";
@@ -721,6 +731,16 @@
                     });
                 break;
         }
+    }
+
+    function GetData() {
+        var data = new FormData(document.getElementById("KeyDailyTaskForm"));
+        debugger
+        //var xhr = new XMLHttpRequest();
+        //xhr.open("POST", "SERVER.SCRIPT");
+        //xhr.onload = function () { alert(this.response); };
+        //xhr.send(data);
+        return false;
     }
 </script>
 

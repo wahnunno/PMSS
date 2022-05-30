@@ -16,7 +16,9 @@ namespace Demo1.Models.PSOrderContext
         public string RC { get; set; } = null!;
         public string? UserID { get; set; }
         public string? Lot { get; set; }
+        public int? nTypeInOutID { get; set; }
         public string? TypeLetter { get; set; }
+        public int? nTypeMailID { get; set; }
         public string? TypeOfLetter { get; set; }
         public string? Datetime { get; set; }
         public DateTime? dDate { get; set; }

@@ -5,6 +5,7 @@ namespace Demo1.Models
 {
     public class KeyDailyTaskListClass
     {
+        public int nID { get; set; }
         public string sDate { get; set; }
         public string sTime { get; set; }
         public string sGroupMail { get; set; }
@@ -16,7 +17,9 @@ namespace Demo1.Models
         public string sReceiver { get; set; }
         public int nPostal { get; set; }
         public string sRCNumber { get; set; }
-        public List<KeyDailyTaskClass> lstData { get; set; } = new List<KeyDailyTaskClass>();
+        public bool IsEdit { get; set; }
+        public List<KeyDailyTask_Normal_Class> lstNormal { get; set; } = new List<KeyDailyTask_Normal_Class>();
+        public List<KeyDailyTask_Register_Class> lstRegister { get; set; } = new List<KeyDailyTask_Register_Class>();
         public List<cDropDown> lstGroupMail { get; set; } = new List<cDropDown>();
         public List<cDropDownTypeMail> lstTypeMail { get; set; } = new List<cDropDownTypeMail>();
         public int PagePrevious { get; internal set; }
