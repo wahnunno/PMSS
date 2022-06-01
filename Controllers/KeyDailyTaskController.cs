@@ -2,6 +2,7 @@
 using Demo1.Models.PSOrderContext;
 using Extensions.Common.STExtension;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 using static PMSS.Extensions.Common.AllClass;
 
 namespace Demo1.Controllers
@@ -17,14 +18,20 @@ namespace Demo1.Controllers
         public IActionResult KeyDailyTaskForm(KeyDailyTaskListClass Obj, int? pageNumber)
         {
             KeyDailyTaskListClass Model = new KeyDailyTaskListClass();
+            List<cDropDown> lstDiv = new List<cDropDown>();
             List<cDropDown> lstGroupMail = new List<cDropDown>();
             List<cDropDownTypeMail> lstTypeMail = new List<cDropDownTypeMail>();
             List<KeyDailyTask_Normal_Class> lstNormal = new List<KeyDailyTask_Normal_Class>();
             List<KeyDailyTask_Register_Class> lstRegister = new List<KeyDailyTask_Register_Class>();
+
+            lstDiv = GetDropDownDivision();
             lstGroupMail = GetDropDownGroupMail();
             lstTypeMail = GetDropDownTypeMail();
             lstNormal = GetData_Normal(Obj);
             lstRegister = GetData_Register(Obj);
+
+            Model.lstDiv = lstDiv;
+            Model.lstGroupMail = lstGroupMail;
             Model.lstGroupMail = lstGroupMail;
             Model.lstTypeMail = lstTypeMail;
             Model.lstNormal = lstNormal;
@@ -32,7 +39,6 @@ namespace Demo1.Controllers
 
             Model.PageNumber = (pageNumber == null ? 1 : Convert.ToInt32(pageNumber));
             Model.PageSize = 10;
-
             Model.PagePrevious = Model.PageNumber - 1;
             Model.PageNext = Model.PageNumber + 1;
 
@@ -57,6 +63,18 @@ namespace Demo1.Controllers
             }
 
             return View(Model);
+        }
+
+        public List<cDropDown> GetDropDownDivision()
+        {
+            List<cDropDown> lstData = new List<cDropDown>();
+            lstData = DB.Sections.Select(s =>
+                   new cDropDown
+                   {
+                       value = s.SectionCode + "",
+                       label = s.SectionCode + " : " + s.SectionName,
+                   }).ToList();
+            return lstData;
         }
 
         public List<cDropDownTypeMail> GetDropDownTypeMail()
@@ -145,11 +163,31 @@ namespace Demo1.Controllers
         {
             try
             {
+                string sDivName = "";
+                var lstDiv = DB.Sections.FirstOrDefault(f => f.SectionCode == Obj.sSender && f.IsDelete == false);
+                if (lstDiv != null)
+                {
+                    sDivName = lstDiv.SectionName.TrimEnd();
+                }
+                string sTypeLetter = "";
+                var lstTypeInOuts = DB.MT_TypeInOuts.FirstOrDefault(f => f.nID == Obj.sGroupMail.ToInt() && f.IsDelete == false);
+                if (lstTypeInOuts != null)
+                {
+                    sTypeLetter = lstTypeInOuts.sTypeInOutName.TrimEnd() + "";
+                }
+
+                string sTypeOfLetter = "";
+                var lstTypeMail = DB.MT_TypeMails.FirstOrDefault(f => f.nID == Obj.sTypeMail.ToInt() && f.IsDelete == false);
+                if (lstTypeMail != null)
+                {
+                    sTypeOfLetter = lstTypeMail.sTypeMailName.TrimEnd() + "";
+                }
+
                 var UPT = DB.Normals.FirstOrDefault(f => f.ID == Obj.nID && f.IsDelete == false);
                 if (UPT != null)
                 {
                     UPT.Sender = Obj.sSender;
-                    //UPT.DivName = Obj.nID;
+                    UPT.DivName = sDivName;
                     UPT.Ref = Obj.sRef;
                     UPT.Res = Obj.sReceiver;
                     UPT.Num = Obj.nQuantity;
@@ -157,11 +195,11 @@ namespace Demo1.Controllers
                     UPT.Pay = Obj.nAmount;
                     UPT.RC = Obj.sRCNumber;
                     UPT.UserID = null;
-                    //UPT.Lot = Obj.;
+                    UPT.Lot = Obj.IsLot ? "1" : "0";
                     UPT.nTypeInOutID = Obj.sGroupMail.ToInt();
-                    //UPT.TypeLetter = Obj.nID;
+                    UPT.TypeLetter = sTypeLetter;
                     UPT.nTypeMailID = Obj.sTypeMail.ToInt();
-                    //UPT.TypeOfLetter = Obj.nID;
+                    UPT.TypeOfLetter = sTypeOfLetter;
                     UPT.Datetime = Obj.sDate;
                     UPT.dDate = Obj.sDate.ToDateFromString();
                     UPT.Period = Obj.sTime;
@@ -171,24 +209,27 @@ namespace Demo1.Controllers
                     UPT.dUpdateDate = DateTime.Now;
                     UPT.IsDelete = false;
                     DB.SaveChanges();
+
+                    TempData["Success"] = "Action Completed', 'Data is already saved.";
+                    Redirect("KeyDailyTaskForm");
                 }
                 else
                 {
                     Normal CRT = new Normal();
                     CRT.Sender = Obj.sSender;
-                    //CRT.DivName = Obj.nID;
+                    CRT.DivName = sDivName;
                     CRT.Ref = Obj.sRef;
                     CRT.Res = Obj.sReceiver;
                     CRT.Num = Obj.nQuantity;
                     CRT.EndT = Obj.nPostal + "";
                     CRT.Pay = Obj.nAmount;
-                    CRT.RC = Obj.sRCNumber;
+                    CRT.RC = Obj.sRCNumber + "";
                     CRT.UserID = null;
-                    //CRT.Lot = Obj.;
+                    CRT.Lot = Obj.IsLot ? "1" : "0";
                     CRT.nTypeInOutID = Obj.sGroupMail.ToInt();
-                    //CRT.TypeLetter = Obj.nID;
+                    CRT.TypeLetter = sTypeLetter;
                     CRT.nTypeMailID = Obj.sTypeMail.ToInt();
-                    //CRT.TypeOfLetter = Obj.nID;
+                    CRT.TypeOfLetter = sTypeOfLetter;
                     CRT.Datetime = Obj.sDate;
                     CRT.dDate = Obj.sDate.ToDateFromString();
                     CRT.Period = Obj.sTime;
@@ -201,11 +242,14 @@ namespace Demo1.Controllers
                     CRT.IsDelete = false;
                     DB.Normals.Add(CRT);
                     DB.SaveChanges();
+
+                    TempData["Success"] = "Action Completed', 'Data is already saved.";
+                    Redirect("KeyDailyTaskForm");
                 }
             }
             catch (Exception ex)
             {
-
+                TempData["Error"] = ex.Message;
             }
 
             return KeyDailyTaskForm(Obj);

@@ -10,16 +10,21 @@ namespace Demo1.Models
         public string sTime { get; set; }
         public string sGroupMail { get; set; }
         public string sTypeMail { get; set; }
+        public bool IsLot { get; set; }
         public string sSender { get; set; }
         public string sRef { get; set; }
         public int nQuantity { get; set; }
         public decimal nAmount { get; set; }
         public string sReceiver { get; set; }
-        public int nPostal { get; set; }
+        public string nPostal { get; set; }
         public string sRCNumber { get; set; }
+        public string sRCNumber1 { get; set; }
+        public string sRCNumber2 { get; set; }
+        public string sRCNumber3 { get; set; }
         public bool IsEdit { get; set; }
         public List<KeyDailyTask_Normal_Class> lstNormal { get; set; } = new List<KeyDailyTask_Normal_Class>();
         public List<KeyDailyTask_Register_Class> lstRegister { get; set; } = new List<KeyDailyTask_Register_Class>();
+        public List<cDropDown> lstDiv { get; set; } = new List<cDropDown>();
         public List<cDropDown> lstGroupMail { get; set; } = new List<cDropDown>();
         public List<cDropDownTypeMail> lstTypeMail { get; set; } = new List<cDropDownTypeMail>();
         public int PagePrevious { get; internal set; }

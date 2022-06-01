@@ -4,13 +4,14 @@
 }
 
 <div class="container p-0">
-    <div class="row">
-        @*Form*@
-        <div class="col-4">
-            <div class="card card-custom">
-                <div class="card-header card-custom-header" style="background-color: #d9edf7;">Key งานประจำวัน</div>
-                <div class="card-body card-custom-body">
-                    <form id="KeyDailyTaskForm" onsubmit="return GetData()" class="needs-validation" novalidate>
+    <form id="KeyDailyTaskForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
+        <div class="row">
+            @*Form*@
+            <div class="col-4">
+                <div class="card card-custom">
+                    <div class="card-header card-custom-header" style="background-color: #d9edf7;">Key งานประจำวัน</div>
+                    <div class="card-body card-custom-body">
+                        @*<form id="KeyDailyTaskForm" onsubmit="return GetData()" class="needs-validation" novalidate>*@
                         <div class="form-group">
                             <div class="form-group row">
                                 <div class="col-md-12 col-sm-12 col-12">
@@ -19,21 +20,17 @@
                                             วันที่&nbsp;<span class="text-danger">*</span>
                                         </label>
                                         <div class="col-md-8 col-sm-12 col-12">
-                                            <div class="form-group">
-                                                <div class="input-group has-validation date p-0" id="txtDate">
-                                                    <input type="text"
-                                                           class="form-control"
-                                                           placeholder="dd/mm/yyyy"
-                                                           onchange="OnChangeDate(this.form)"
-                                                           required>
-                                                    <span class="input-group-append">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-calendar3"></i>
-                                                        </span>
-                                                    </span>
-                                                    <div class="invalid-feedback">
-                                                        Please require field วันที่.
-                                                    </div>
+                                            <div class="input-group has-validation p-0">
+                                                <input id="txtDate"
+                                                       class="form-control date-picker"
+                                                       placeholder="dd/mm/yyyy"
+                                                       onchange="OnChangeDate(this.form)"
+                                                       required />
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-calendar3"></i>
+                                                </span>
+                                                <div class="invalid-feedback">
+                                                    Please require field วันที่.
                                                 </div>
                                                 <input hidden
                                                        type="text"
@@ -50,11 +47,11 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <select class="form-control form-select" id="ddlTime" onchange="OnChangeFilter(this.form)" required>
+                                                    <select asp-for="sTime" class="form-control form-select" id="ddlTime" onchange="OnChangeFilter(this.form)" required>
                                                         <option value="" selected>- Select -</option>
                                                     </select>
                                                     <div class="invalid-feedback">
-                                                        Please require field เวลา.
+                                                        Please require field รอบเวลา.
                                                     </div>
                                                 </div>
                                             </div>
@@ -67,7 +64,7 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <select class="form-control form-select" id="ddlGroupMail" onchange="OnChangeFilter(this.form)" required>
+                                                    <select asp-for="sGroupMail" class="form-control form-select" id="ddlGroupMail" onchange="OnChangeFilter(this.form)" required>
                                                         <option value="" selected>- Select -</option>
                                                         @if (@Model.lstGroupMail.Count > 0)
                                                         {
@@ -91,7 +88,7 @@
                                         <div class="col-md-8 col-sm-12 col-12">
                                             <div class="form-group">
                                                 <div class="input-group has-validation">
-                                                    <select class="form-control form-select" id="ddlTypeMail" onchange="OnChangeFilter(this.form)" required>
+                                                    <select asp-for="sTypeMail" class="form-control form-select" id="ddlTypeMail" onchange="OnChangeFilter(this.form)" required>
                                                         <option value="" selected>- Select -</option>
                                                         @if (@Model.lstTypeMail.Count > 0)
                                                         {
@@ -117,7 +114,7 @@
                                                 <div class="input-group">
                                                     <div class="form-check">
                                                         @*<input class="form-check-input" type="checkbox" id="cbLot">*@
-                                                        <input class="form-check-input" type="checkbox" id="cbLot" onchange="OnChangeFilter(this.form)">
+                                                        <input asp-for="IsLot" class="form-check-input" type="checkbox" id="cbLot" onchange="OnChangeFilter(this.form)">
                                                     </div>
                                                 </div>
                                             </div>
@@ -126,17 +123,16 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                        @*</form>*@
+                    </div>
                 </div>
             </div>
-        </div>
-        @*Form*@
-        <div class="col-8">
-            <div class="card card-custom" id="dvNolmalForm" style="display:none">
-                <div class="card-header card-custom-header" style="background-color: #8CC0DE;">จดหมายธรรมดา</div>
-                <div class="card-body card-custom-body">
-                    <form id="NolmalForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
-                        <div class="form-group row">
+            @*Form*@
+            <div class="col-8">
+                <div class="card card-custom" id="dvNolmalForm" style="display:none">
+                    <div class="card-header card-custom-header" style="background-color: #8CC0DE;">จดหมายธรรมดา</div>
+                    <div class="card-body card-custom-body">
+                        <div id="NolmalForm" class="form-group row">
                             <div class="col-md-6 col-sm-12 col-12">
                                 <div class="form-group row pb-3">
                                     <label class="col-lg-4 col-md-6 col-sm-12 col-12">
@@ -146,11 +142,14 @@
                                         <div class="form-group">
                                             <div class="input-group has-validation">
                                                 <input asp-for="sSender"
-                                                       id="txtSender"
+                                                       id="txtSender1"
                                                        class="form-control"
-                                                       maxlength="10"
                                                        placeholder="ส่วนผู้ส่ง"
-                                                       required />
+                                                       autocomplete="off"
+                                                       required>
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-search"></i>
+                                                </span>
                                                 <div class="invalid-feedback">
                                                     Please require field ส่วนผู้ส่ง.
                                                 </div>
@@ -166,7 +165,7 @@
                                         <div class="form-group">
                                             <div class="input-group has-validation">
                                                 <input asp-for="sRef"
-                                                       id="txtRef"
+                                                       id="txtRef1"
                                                        class="form-control"
                                                        maxlength="10"
                                                        placeholder="Reference"
@@ -191,7 +190,6 @@
                                                        id="txtQuantity"
                                                        type="number"
                                                        class="form-control"
-                                                       maxlength="10"
                                                        placeholder="จำนวนฉบับ"
                                                        required />
                                                 <div class="invalid-feedback">
@@ -209,8 +207,9 @@
                                         <div class="form-group">
                                             <div class="input-group has-validation">
                                                 <input asp-for="nAmount"
-                                                       id="txtAmount"
+                                                       id="txtAmount1"
                                                        class="form-control"
+                                                       type="number"
                                                        maxlength="10"
                                                        placeholder="จำนวนเงิน"
                                                        required />
@@ -226,16 +225,14 @@
                         <div class="text-center pb-1">
                             @*<input hidden type="checkbox" id="cbEdit" asp-for="IsEdit">*@
                             <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit',0,this.form)"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
-                            <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
+                            <button type="button" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <div class="card card-custom" id="dvRegisterForm" style="display:none">
-                <div class="card-header card-custom-header" style="background-color: #8CC0DE;">จดหมายลงทะเบียน</div>
-                <div class="card-body card-custom-body">
-                    <form id="RegisterForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
-                        <div class="form-group row">
+                <div class="card card-custom" id="dvRegisterForm" style="display:none">
+                    <div class="card-header card-custom-header" style="background-color: #8CC0DE;">จดหมายลงทะเบียน</div>
+                    <div class="card-body card-custom-body">
+                        <div id="RegisterForm" class="form-group row">
                             <div class="col-md-6 col-sm-12 col-12">
                                 <div class="form-group row pb-3">
                                     <label class="col-lg-4 col-md-6 col-sm-12 col-12">
@@ -245,11 +242,14 @@
                                         <div class="form-group">
                                             <div class="input-group has-validation">
                                                 <input asp-for="sSender"
-                                                       id="txtSender"
+                                                       id="txtSender2"
                                                        class="form-control"
-                                                       maxlength="10"
                                                        placeholder="ส่วนผู้ส่ง"
-                                                       required />
+                                                       autocomplete="off"
+                                                       required>
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-search"></i>
+                                                </span>
                                                 <div class="invalid-feedback">
                                                     Please require field ส่วนผู้ส่ง.
                                                 </div>
@@ -265,7 +265,7 @@
                                         <div class="form-group">
                                             <div class="input-group has-validation">
                                                 <input asp-for="sRef"
-                                                       id="txtRef"
+                                                       id="txtRef2"
                                                        class="form-control"
                                                        maxlength="10"
                                                        placeholder="Reference"
@@ -310,9 +310,13 @@
                                                        id="txtPostal"
                                                        type="number"
                                                        class="form-control"
-                                                       maxlength="10"
                                                        placeholder="ปลายทาง"
-                                                       required />
+                                                       maxlength="5"
+                                                       autocomplete="off"
+                                                       required>
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-search"></i>
+                                                </span>
                                                 <div class="invalid-feedback">
                                                     Please require field ปลายทาง.
                                                 </div>
@@ -328,7 +332,7 @@
                                         <div class="form-group">
                                             <div class="input-group has-validation">
                                                 <input asp-for="nAmount"
-                                                       id="txtAmount"
+                                                       id="txtAmount2"
                                                        class="form-control"
                                                        maxlength="10"
                                                        placeholder="จำนวนเงิน"
@@ -347,12 +351,25 @@
                                     <div class="col-md-8 col-sm-12 col-12">
                                         <div class="form-group">
                                             <div class="input-group has-validation">
-                                                <input asp-for="sRCNumber"
-                                                       id="txtRCNumber"
+                                                <input asp-for="sRCNumber1"
+                                                       id="txtRCNumber1"
                                                        class="form-control"
-                                                       maxlength="10"
-                                                       placeholder="เลขที่ R/C"
+                                                       maxlength="2"
+                                                       onchange="OnChangeRCNumber(1)"
                                                        required />
+                                                <input asp-for="sRCNumber2"
+                                                       id="txtRCNumber2"
+                                                       class="form-control"
+                                                       maxlength="8"
+                                                       onchange="OnChangeRCNumber(2)"
+                                                       required />
+                                                <input asp-for="sRCNumber3"
+                                                       id="txtRCNumber3"
+                                                       class="form-control"
+                                                       maxlength="1"
+                                                       onchange="OnChangeRCNumber(3)"
+                                                       required />
+                                                <button type="button" id="btnGenRC" class="btn btn-info" onclick="GenRCNumber()">RC</button>
                                                 <div class="invalid-feedback">
                                                     Please require field เลขที่ R/C.
                                                 </div>
@@ -364,14 +381,15 @@
                         </div>
                         <div class="text-center pb-1">
                             @*<input hidden type="checkbox" id="cbEdit" asp-for="IsEdit">*@
-                            <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary" onclick="OnClick('Submit',0,this.form)"><i class="bi bi-plus-lg"></i>&nbsp;Add</button>
-                            <button type="reset" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
+                            <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit',0,this.form)"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
+                            @*<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary" onclick="OnClick('Submit',0,this.form)"><i class="bi bi-plus-lg"></i>&nbsp;Add</button>*@
+                            <button type="button" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
     <div class="row">
         @*Table*@
         <div class="col-12 pt-2">
@@ -523,15 +541,55 @@
 
 <script type="text/javascript">
     //Set Control DatePicker : Date
-    $(function(){
-        $('#txtDate').datepicker({
-            format: "dd/mm/yyyy",
-            todaybtn: "linked",
-            orientation: "bottom auto",
-            todayhighlight: true,
-            autoclose: true,
+    //$(function(){
+    //    $('#txtDate').datepicker({
+    //        format: "dd/mm/yyyy",
+    //        todaybtn: "linked",
+    //        orientation: "bottom auto",
+    //        todayhighlight: true,
+    //        autoclose: true,
+    //    });
+    //});
+
+    $(function() {
+        $('.date-picker').datepicker({
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            onClose: function(dateText, inst)
+            {
+                function isDonePressed()
+                {
+                    return ($('#ui-datepicker-div').html().indexOf('ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all ui-state-hover') > -1);
+                }
+                if (isDonePressed())
+                {
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    $(this).datepicker('setDate', new Date(year, month, 1)).trigger('change');
+                    $('.date-picker').focusout()
+                }
+            },
+            beforeShow : function(input, inst)
+            {
+                inst.dpDiv.addClass('month_year_datepicker')
+                if ((datestr = $(this).val()).length > 0)
+                {
+                    year = datestr.substring(datestr.length-4, datestr.length);
+                    month = datestr.substring(0, 2);
+                    $(this).datepicker('option', 'defaultDate', new Date(year, month-1, 1));
+                    $(this).datepicker('setDate', new Date(year, month-1, 1));
+                    $(".ui-datepicker-calendar").hide();
+                }
+            }
+        })
         });
-    });
+        $('#txtDate').focusin(function()
+        {
+            $('.ui-datepicker-calendar').css("display","none");
+        }
+    );
 
     //Bind DropDownList => Month
     var ArrTime = [
@@ -557,6 +615,33 @@
         var data = '<option value="' + ArrTime[i].value + '">' + ArrTime[i].label + '</option>';
         $('#ddlTime').append(data);
     }
+
+    $(function() {
+        $("#txtSender1").autocomplete({
+            //autoFocus: true,
+            //disabled: true,
+            source: function (request, response) {
+                 $.get('https://localhost:44396/KeyDailyTask/GetDropDownDivision').done(
+                    function(res)
+                    {
+                        response(res);
+                    }
+                );
+            },
+        });
+        $("#txtSender2").autocomplete({
+            //autoFocus: true,
+            //disabled: true,
+            source: function (request, response) {
+                 $.get('https://localhost:44396/KeyDailyTask/GetDropDownDivision').done(
+                    function(res)
+                    {
+                        response(res);
+                    }
+                );
+            },
+        });
+    });
 
     function OnChangeDate(form)
     {
@@ -606,6 +691,7 @@
                     }
                 );
             }
+            Clear();
         }
         else
         {
@@ -613,6 +699,7 @@
             tbNolmal.style.display = "none";
             dvRegisterForm.style.display = "none"
             tbRegister.style.display = "none"
+            Clear();
         }
     }
 
@@ -632,6 +719,7 @@
                     dvRegisterForm.style.display = "none"
                     tbRegister.style.display = "none"
                     //form.get();
+                    GetData();
                     break;
                 case "1":
                     dvRegisterForm.style.display = "block";
@@ -675,8 +763,19 @@
         switch(Mode)
         {
             case "Submit":
-                var forms = document.getElementsByClassName('needs-validation');
-                if (form.checkValidity() === true)
+                var txtSender1 = document.getElementById("txtSender1").value;
+                var txtRef1 = document.getElementById("txtRef1").value;
+                var txtQuantity = document.getElementById("txtQuantity").value;
+                var txtAmount1 = document.getElementById("txtAmount1").value;
+
+                var txtSender2 = document.getElementById("txtSender2").value;
+                var txtRef2 = document.getElementById("txtRef2").value;
+                var txtReceiver = document.getElementById("txtReceiver").value;
+                var txtPostal = document.getElementById("txtPostal").value;
+                var txtAmount2 = document.getElementById("txtAmount2").value;
+                var txtRCNumber = document.getElementById("txtRCNumber").value;
+
+                if(txtSender1 && txtRef1 && txtQuantity && txtAmount1)
                 {
                     Swal.fire({
                         title: 'Confirmation',
@@ -703,6 +802,62 @@
                         }
                     });
                 }
+
+                if(txtSender2 && txtRef2 && txtReceiver && txtPostal && txtAmount2 && txtRCNumber)
+                {
+                    Swal.fire({
+                        title: 'Confirmation',
+                        text: 'Do you want to submit data?',
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '<i class="bi bi-check"></i> Yes',
+                        cancelButtonText: '<i class="bi bi-x"></i> No',
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: false,
+                        timerProgressBar: true,
+                        preConfirm: function () {
+                            return new Promise(function (resolve, reject) {
+                                Swal.disableButtons();
+                                form.submit();
+                                Swal.close();
+                            });
+                        },
+                    }).then(function (d) {
+                        if (d.dismiss === Swal.DismissReason.cancel) {
+                            Swal.close();
+                        }
+                    });
+                }
+                //var forms = document.getElementsByClassName('needs-validation');
+                //if (form.checkValidity() === true)
+                //{
+                //    Swal.fire({
+                //        title: 'Confirmation',
+                //        text: 'Do you want to submit data?',
+                //        icon: 'info',
+                //        showCancelButton: true,
+                //        confirmButtonColor: '#3085d6',
+                //        cancelButtonColor: '#d33',
+                //        confirmButtonText: '<i class="bi bi-check"></i> Yes',
+                //        cancelButtonText: '<i class="bi bi-x"></i> No',
+                //        showLoaderOnConfirm: true,
+                //        allowOutsideClick: false,
+                //        timerProgressBar: true,
+                //        preConfirm: function () {
+                //            return new Promise(function (resolve, reject) {
+                //                Swal.disableButtons();
+                //                form.submit();
+                //                Swal.close();
+                //            });
+                //        },
+                //    }).then(function (d) {
+                //        if (d.dismiss === Swal.DismissReason.cancel) {
+                //            Swal.close();
+                //        }
+                //    });
+                //}
                 break;
             case "Delete":
                     Swal.fire({
@@ -733,14 +888,108 @@
         }
     }
 
+    //Function Clear Form
+    function Clear()
+    {
+        document.getElementById("txtSender1").value = null;
+        document.getElementById("txtRef1").value = null;
+        document.getElementById("txtQuantity").value = null;
+        document.getElementById("txtAmount1").value = null;
+        //$("#cbEdit").prop('checked', false);
+
+        document.getElementById("txtSender2").value = null;
+        document.getElementById("txtRef2").value = null;
+        document.getElementById("txtReceiver").value = null;
+        document.getElementById("txtPostal").value = null;
+        document.getElementById("txtAmount2").value = null;
+        document.getElementById("txtRCNumber1").value = null;
+        document.getElementById("txtRCNumber2").value = null;
+        document.getElementById("txtRCNumber3").value = null;
+
+
+        document.getElementsByClassName('needs-validation')[0].classList.remove("was-validated");
+    }
+
     function GetData() {
         var data = new FormData(document.getElementById("KeyDailyTaskForm"));
-        debugger
-        //var xhr = new XMLHttpRequest();
-        //xhr.open("POST", "SERVER.SCRIPT");
-        //xhr.onload = function () { alert(this.response); };
-        //xhr.send(data);
+        $.get('https://localhost:44396/KeyDailyTask/KeyDailyTaskForm').done(
+            function(res)
+            {
+                //if(res)
+                //{
+                //    let ArrData = res.filter(f => f.value == ddlTypeMail);
+                //    if(ArrData)
+                //    {
+                //        OnHideForm(ArrData[0].sTypeMailID,form);
+                //    }
+                //}
+            }
+        );
         return false;
+    }
+
+    function OnChangeRCNumber(Num)
+    {
+        var txtRCNumber1 = document.getElementById("txtRCNumber1").value;
+        var txtRCNumber2 = document.getElementById("txtRCNumber2").value;
+        var txtRCNumber3 = document.getElementById("txtRCNumber3").value;
+        switch(Num)
+        {
+            case 1:
+                if(txtRCNumber1)
+                {
+                    document.getElementById("txtRCNumber1").value = txtRCNumber1.toUpperCase();
+                }
+                break;
+            case 2:
+                if(txtRCNumber2)
+                {
+                    if(txtRCNumber2.length < 8)
+                    {
+                        Swal.fire('Error, Checking Alert', "Please fill RC Number", 'error');
+                    }
+                }
+                break;
+            case 3:
+                break;
+        }
+    }
+
+    function GenRCNumber()
+    {
+        var txtRCNumber2 = document.getElementById("txtRCNumber2").value + "";
+        if (txtRCNumber2.length < 8)
+        {
+            return -1;
+        }
+
+        var wlist = [ 8, 6, 4, 2, 3, 5, 9, 7 ];
+        var nNum = 0;
+        for (let i = 0; i <= 7; i++)
+        {
+            let str = txtRCNumber2.substr(i, 1);
+            let arr = wlist[i];
+            if(str)
+            {
+                nNum = nNum + (parseInt(str) * parseInt(arr + ""));
+            }
+        }
+        var Chk = 0;
+        Chk = (nNum % 11);
+
+        switch (Chk)
+        {
+            case 0:
+                nNum = 5;
+                break;
+            case 1:
+                nNum = 0;
+                break;
+            default:
+                nNum = (11 - Chk);
+                break;
+        }
+        document.getElementById("txtRCNumber3").value = nNum;
     }
 </script>
 
