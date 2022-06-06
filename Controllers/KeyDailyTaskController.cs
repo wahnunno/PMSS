@@ -27,11 +27,10 @@ namespace Demo1.Controllers
             lstDiv = GetDropDownDivision();
             lstGroupMail = GetDropDownGroupMail();
             lstTypeMail = GetDropDownTypeMail();
-            lstNormal = GetData_Normal(Obj);
-            lstRegister = GetData_Register(Obj);
+            //lstNormal = GetData_Normal(Obj);
+            //lstRegister = GetData_Register(Obj);
 
             Model.lstDiv = lstDiv;
-            Model.lstGroupMail = lstGroupMail;
             Model.lstGroupMail = lstGroupMail;
             Model.lstTypeMail = lstTypeMail;
             Model.lstNormal = lstNormal;
@@ -102,13 +101,13 @@ namespace Demo1.Controllers
             return lstData;
         }
 
-        public List<KeyDailyTask_Normal_Class> GetData_Normal(KeyDailyTaskListClass Obj)
+        public List<KeyDailyTask_Normal_Class> GetData_Normal(cData Obj)
         {
             List<KeyDailyTask_Normal_Class> lstData = new List<KeyDailyTask_Normal_Class>();
             DateTime? dDateFilter = Obj.sDate.ToDateFromString();
             if (dDateFilter.HasValue)
             {
-                var lst = DB.Normals.Where(w => w.dDate == dDateFilter.Value && w.nTypeInOutID == Obj.sGroupMail.ToInt() && w.nTypeMailID == Obj.sTypeMail.ToInt() && w.IsDelete.Value == false).ToList();
+                var lst = DB.Normals.Where(w => w.dDate == dDateFilter.Value && w.Period == Obj.sTime && w.nTypeInOutID == Obj.sGroupMail.ToInt() && w.nTypeMailID == Obj.sTypeMail.ToInt() && w.IsDelete.Value == false).ToList();
                 if (lst.Count > 0)
                 {
                     int i = 1;
@@ -117,7 +116,8 @@ namespace Demo1.Controllers
                         lstData.Add(new KeyDailyTask_Normal_Class
                         {
                             nNo = i++,
-                            sDivCode = Item.Sender,
+                            nID = (Item.ID + "").ToInt(),
+                            sDivCode = Item.Sender + " : " + Item.DivName,
                             sDetail = Item.Ref,
                             nQuantity = (Item.Num + "").ToInt(),
                             nAmount = Item.Pay
@@ -144,11 +144,12 @@ namespace Demo1.Controllers
                         lstData.Add(new KeyDailyTask_Register_Class
                         {
                             nNo = i++,
-                            sReceiverName = Item.Res,
-                            sDestination = Item.EndT,
+                            nID = (Item.ID + "").ToInt(),
+                            sReceiverName = Item.Res + "",
+                            sDestination = Item.EndT + "",
                             sRCNumber = Item.RC,
                             nAmount = Item.Pay,
-                            sDivCode = Item.Sender,
+                            sDivCode = Item.Sender + " : " + Item.DivName,
                             sRef = Item.Ref,
                         });
                     }
@@ -163,12 +164,6 @@ namespace Demo1.Controllers
         {
             try
             {
-                string sDivName = "";
-                var lstDiv = DB.Sections.FirstOrDefault(f => f.SectionCode == Obj.sSender && f.IsDelete == false);
-                if (lstDiv != null)
-                {
-                    sDivName = lstDiv.SectionName.TrimEnd();
-                }
                 string sTypeLetter = "";
                 var lstTypeInOuts = DB.MT_TypeInOuts.FirstOrDefault(f => f.nID == Obj.sGroupMail.ToInt() && f.IsDelete == false);
                 if (lstTypeInOuts != null)
@@ -176,33 +171,108 @@ namespace Demo1.Controllers
                     sTypeLetter = lstTypeInOuts.sTypeInOutName.TrimEnd() + "";
                 }
 
+                int nTypeMail_ID = 0;
                 string sTypeOfLetter = "";
-                var lstTypeMail = DB.MT_TypeMails.FirstOrDefault(f => f.nID == Obj.sTypeMail.ToInt() && f.IsDelete == false);
+                var lstTypeMail = DB.Type_Mails.FirstOrDefault(f => f.ID == Obj.sTypeMail.ToInt() && f.IsDelete == false);
                 if (lstTypeMail != null)
                 {
-                    sTypeOfLetter = lstTypeMail.sTypeMailName.TrimEnd() + "";
+                    nTypeMail_ID = (lstTypeMail.Type_Mail1 + "").ToInt();
+                    var lstMS = DB.MT_TypeMails.FirstOrDefault(f => f.nID == lstTypeMail.Type_Mail1.ToInt() && !f.IsDelete);
+                    if (lstMS != null)
+                    {
+                        sTypeOfLetter = lstMS.sTypeMailName.TrimEnd() + "";
+                    }
+                }
+
+                string sSender = "";
+                string sDivName = "";
+                string sRef = "";
+                decimal nAmount = 0;
+                string sRCNumber = "";
+                string[] ArrStr;
+                if (Obj.IsLot)
+                {
+                    ArrStr = Obj.sSender1.Split(" : ");
+                    if (ArrStr.Length > 0)
+                    {
+                        sSender = ArrStr[0];
+                    }
+                    else
+                    {
+                        sSender = Obj.sSender1;
+                    }
+                    var lstDiv = DB.Sections.FirstOrDefault(f => f.SectionCode == sSender);
+                    if (lstDiv != null)
+                    {
+                        sDivName = lstDiv.SectionName.TrimEnd();
+                    }
+                    sRef = Obj.sRef1 + "";
+                    nAmount = Obj.nAmount1;
+                }
+                else
+                {
+                    switch (nTypeMail_ID)
+                    {
+                        case 0:
+                            ArrStr = Obj.sSender1.Split(" : ");
+                            if (ArrStr.Length > 0)
+                            {
+                                sSender = ArrStr[0];
+                            }
+                            else
+                            {
+                                sSender = Obj.sSender1;
+                            }
+                            var lstDiv = DB.Sections.FirstOrDefault(f => f.SectionCode == sSender);
+                            if (lstDiv != null)
+                            {
+                                sDivName = lstDiv.SectionName.TrimEnd();
+                            }
+                            sRef = Obj.sRef1 + "";
+                            nAmount = Obj.nAmount1;
+                            break;
+                        case 1:
+                            ArrStr = Obj.sSender2.Split(" : ");
+                            if (ArrStr.Length > 0)
+                            {
+                                sSender = ArrStr[0];
+                            }
+                            else
+                            {
+                                sSender = Obj.sSender2;
+                            }
+                            var lstDiv2 = DB.Sections.FirstOrDefault(f => f.SectionCode == sSender);
+                            if (lstDiv2 != null)
+                            {
+                                sDivName = lstDiv2.SectionName.TrimEnd();
+                            }
+                            sRef = Obj.sRef2 + "";
+                            nAmount = Obj.nAmount2;
+                            sRCNumber = Obj.sRCNumber1 + Obj.sRCNumber2 + Obj.sRCNumber3 + "";
+                            break;
+                    }
                 }
 
                 var UPT = DB.Normals.FirstOrDefault(f => f.ID == Obj.nID && f.IsDelete == false);
                 if (UPT != null)
                 {
-                    UPT.Sender = Obj.sSender;
-                    UPT.DivName = sDivName;
-                    UPT.Ref = Obj.sRef;
-                    UPT.Res = Obj.sReceiver;
+                    UPT.Sender = sSender.TrimEnd();
+                    UPT.DivName = sDivName.TrimEnd();
+                    UPT.Ref = sRef.TrimEnd();
+                    UPT.Res = Obj.sReceiver != null ? Obj.sReceiver.TrimEnd() : "";
                     UPT.Num = Obj.nQuantity;
-                    UPT.EndT = Obj.nPostal + "";
-                    UPT.Pay = Obj.nAmount;
-                    UPT.RC = Obj.sRCNumber;
+                    UPT.EndT = Obj.sPostal != null ? Obj.sPostal.TrimEnd() : "";
+                    UPT.Pay = nAmount;
+                    UPT.RC = sRCNumber.TrimEnd();
                     UPT.UserID = null;
                     UPT.Lot = Obj.IsLot ? "1" : "0";
                     UPT.nTypeInOutID = Obj.sGroupMail.ToInt();
                     UPT.TypeLetter = sTypeLetter;
                     UPT.nTypeMailID = Obj.sTypeMail.ToInt();
                     UPT.TypeOfLetter = sTypeOfLetter;
-                    UPT.Datetime = Obj.sDate;
+                    UPT.Datetime = Obj.sDate != null ? Obj.sDate.TrimEnd() : "";
                     UPT.dDate = Obj.sDate.ToDateFromString();
-                    UPT.Period = Obj.sTime;
+                    UPT.Period = Obj.sTime != null ? Obj.sTime.TrimEnd() : "";
                     UPT.Product = null;
                     UPT.rload = null;
                     UPT.sUpdate = null;
@@ -216,23 +286,23 @@ namespace Demo1.Controllers
                 else
                 {
                     Normal CRT = new Normal();
-                    CRT.Sender = Obj.sSender;
-                    CRT.DivName = sDivName;
-                    CRT.Ref = Obj.sRef;
-                    CRT.Res = Obj.sReceiver;
+                    CRT.Sender = sSender.TrimEnd();
+                    CRT.DivName = sDivName.TrimEnd();
+                    CRT.Ref = sRef.TrimEnd();
+                    CRT.Res = Obj.sReceiver != null ? Obj.sReceiver.TrimEnd() : "";
                     CRT.Num = Obj.nQuantity;
-                    CRT.EndT = Obj.nPostal + "";
-                    CRT.Pay = Obj.nAmount;
-                    CRT.RC = Obj.sRCNumber + "";
+                    CRT.EndT = Obj.sPostal != null ? Obj.sPostal.TrimEnd() : "";
+                    CRT.Pay = nAmount;
+                    CRT.RC = sRCNumber.TrimEnd();
                     CRT.UserID = null;
                     CRT.Lot = Obj.IsLot ? "1" : "0";
                     CRT.nTypeInOutID = Obj.sGroupMail.ToInt();
                     CRT.TypeLetter = sTypeLetter;
                     CRT.nTypeMailID = Obj.sTypeMail.ToInt();
                     CRT.TypeOfLetter = sTypeOfLetter;
-                    CRT.Datetime = Obj.sDate;
+                    CRT.Datetime = Obj.sDate != null ? Obj.sDate.TrimEnd() : "";
                     CRT.dDate = Obj.sDate.ToDateFromString();
-                    CRT.Period = Obj.sTime;
+                    CRT.Period = Obj.sTime != null ? Obj.sTime.TrimEnd() : "";
                     CRT.Product = null;
                     CRT.rload = null;
                     CRT.sCreate = null;
@@ -252,7 +322,15 @@ namespace Demo1.Controllers
                 TempData["Error"] = ex.Message;
             }
 
-            return KeyDailyTaskForm(Obj);
+            return View(Obj);
+        }
+
+        public class cData
+        {
+            public string sDate { get; set; }
+            public string sTime { get; set; }
+            public string sGroupMail { get; set; }
+            public string sTypeMail { get; set; }
         }
     }
 }

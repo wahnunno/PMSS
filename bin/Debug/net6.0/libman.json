@@ -15,17 +15,6 @@
       "destination": "wwwroot/lib/limonte-sweetalert2/"
     },
     {
-      "library": "jquery-autocomplete@1.0.7",
-      "destination": "wwwroot/lib/jquery-autocomplete/",
-      "files": [
-        "jquery.auto-complete.min.js",
-        "jquery.auto-complete.css",
-        "jquery.auto-complete.js",
-        "jquery.auto-complete.min.css",
-        "jquery.auto-complete.min.css.map"
-      ]
-    },
-    {
       "library": "jqueryui@1.12.1",
       "destination": "wwwroot/lib/jqueryui/"
     }

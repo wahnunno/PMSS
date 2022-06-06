@@ -11,12 +11,15 @@ namespace Demo1.Models
         public string sGroupMail { get; set; }
         public string sTypeMail { get; set; }
         public bool IsLot { get; set; }
-        public string sSender { get; set; }
-        public string sRef { get; set; }
+        public string sSender1 { get; set; }
+        public string sSender2 { get; set; }
+        public string sRef1 { get; set; }
+        public string sRef2 { get; set; }
         public int nQuantity { get; set; }
-        public decimal nAmount { get; set; }
+        public decimal nAmount1 { get; set; }
+        public decimal nAmount2 { get; set; }
         public string sReceiver { get; set; }
-        public string nPostal { get; set; }
+        public string sPostal { get; set; }
         public string sRCNumber { get; set; }
         public string sRCNumber1 { get; set; }
         public string sRCNumber2 { get; set; }

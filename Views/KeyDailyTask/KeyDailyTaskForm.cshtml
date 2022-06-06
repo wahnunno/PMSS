@@ -3,20 +3,19 @@
     ViewData["Title"] = "KeyDailyTaskForm";
 }
 
+<!-- Form,Table -->
 <div class="container p-0">
     <form id="KeyDailyTaskForm" method="post" onsubmit="return false;" class="needs-validation" novalidate>
         <div class="row">
-            @*Form*@
             <div class="col-4">
                 <div class="card card-custom">
                     <div class="card-header card-custom-header" style="background-color: #d9edf7;">Key งานประจำวัน</div>
                     <div class="card-body card-custom-body">
-                        @*<form id="KeyDailyTaskForm" onsubmit="return GetData()" class="needs-validation" novalidate>*@
                         <div class="form-group">
                             <div class="form-group row">
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="form-group row pb-3">
-                                        <label class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                        <label class="col-lg-4 col-md-6 col-sm-12 col-12 col-form-label">
                                             วันที่&nbsp;<span class="text-danger">*</span>
                                         </label>
                                         <div class="col-md-8 col-sm-12 col-12">
@@ -41,7 +40,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row pb-3">
-                                        <label class="col-lg-4 col-md-12 col-sm-12 col-12">
+                                        <label class="col-lg-4 col-md-12 col-sm-12 col-12 col-form-label">
                                             รอบเวลา&nbsp;<span class="text-danger">*</span>
                                         </label>
                                         <div class="col-md-8 col-sm-12 col-12">
@@ -58,7 +57,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row pb-3">
-                                        <label class="col-md-4 col-sm-12 col-12">
+                                        <label class="col-md-4 col-sm-12 col-12 col-form-label">
                                             Group Mail&nbsp;<span class="text-danger">*</span>
                                         </label>
                                         <div class="col-md-8 col-sm-12 col-12">
@@ -70,7 +69,7 @@
                                                         {
                                                             @foreach (var Item in @Model.lstGroupMail)
                                                             {
-                                                                <option value=@Item.value>@Item.label</option>
+                                                                <option value="@Item.value">@Item.label</option>
                                                             }
                                                         }
                                                     </select>
@@ -82,7 +81,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row pb-3">
-                                        <label class="col-md-4 col-sm-12 col-12">
+                                        <label class="col-md-4 col-sm-12 col-12 col-form-label">
                                             Type&nbsp;<span class="text-danger">*</span>
                                         </label>
                                         <div class="col-md-8 col-sm-12 col-12">
@@ -106,7 +105,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row pb-3">
-                                        <label class="col-md-4 col-sm-12 col-12">
+                                        <label class="col-md-4 col-sm-12 col-12 col-form-label">
                                             ส่งเป็น Lot
                                         </label>
                                         <div class="col-md-8 col-sm-12 col-12">
@@ -123,11 +122,9 @@
                                 </div>
                             </div>
                         </div>
-                        @*</form>*@
                     </div>
                 </div>
             </div>
-            @*Form*@
             <div class="col-8">
                 <div class="card card-custom" id="dvNolmalForm" style="display:none">
                     <div class="card-header card-custom-header" style="background-color: #8CC0DE;">จดหมายธรรมดา</div>
@@ -135,13 +132,13 @@
                         <div id="NolmalForm" class="form-group row">
                             <div class="col-md-6 col-sm-12 col-12">
                                 <div class="form-group row pb-3">
-                                    <label class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <label class="col-lg-4 col-md-6 col-sm-12 col-12 col-form-label">
                                         ส่วนผู้ส่ง&nbsp;<span class="text-danger">*</span>
                                     </label>
                                     <div class="col-md-8 col-sm-12 col-12">
                                         <div class="form-group">
                                             <div class="input-group has-validation">
-                                                <input asp-for="sSender"
+                                                <input asp-for="sSender1"
                                                        id="txtSender1"
                                                        class="form-control"
                                                        placeholder="ส่วนผู้ส่ง"
@@ -158,13 +155,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group row pb-3">
-                                    <label class="col-lg-4 col-md-12 col-sm-12 col-12">
+                                    <label class="col-lg-4 col-md-12 col-sm-12 col-12 col-form-label">
                                         Reference&nbsp;<span class="text-danger">*</span>
                                     </label>
                                     <div class="col-md-8 col-sm-12 col-12">
                                         <div class="form-group">
                                             <div class="input-group has-validation">
-                                                <input asp-for="sRef"
+                                                <input asp-for="sRef1"
                                                        id="txtRef1"
                                                        class="form-control"
                                                        maxlength="10"
@@ -180,7 +177,7 @@
                             </div>
                             <div class="col-md-6 col-sm-12 col-12">
                                 <div class="form-group row pb-3">
-                                    <label class="col-md-4 col-sm-12 col-12">
+                                    <label class="col-md-4 col-sm-12 col-12 col-form-label">
                                         จำนวนฉบับ&nbsp;<span class="text-danger">*</span>
                                     </label>
                                     <div class="col-md-8 col-sm-12 col-12">
@@ -200,13 +197,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group row pb-3">
-                                    <label class="col-md-4 col-sm-12 col-12">
+                                    <label class="col-md-4 col-sm-12 col-12 col-form-label">
                                         จำนวนเงิน&nbsp;<span class="text-danger">*</span>
                                     </label>
                                     <div class="col-md-8 col-sm-12 col-12">
                                         <div class="form-group">
                                             <div class="input-group has-validation">
-                                                <input asp-for="nAmount"
+                                                <input asp-for="nAmount1"
                                                        id="txtAmount1"
                                                        class="form-control"
                                                        type="number"
@@ -222,7 +219,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center pb-1">
+                        <div class="text-center p-1">
                             @*<input hidden type="checkbox" id="cbEdit" asp-for="IsEdit">*@
                             <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-success" onclick="OnClick('Submit',0,this.form)"><i class="bi bi-box-arrow-down"></i>&nbsp;Submit</button>
                             <button type="button" id="btnClear" name="btnClear" class="btn btn-secondary" onclick="Clear()"><i class="bi bi-arrow-clockwise"></i>&nbsp;Clear</button>
@@ -235,13 +232,13 @@
                         <div id="RegisterForm" class="form-group row">
                             <div class="col-md-6 col-sm-12 col-12">
                                 <div class="form-group row pb-3">
-                                    <label class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <label class="col-lg-4 col-md-6 col-sm-12 col-12 col-form-label">
                                         ส่วนผู้ส่ง&nbsp;<span class="text-danger">*</span>
                                     </label>
                                     <div class="col-md-8 col-sm-12 col-12">
                                         <div class="form-group">
                                             <div class="input-group has-validation">
-                                                <input asp-for="sSender"
+                                                <input asp-for="sSender2"
                                                        id="txtSender2"
                                                        class="form-control"
                                                        placeholder="ส่วนผู้ส่ง"
@@ -258,13 +255,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group row pb-3">
-                                    <label class="col-lg-4 col-md-12 col-sm-12 col-12">
+                                    <label class="col-lg-4 col-md-12 col-sm-12 col-12 col-form-label">
                                         Reference&nbsp;<span class="text-danger">*</span>
                                     </label>
                                     <div class="col-md-8 col-sm-12 col-12">
                                         <div class="form-group">
                                             <div class="input-group has-validation">
-                                                <input asp-for="sRef"
+                                                <input asp-for="sRef2"
                                                        id="txtRef2"
                                                        class="form-control"
                                                        maxlength="10"
@@ -278,7 +275,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row pb-3">
-                                    <label class="col-lg-4 col-md-12 col-sm-12 col-12">
+                                    <label class="col-lg-4 col-md-12 col-sm-12 col-12 col-form-label">
                                         ชื่อผู้รับ&nbsp;<span class="text-danger">*</span>
                                     </label>
                                     <div class="col-md-8 col-sm-12 col-12">
@@ -300,15 +297,14 @@
                             </div>
                             <div class="col-md-6 col-sm-12 col-12">
                                 <div class="form-group row pb-3">
-                                    <label class="col-md-4 col-sm-12 col-12">
+                                    <label class="col-md-4 col-sm-12 col-12 col-form-label">
                                         ปลายทาง&nbsp;<span class="text-danger">*</span>
                                     </label>
                                     <div class="col-md-8 col-sm-12 col-12">
                                         <div class="form-group">
                                             <div class="input-group has-validation">
-                                                <input asp-for="nPostal"
+                                                <input asp-for="sPostal"
                                                        id="txtPostal"
-                                                       type="number"
                                                        class="form-control"
                                                        placeholder="ปลายทาง"
                                                        maxlength="5"
@@ -325,13 +321,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group row pb-3">
-                                    <label class="col-md-4 col-sm-12 col-12">
+                                    <label class="col-md-4 col-sm-12 col-12 col-form-label">
                                         จำนวนเงิน&nbsp;<span class="text-danger">*</span>
                                     </label>
                                     <div class="col-md-8 col-sm-12 col-12">
                                         <div class="form-group">
                                             <div class="input-group has-validation">
-                                                <input asp-for="nAmount"
+                                                <input asp-for="nAmount2"
                                                        id="txtAmount2"
                                                        class="form-control"
                                                        maxlength="10"
@@ -345,7 +341,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row pb-3">
-                                    <label class="col-md-4 col-sm-12 col-12">
+                                    <label class="col-md-4 col-sm-12 col-12 col-form-label">
                                         เลขที่ R/C&nbsp;<span class="text-danger">*</span>
                                     </label>
                                     <div class="col-md-8 col-sm-12 col-12">
@@ -387,15 +383,20 @@
                         </div>
                     </div>
                 </div>
+                <div id="dvButton" class="pt-1">
+                    @*<div id="dvButton" class="pt-1" style="display:none">*@
+                    <button type="button" class="btn btn-primary btn-sm" onclick="Print()"><i class="bi bi-printer"></i>&nbsp;พิมพ์ใบรับฝากรวม</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#ModalEditSet" onclick="OpenModalEditSet()"><i class="bi bi-pencil-square"></i>&nbsp;แก้ไข/ลบงานประจำวัน (เลือกชุด)</button>
+                </div>
             </div>
         </div>
+        <input hidden asp-for="nID" id="txtID" />
     </form>
     <div class="row">
-        @*Table*@
         <div class="col-12 pt-2">
             <div class="form-group" id="tbNolmal" style="display:none">
                 <div class="table-responsive">
-                    <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break">
+                    <table id="tbNormalData" class="table table-sm table-bordered table-striped bg-white table-break">
                         <thead style="color: white; background-color: #17679c;">
                             <tr>
                                 <th style="text-align:center">No.</th>
@@ -406,7 +407,7 @@
                                 <th style="text-align:center">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbyNormalData">
                             @if (@Model.lstNormal != null)
                             {
                                 @if (@Model.lstNormal.Count != 0)
@@ -421,20 +422,21 @@
                                             <td style="text-align:center">@item.nAmount</td>
                                             <td style="text-align:center">
                                                 <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit();"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
-                                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete')"><i class="bi bi-trash"></i>&nbsp;Delete</button>
+                                                @*<button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete')"><i class="bi bi-trash"></i>&nbsp;Delete</button>*@
                                             </td>
                                         </tr>
                                     }
                                 }
                             }
-                            @if (@Model.lstNormal == null || @Model.lstNormal.Count == 0)
-                            {
+                            @*                            @if (@Model.lstNormal == null || @Model.lstNormal.Count == 0)
+                                {
                                 <tr>
-                                    <td style="text-align:center" class="dataNotFound" colspan="6">
-                                        No Data.
-                                    </td>
+                                <td style="text-align:center" class="dataNotFound" colspan="6">
+                                No Data.
+                                </td>
                                 </tr>
-                            }
+                                }
+                            *@
                         </tbody>
                         @if (@Model.PagerCount > 1)
                         {
@@ -443,17 +445,17 @@
                                     <td colspan="6" align="center">
                                         @if (@Model.PageNumber > 1)
                                         {
-                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="1">First</a>
-                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
+                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="1">First</a>
+                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
                                         }
                                         @for (int pagenum = 1; pagenum <= @Model.PagerCount; pagenum++)
                                         {
-                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@pagenum">@pagenum</a>
+                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@pagenum">@pagenum</a>
                                         }
                                         @if (@Model.PageNumber != @Model.PagerCount)
                                         {
-                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PageNext">Next</a>
-                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
+                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PageNext">Next</a>
+                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
                                         }
                                     </td>
                                 </tr>
@@ -464,7 +466,7 @@
             </div>
             <div class="form-group" id="tbRegister" style="display:none">
                 <div class="table-responsive">
-                    <table id="tbData" class="table table-sm table-bordered table-striped bg-white table-break">
+                    <table id="tbRegisterData" class="table table-sm table-bordered table-striped bg-white table-break">
                         <thead style="color: white; background-color: #17679c;">
                             <tr>
                                 <th style="text-align:center">No.</th>
@@ -477,7 +479,7 @@
                                 <th style="text-align:center">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbyRegisterData">
                             @if (@Model.lstRegister != null)
                             {
                                 @if (@Model.lstRegister.Count != 0)
@@ -494,20 +496,21 @@
                                             <td style="text-align:right">@item.sRef</td>
                                             <td style="text-align:center">
                                                 <button id="btnEdit" name="btnEdit" class="btn btn-sm btn-warning" onclick="OnEdit();"><i class="bi bi-pencil-square"></i>&nbsp;Edit</button>
-                                                <button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete')"><i class="bi bi-trash"></i>&nbsp;Delete</button>
+                                                @*<button id="btnDelete" name="btnDelete" class="btn btn-sm btn-danger" onclick="OnClick('Delete')"><i class="bi bi-trash"></i>&nbsp;Delete</button>*@
                                             </td>
                                         </tr>
                                     }
                                 }
                             }
-                            @if (@Model.lstRegister == null || @Model.lstRegister.Count == 0)
-                            {
+                            @*                            @if (@Model.lstRegister == null || @Model.lstRegister.Count == 0)
+                                {
                                 <tr>
-                                    <td style="text-align:center" class="dataNotFound" colspan="8">
-                                        No Data.
-                                    </td>
+                                <td style="text-align:center" class="dataNotFound" colspan="8">
+                                No Data.
+                                </td>
                                 </tr>
-                            }
+                                }
+                            *@
                         </tbody>
                         @if (@Model.PagerCount > 1)
                         {
@@ -516,17 +519,17 @@
                                     <td colspan="6" align="center">
                                         @if (@Model.PageNumber > 1)
                                         {
-                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="1">First</a>
-                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
+                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="1">First</a>
+                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
                                         }
                                         @for (int pagenum = 1; pagenum <= @Model.PagerCount; pagenum++)
                                         {
-                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@pagenum">@pagenum</a>
+                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@pagenum">@pagenum</a>
                                         }
                                         @if (@Model.PageNumber != @Model.PagerCount)
                                         {
-                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PageNext">Next</a>
-                                            <a asp-controller="ManageUser" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
+                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PageNext">Next</a>
+                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
                                         }
                                     </td>
                                 </tr>
@@ -538,19 +541,128 @@
         </div>
     </div>
 </div>
+<!-- Modal : แก้ไขงานประจำวัน -->
+<div class="modal fade" id="ModalEditSet" tabindex="-1" aria-labelledby="ModalLabelEditSet" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabelEditSet">แก้ไขงานประจำวัน (เลือกชุด)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <div class="form-group row pb-3">
+                            <label class="col-md-2 col-sm-12 col-12 col-form-label" style="text-align:right;">
+                                ชุดที่&nbsp;<span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-3 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <div class="input-group has-validation">
+                                        <select asp-for="sTypeMail" class="form-control form-select" id="ddlTypeMail" onchange="OnChangeFilter(this.form)" required>
+                                            <option value="" selected>- Select -</option>
+                                            @if (@Model.lstTypeMail.Count > 0)
+                                            {
+                                                @foreach (var Item in @Model.lstTypeMail)
+                                                {
+                                                    <option value=@Item.value>@Item.label</option>
+                                                }
+                                            }
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please require field Type.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-sm-12 col-12 col-form-label" style="text-align:right;">
+                                <button type="button" class="btn btn-danger btn-sm" onclick="DeleteSet()"><i class="bi bi-archive"></i>&nbsp;Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group row pb-3">
+                            <div class="form-group" id="dvEditSet">
+                                <div class="table-responsive">
+                                    <table id="tbEditSet" class="table table-sm table-bordered table-striped bg-white table-break">
+                                        <thead style="color: white; background-color: #17679c;">
+                                            <tr>
+                                                <th style="text-align:center">No.</th>
+                                                <th style="text-align:center">รหัสส่วน</th>
+                                                <th style="text-align:center">รายละเอียด</th>
+                                                <th style="text-align:center">จำนวนฉบับ</th>
+                                                <th style="text-align:center">ค่าไปรษณียากร</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbyEditSet">
+@*                                            @if (@Model.lstNormal != null)
+                                            {
+                                                @if (@Model.lstNormal.Count != 0)
+                                                {
+                                                    @foreach (var item in @Model.lstNormal)
+                                                    {
+                                                        <tr>
+                                                            <td style="text-align:center">@item.nNo</td>
+                                                            <td style="text-align:center"><input class="form-control" id="'txtDivCode_' + @item.nID" /></td>
+                                                            <td>@item.sDetail</td>
+                                                            <td style="text-align:center">@item.nQuantity</td>
+                                                            <td style="text-align:center">@item.nAmount</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                            @if (@Model.lstNormal == null || @Model.lstNormal.Count == 0)
+                                            {
+                                                <tr>
+                                                    <td style="text-align:center" class="dataNotFound" colspan="5">
+                                                        No Data.
+                                                    </td>
+                                                </tr>
+                                            }
+*@                                        </tbody>
+                                        @if (@Model.PagerCount > 1)
+                                        {
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="5" align="center">
+                                                        @if (@Model.PageNumber > 1)
+                                                        {
+                                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="1">First</a>
+                                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagePrevious">Previous</a>
+                                                        }
+                                                        @for (int pagenum = 1; pagenum <= @Model.PagerCount; pagenum++)
+                                                        {
+                                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@pagenum">@pagenum</a>
+                                                        }
+                                                        @if (@Model.PageNumber != @Model.PagerCount)
+                                                        {
+                                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PageNext">Next</a>
+                                                            <a asp-controller="KeyDailyTask" asp-action="KeyDailyTaskForm" asp-route-pageNumber="@Model.PagerCount">Last</a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
-    //Set Control DatePicker : Date
-    //$(function(){
-    //    $('#txtDate').datepicker({
-    //        format: "dd/mm/yyyy",
-    //        todaybtn: "linked",
-    //        orientation: "bottom auto",
-    //        todayhighlight: true,
-    //        autoclose: true,
-    //    });
-    //});
+    var ArrDataNormal;
+    var ArrDataRegister;
 
+    //Function DatePicker
     $(function() {
         $('.date-picker').datepicker({
             dateFormat: "dd/mm/yy",
@@ -616,6 +728,7 @@
         $('#ddlTime').append(data);
     }
 
+    //Function Autocomplete
     $(function() {
         $("#txtSender1").autocomplete({
             //autoFocus: true,
@@ -624,7 +737,10 @@
                  $.get('https://localhost:44396/KeyDailyTask/GetDropDownDivision').done(
                     function(res)
                     {
-                        response(res);
+                        if(res)
+                        {
+                            response(res);
+                        }
                     }
                 );
             },
@@ -636,13 +752,17 @@
                  $.get('https://localhost:44396/KeyDailyTask/GetDropDownDivision').done(
                     function(res)
                     {
-                        response(res);
+                        if(res)
+                        {
+                            response(res);
+                        }
                     }
                 );
             },
         });
     });
 
+    //Function On Change Date
     function OnChangeDate(form)
     {
         var txtDate = $('#txtDate').datepicker('getDate');
@@ -662,6 +782,7 @@
         }
     }
 
+    //Function On Change Filter
     function OnChangeFilter(form)
     {
         var txtDate = document.getElementById("sDate").value;
@@ -691,24 +812,27 @@
                     }
                 );
             }
-            Clear();
+            GetData();
         }
         else
         {
             dvNolmalForm.style.display = "none";
             tbNolmal.style.display = "none";
             dvRegisterForm.style.display = "none"
-            tbRegister.style.display = "none"
-            Clear();
+            tbRegister.style.display = "none";
+            dvButton.style.display = "none";
         }
+        Clear();
     }
 
+    //Function On Hide Form
     function OnHideForm(TypeMail,form)
     {
         var dvNolmalForm = document.getElementById("dvNolmalForm");
         var dvRegisterForm = document.getElementById("dvRegisterForm");
         var tbNolmal = document.getElementById("tbNolmal");
         var tbRegister = document.getElementById("tbRegister");
+        var dvButton = document.getElementById("dvButton");
         if(TypeMail)
         {
             switch(TypeMail)
@@ -717,20 +841,21 @@
                     dvNolmalForm.style.display = "block";
                     tbNolmal.style.display = "block";
                     dvRegisterForm.style.display = "none"
-                    tbRegister.style.display = "none"
-                    //form.get();
-                    GetData();
+                    tbRegister.style.display = "none";
+                    dvButton.style.display = "block";
                     break;
                 case "1":
                     dvRegisterForm.style.display = "block";
                     tbRegister.style.display = "block";
                     dvNolmalForm.style.display = "none";
                     tbNolmal.style.display = "none";
+                    dvButton.style.display = "block";
                     break;
             }
         }
     }
 
+    //Function On Change Type Mail
     function OnChangeTypeMail(ArrData)
     {
         console.log("ArrData",ArrData);
@@ -755,8 +880,6 @@
         })
     })()
 
-        //Function OnClick case
-
     //Function OnClick case
     function OnClick(Mode,sID,form)
     {
@@ -773,7 +896,9 @@
                 var txtReceiver = document.getElementById("txtReceiver").value;
                 var txtPostal = document.getElementById("txtPostal").value;
                 var txtAmount2 = document.getElementById("txtAmount2").value;
-                var txtRCNumber = document.getElementById("txtRCNumber").value;
+                var txtRCNumber1 = document.getElementById("txtRCNumber1").value;
+                var txtRCNumber2 = document.getElementById("txtRCNumber2").value;
+                var txtRCNumber3 = document.getElementById("txtRCNumber3").value;
 
                 if(txtSender1 && txtRef1 && txtQuantity && txtAmount1)
                 {
@@ -803,7 +928,7 @@
                     });
                 }
 
-                if(txtSender2 && txtRef2 && txtReceiver && txtPostal && txtAmount2 && txtRCNumber)
+                if(txtSender2 && txtRef2 && txtReceiver && txtPostal && txtAmount2 && txtRCNumber1 && txtRCNumber2 && txtRCNumber3)
                 {
                     Swal.fire({
                         title: 'Confirmation',
@@ -830,34 +955,10 @@
                         }
                     });
                 }
-                //var forms = document.getElementsByClassName('needs-validation');
-                //if (form.checkValidity() === true)
-                //{
-                //    Swal.fire({
-                //        title: 'Confirmation',
-                //        text: 'Do you want to submit data?',
-                //        icon: 'info',
-                //        showCancelButton: true,
-                //        confirmButtonColor: '#3085d6',
-                //        cancelButtonColor: '#d33',
-                //        confirmButtonText: '<i class="bi bi-check"></i> Yes',
-                //        cancelButtonText: '<i class="bi bi-x"></i> No',
-                //        showLoaderOnConfirm: true,
-                //        allowOutsideClick: false,
-                //        timerProgressBar: true,
-                //        preConfirm: function () {
-                //            return new Promise(function (resolve, reject) {
-                //                Swal.disableButtons();
-                //                form.submit();
-                //                Swal.close();
-                //            });
-                //        },
-                //    }).then(function (d) {
-                //        if (d.dismiss === Swal.DismissReason.cancel) {
-                //            Swal.close();
-                //        }
-                //    });
-                //}
+        //        //var forms = document.getElementsByClassName('needs-validation');
+        //        //if (form.checkValidity() === true)
+        //        //{
+        //        //}
                 break;
             case "Delete":
                     Swal.fire({
@@ -891,6 +992,8 @@
     //Function Clear Form
     function Clear()
     {
+        document.getElementById("txtID").value = null;
+
         document.getElementById("txtSender1").value = null;
         document.getElementById("txtRef1").value = null;
         document.getElementById("txtQuantity").value = null;
@@ -906,28 +1009,68 @@
         document.getElementById("txtRCNumber2").value = null;
         document.getElementById("txtRCNumber3").value = null;
 
-
         document.getElementsByClassName('needs-validation')[0].classList.remove("was-validated");
     }
 
-    function GetData() {
-        var data = new FormData(document.getElementById("KeyDailyTaskForm"));
-        $.get('https://localhost:44396/KeyDailyTask/KeyDailyTaskForm').done(
+    //Function Get Data
+    function GetData()
+    {
+        let Obj = {
+            sDate : document.getElementById("sDate").value,
+            sTime : document.getElementById("ddlTime").value,
+            sGroupMail : document.getElementById("ddlGroupMail").value,
+            sTypeMail : document.getElementById("ddlTypeMail").value,
+        }
+        $.get('https://localhost:44396/KeyDailyTask/GetData_Normal',Obj).done(
             function(res)
             {
-                //if(res)
-                //{
-                //    let ArrData = res.filter(f => f.value == ddlTypeMail);
-                //    if(ArrData)
-                //    {
-                //        OnHideForm(ArrData[0].sTypeMailID,form);
-                //    }
-                //}
+                if(res)
+                {
+                    ArrDataNormal = res;
+                    if(res.length > 0)
+                    {
+                        for(i = 0; i < res.length; i++)
+                        {
+                            var html = "<tr><td style='text-align:center'>" + res[i].nNo +
+                                "</td><td>" + res[i].sDivCode +
+                                "</td><td>" + res[i].sDetail +
+                                "</td><td style='text-align:right'>" + res[i].nQuantity +
+                                "</td><td style='text-align:right'>" + res[i].nAmount +
+                                "</td><td style='text-align:center'><button id='btnEdit' class='btn btn-sm btn-warning' onclick='OnEdit(1," + res[i].nID + ");'><i class='bi bi-pencil-square'></i>&nbsp;Edit</button>&nbsp;<button id='btnDelete' class='btn btn-sm btn-danger' onclick='OnClick('Delete')'><i class='bi bi-trash'></i>&nbsp;Delete</button></td></tr>";
+                            $("#tbyNormalData").append(html);
+                        }
+                    }
+                }
             }
         );
-        return false;
+
+        $.get('https://localhost:44396/KeyDailyTask/GetData_Register',Obj).done(
+            function(res)
+            {
+                if(res)
+                {
+                    ArrDataRegister = res;
+                    if(res.length > 0)
+                    {
+                        for(i = 0; i < res.length; i++)
+                        {
+                            var html = "<tr><td style='text-align:center'>" + res[i].nNo +
+                                "</td><td>" + res[i].sReceiverName +
+                                "</td><td style='text-align:center'>" + res[i].sDestination +
+                                "</td><td style='text-align:center'>" + res[i].sRCNumber +
+                                "</td><td style='text-align:right'>" + res[i].nAmount +
+                                "</td><td>" + res[i].sDivCode +
+                                "</td><td>" + res[i].sRef +
+                                "</td><td style='text-align:center'><button id='btnEdit' class='btn btn-sm btn-warning' onclick='OnEdit(2," + res[i].nID + ");'><i class='bi bi-pencil-square'></i>&nbsp;Edit</button>&nbsp;<button id='btnDelete' class='btn btn-sm btn-danger' onclick='OnClick('Delete')'><i class='bi bi-trash'></i>&nbsp;Delete</button></td></tr>";
+                            $("#tbyRegisterData").append(html);
+                        }
+                    }
+                }
+            }
+        );
     }
 
+    //Function On Change RCNumber
     function OnChangeRCNumber(Num)
     {
         var txtRCNumber1 = document.getElementById("txtRCNumber1").value;
@@ -955,6 +1098,7 @@
         }
     }
 
+    //Function Gen RCNumber
     function GenRCNumber()
     {
         var txtRCNumber2 = document.getElementById("txtRCNumber2").value + "";
@@ -990,6 +1134,80 @@
                 break;
         }
         document.getElementById("txtRCNumber3").value = nNum;
+    }
+
+    //Function On Edit
+    function OnEdit(Mode,nID)
+    {
+        let ArrData;
+        document.getElementById("txtID").value = nID;
+        switch(Mode)
+        {
+            case 1:
+                ArrData = ArrDataNormal.filter(f => f.nID == nID);
+                if(ArrData)
+                {
+                    document.getElementById("txtSender1").value = ArrData[0].sDivCode;
+                    document.getElementById("txtRef1").value = ArrData[0].sDetail;
+                    document.getElementById("txtQuantity").value = ArrData[0].nQuantity;
+                    document.getElementById("txtAmount1").value = ArrData[0].nAmount;
+                }
+                break;
+            case 1:
+                ArrData = ArrDataRegister.filter(f => f.nID == nID);
+                if(ArrData)
+                {
+
+                }
+                break;
+        }
+        console.log("ArrDataNormal",ArrDataNormal);
+    }
+
+    //Function ปริ้นใบรับฝากรวม
+    function Print()
+    {
+
+    }
+
+    //Function แก้ไขงานประจำวัน(เลือกชุด)
+    function OpenModalEditSet()
+    {
+        if(ArrDataNormal.length > 0)
+        {
+            for(i = 0; i < ArrDataNormal.length; i++)
+            {
+                var html = "<tr><td style='text-align:center'>" + ArrDataNormal[i].nNo +
+                    "</td><td><input class='form-control' type='text' value='" + ArrDataNormal[i].sDivCode +
+                    "' /></td><td><input class='form-control' type='text'" + ArrDataNormal[i].sDetail +
+                    " /></td><td style='text-align:right'><input class='form-control' type='number'" + ArrDataNormal[i].nQuantity +
+                    " /></td><td style='text-align:right'><input class='form-control' type='number'" + ArrDataNormal[i].nAmount +
+                    " /></td></tr>";
+                $("#tbyEditSet").append(html);
+                pushArray();
+            }
+        }
+    }
+
+    function pushArray()
+    {
+        var oTable = document.getElementById('tbyEditSet');
+        var rowLength = oTable.rows.length;
+        for (i = 0; i < rowLength; i++)
+        {
+            var oCells = oTable.rows[i].cells;
+            var cellLength = oCells.length;
+            for(var j = 0; j < cellLength; j++)
+            {
+                //oCells[j].getElementsByTagName("input")[0].value = j;
+            }
+        }
+    }
+
+    //Function ลบงานประจำวัน(เลือกชุด)
+    function DeleteSet()
+    {
+
     }
 </script>
 
